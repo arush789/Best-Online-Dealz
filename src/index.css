@@ -14,8 +14,8 @@ html::-webkit-scrollbar {
     display: none;
 }
 
-/*> HEADER */
-header {
+/*> PC Header */
+.pc-header {
     height: 91px;
     display: flex;
     align-items: center;
@@ -23,11 +23,11 @@ header {
     padding: 0 38px;
 }
 
-header > .brand-name {
+.pc-header > .brand-name {
     font-weight: 700;
 }
 
-header > ul {
+.pc-header > ul {
     list-style: none;
     display: flex;
     align-items: center;
@@ -37,12 +37,12 @@ header > ul {
     height: 100%;
 }
 
-header > ul > li {
+.pc-header > ul > li {
     height: inherit;
     position: relative;
 }
 
-header > ul > li > a {
+.pc-header > ul > li > a {
     display: flex;
     height: inherit;
     align-items: center;
@@ -53,7 +53,7 @@ header > ul > li > a {
     transition: 0.3s ease;
 }
 
-header > ul > li > a::before {
+.pc-header > ul > li > a::before {
     position: absolute;
     content: "";
     background-color: #2C3333;
@@ -64,12 +64,61 @@ header > ul > li > a::before {
     transform: scaleX(0);
     transition: 0.3s ease;
 }
-header > ul > li > a:hover::before {
+.pc-header > ul > li > a:hover::before {
     transform: scaleX(1);
 }
 
 .active::before {
     transform: scaleX(1);
+}
+
+.mob-header,
+.mob-header-menu {
+    display: none;
+}
+
+/*> Mobile Header */
+
+@media (max-width: 768px) {
+    .pc-header {
+        display: none;
+    }
+
+    .mob-header {
+        display: flex;
+        height: 91px;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 38px;
+    }
+
+    .mob-header-menu {
+        height: 0;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        transition: 0.3s ease;
+    }
+
+    .active-menu {
+        height: 80px;
+    }
+
+    .mob-header-menu > ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .mob-header-menu > ul > li > a {
+        text-decoration: none;
+        color: #2C3333;
+    }
 }
 
 /*> Footer */
