@@ -6,9 +6,9 @@ export default function Header() {
         <header>
             <h1 className="brand-name">BODZ</h1>
             <ul>
-                <li><NavLink>Home</NavLink></li>
-                <li><NavLink>Best Deals</NavLink></li>
-                <li><NavLink>Contact</NavLink></li>
+                <li><NavLink to="/">Home</NavLink></li>
+                <li><NavLink to="/best-deals">Best Deals</NavLink></li>
+                <li><NavLink to="/contact">Contact</NavLink></li>
             </ul>
         </header>
     )
