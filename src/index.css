@@ -1,4 +1,4 @@
-*{
+* {
     box-sizing: border-box;
 }
 
@@ -23,11 +23,11 @@ html::-webkit-scrollbar {
     padding: 0 38px;
 }
 
-.pc-header > .brand-name {
+.pc-header>.brand-name {
     font-weight: 700;
 }
 
-.pc-header > ul {
+.pc-header>ul {
     list-style: none;
     display: flex;
     align-items: center;
@@ -37,12 +37,12 @@ html::-webkit-scrollbar {
     height: 100%;
 }
 
-.pc-header > ul > li {
+.pc-header>ul>li {
     height: inherit;
     position: relative;
 }
 
-.pc-header > ul > li > a {
+.pc-header>ul>li>a {
     display: flex;
     height: inherit;
     align-items: center;
@@ -53,7 +53,7 @@ html::-webkit-scrollbar {
     transition: 0.3s ease;
 }
 
-.pc-header > ul > li > a::before {
+.pc-header>ul>li>a::before {
     position: absolute;
     content: "";
     background-color: #2C3333;
@@ -64,7 +64,8 @@ html::-webkit-scrollbar {
     transform: scaleX(0);
     transition: 0.3s ease;
 }
-.pc-header > ul > li > a:hover::before {
+
+.pc-header>ul>li>a:hover::before {
     transform: scaleX(1);
 }
 
@@ -106,7 +107,7 @@ html::-webkit-scrollbar {
         height: 80px;
     }
 
-    .mob-header-menu > ul {
+    .mob-header-menu>ul {
         list-style: none;
         margin: 0;
         padding: 0;
@@ -115,7 +116,7 @@ html::-webkit-scrollbar {
         gap: 5px;
     }
 
-    .mob-header-menu > ul > li > a {
+    .mob-header-menu>ul>li>a {
         text-decoration: none;
         color: #2C3333;
     }
@@ -130,25 +131,25 @@ footer {
     padding: 30px 0;
 }
 
-footer > div {
+footer>div {
     width: 25%;
     padding: 10px 0;
     text-align: left;
 }
 
-footer > div > ul {
+footer>div>ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-footer > div > ul > li > a {
+footer>div>ul>li>a {
     text-decoration: none;
     color: #ffffff;
     transition: 0.2s ease;
 }
 
-.imp-link-list > li > a:hover {
+.imp-link-list>li>a:hover {
     color: #DDDDDD;
 }
 
@@ -157,11 +158,11 @@ footer > div > ul > li > a {
     gap: 30px;
 }
 
-.follow-link-list > li > a > svg {
+.follow-link-list>li>a>svg {
     transition: 0.2s ease;
 }
 
-.follow-link-list > li > a:hover > svg {
+.follow-link-list>li>a:hover>svg {
     fill: #DDDDDD;
 }
 
@@ -171,12 +172,29 @@ footer > div > ul > li > a {
         align-items: center;
     }
 
-    footer > div {
+    footer>div {
         width: 80%;
         text-align: center;
     }
 
     .follow-link-list {
         justify-content: center;
+    }
+}
+
+/*> About Page */
+
+.about-div {
+    padding: 20px 100px 100px;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+.about-title {
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .about-div {
+        padding: 10px 20px;
     }
 }
