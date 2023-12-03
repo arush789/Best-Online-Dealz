@@ -204,18 +204,25 @@ html::-webkit-scrollbar {
     }
 }
 
+/*> Contact Page  */
+
+.contact-div {
+    padding: 20px 150px 100px;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+}
+
 /*> About Page & Disclaimer Page */
 .about-div, .disclaimer-div {
     padding: 20px 100px 100px;
     font-size: clamp(1rem, 2.5vw, 1.5rem);
 }
 
-.about-title, .disclaimer-title {
+.about-title, .disclaimer-title, .contact-title {
     text-align: center;
 }
 
 @media (max-width: 768px) {
-    .about-div, .disclaimer-div {
+    .about-div, .disclaimer-div, .contact-div {
         padding: 10px 20px;
     }
 }
