@@ -3,15 +3,18 @@ import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route } 
 
 import Layout from "./Components/Layout";
 
-import Home from "./Pages/Home";
+import Home, {loader as HomeDataLoader} from "./Pages/Home";
 import BestDeals from "./Pages/BestDeals";
 import Contact from "./Pages/Contact";
 import Disclaimer from "./Pages/Disclaimer";
 import About from "./Pages/About";
 
+
+import "./Server/dummyServer.js"
+
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Layout />} >
-        <Route index element={<Home />} />
+        <Route index element={<Home />} loader={HomeDataLoader}/>
         <Route path="/best-deals" element={<BestDeals />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/disclaimer" element={<Disclaimer />} />
