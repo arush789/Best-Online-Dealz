@@ -9,6 +9,8 @@ import Contact from "./Pages/Contact";
 import Disclaimer from "./Pages/Disclaimer";
 import About from "./Pages/About";
 
+import OfferDetail from "./Pages/OfferDetail.jsx";
+
 
 import "./Server/dummyServer.js"
 
@@ -19,6 +21,7 @@ const router = createBrowserRouter(createRoutesFromElements(
         <Route path="/contact" element={<Contact />} />
         <Route path="/disclaimer" element={<Disclaimer />} />
         <Route path="/about" element={<About />} />
+        <Route path="/:id" element={<OfferDetail />} />
     </Route>
 ))
 

@@ -103,5 +103,10 @@ createServer({
         this.get("/offers", (schema, request) => {
             return schema.offers.all()
         })
+
+        this.get("/offers/:id", (schema, request) => {
+            const id = request.params.id
+            return schema.offers.find(id)
+        })
     }
 })
