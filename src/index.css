@@ -123,6 +123,45 @@ html::-webkit-scrollbar {
     }
 }
 
+/* Home */
+
+
+.item-link{
+    text-decoration: none;
+    border: 2px black solid;
+    transition: .2s ease;
+}
+
+.item-page{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+    justify-content: center;
+    padding-block: 50px;
+}
+
+.item-img{
+    width: 250px;
+    object-fit: cover;
+    height: 250px;
+}
+
+.item-container{
+    padding: 20px;
+}
+
+.item-link:hover{
+    box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.281);
+    transform: scale(1.1);
+}
+
+.item-title{
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+    width: 250px;
+}
+
 /*> Footer */
 .footer-up {
     background-color: #2C3333;
