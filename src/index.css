@@ -21,6 +21,8 @@ html::-webkit-scrollbar {
     align-items: center;
     justify-content: space-between;
     padding: 0 38px;
+    z-index: 1;
+    box-shadow: 5px 5px 5px 5px  rgba(0, 0, 0, 0.11);
 }
 
 .pc-header>.brand-name {
@@ -35,11 +37,13 @@ html::-webkit-scrollbar {
     padding: 0;
     margin: 0;
     height: 100%;
+    
 }
 
 .pc-header>ul>li {
     height: inherit;
     position: relative;
+    
 }
 
 .pc-header>ul>li>a {
@@ -51,6 +55,7 @@ html::-webkit-scrollbar {
     font-weight: 500;
     text-transform: uppercase;
     transition: 0.3s ease;
+    
 }
 
 .pc-header>ul>li>a::before {
@@ -71,6 +76,7 @@ html::-webkit-scrollbar {
 
 .active::before {
     transform: scaleX(1) !important;
+    
 }
 
 .mob-header,
@@ -125,6 +131,14 @@ html::-webkit-scrollbar {
 
 /* Home */
 
+.home-img{
+    width: 100%;
+}
+
+.item-header{
+    text-align: center;
+    font-size: 50px;
+}
 
 .item-link{
     text-decoration: none;
@@ -137,7 +151,7 @@ html::-webkit-scrollbar {
     flex-wrap: wrap;
     gap: 3rem;
     justify-content: center;
-    padding-block: 50px;
+    padding-bottom: 50px;
 }
 
 .item-img{
@@ -155,6 +169,7 @@ html::-webkit-scrollbar {
     transform: scale(1.1);
 }
 
+
 .item-title{
     text-decoration: none;
     color: black;
@@ -162,7 +177,9 @@ html::-webkit-scrollbar {
     width: 250px;
 }
 
+
 /*> Footer */
+
 .footer-up {
     background-color: #2C3333;
     color: #ffffff;

@@ -10,6 +10,7 @@ export default function OfferItems(props){
                     <img src = {item.imageUrl} className='item-img'/>
                 </div>
                 <h1 className='item-title'>{item.title}</h1>
+                <p className='item-more'>More</p>
             </div>
         </Link>
     ))
