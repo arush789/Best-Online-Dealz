@@ -129,7 +129,7 @@ html::-webkit-scrollbar {
     }
 }
 
-/* Home */
+/*> Home */
 
 .home-img{
     width: 100%;
@@ -169,6 +169,16 @@ html::-webkit-scrollbar {
     transform: scale(1.1);
 }
 
+.item-more {
+    opacity: 0;
+    text-align: right;
+    transition: .2s ease;
+}
+
+.item-link:hover .item-more {
+    opacity: 1;
+}
+
 
 .item-title{
     text-decoration: none;
@@ -177,6 +187,21 @@ html::-webkit-scrollbar {
     width: 250px;
 }
 
+/*> Offer Detail Page */
+.offer-page {
+    display: flex;
+    padding: 50px;
+    width: 100%;
+    justify-content: space-evenly;
+}
+
+.offer-img-div, .offer-img {
+    width: 500px;
+}
+
+.offer-info {
+    width: 40%;
+}
 
 /*> Footer */
 
