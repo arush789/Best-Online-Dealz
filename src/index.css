@@ -142,8 +142,10 @@ html::-webkit-scrollbar {
 
 .item-link{
     text-decoration: none;
-    border: 2px black solid;
+    border: 2px grey solid;
     transition: .2s ease;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .item-page{
@@ -173,6 +175,7 @@ html::-webkit-scrollbar {
     opacity: 0;
     text-align: right;
     transition: .2s ease;
+    color: black;
 }
 
 .item-link:hover .item-more {
@@ -213,11 +216,17 @@ html::-webkit-scrollbar {
     text-decoration: line-through;
     font-size: 20px;
     margin: 0;
+    opacity: 0.6;
 }
 
 .offer-price {
     margin: 0;
     font-size: 30px;
+    font-weight: bold;
+}
+
+.offer-description{
+    line-height: 2rem;
 }
 
 .buy-now-btn {
@@ -248,6 +257,7 @@ html::-webkit-scrollbar {
   width: 100%;
   text-decoration: none;
   margin: 10px 0;
+  transition: 0.2s ease;
 }
 
 .buy-now-btn:hover,

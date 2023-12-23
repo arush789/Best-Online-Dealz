@@ -2,7 +2,8 @@ import React, { Suspense } from "react";
 import { defer, useLoaderData, Await } from "react-router-dom"
 import { getAllOffers } from "../Server/api";
 import OfferItems from "../Components/OfferItems";
-import myImage from "../../public/assets/images/home-img/home-img-3.png"
+import myImage from "/assets/images/home-img/home-img-3.png"
+
 
 export function loader() {
     return defer({ offers: getAllOffers() })
