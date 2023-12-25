@@ -10,6 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.15.1",
+    "@mui/system": "^5.15.1",
     "@vercel/postgres": "^0.5.1",
     "miragejs": "^0.1.48",
     "react": "^18.2.0",
