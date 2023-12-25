@@ -10,12 +10,17 @@ import {
 } from "@mui/material";
 import { sql } from "@vercel/postgres";
 
-
 // const rows = [];
 async function vercel() {
     const { rows } = await sql`SELECT * FROM Offers `;
     return rows;
 }
+
+console.log({
+    POSTGRES_URL: process.env.POSTGRES_URL,
+    POSTGRES_URL_NON_POOLING: process.env.POSTGRES_URL_NON_POOLING
+});
+
 
 export default function Management() {
     console.log(vercel())
