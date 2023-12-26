@@ -37,3 +37,8 @@ export async function delRow(id){
     await sql`DELETE FROM products WHERE id=${id}`
     window.location.reload(false);
 }
+
+export async function addRow(id,product_name,asin){
+    await sql`INSERT INTO products (id,product_name,asin) VALUES (${id} , ${product_name} , ${asin});`
+    window.location.reload(false);
+}
