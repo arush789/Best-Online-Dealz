@@ -9,7 +9,7 @@ import Contact from "./Pages/Contact";
 import Disclaimer from "./Pages/Disclaimer";
 import About from "./Pages/About";
 
-import Management from "./Pages/Management.jsx";
+import Management, {loader as ManagementLoader} from "./Pages/Management.jsx";
 
 import OfferDetail, {loader as OfferDetailLoader} from "./Pages/OfferDetail.jsx";
 
@@ -29,7 +29,7 @@ const router = createBrowserRouter(createRoutesFromElements(
         <Route path="/disclaimer" element={<Disclaimer />} />
         <Route path="/about" element={<About />} />
 
-        <Route path="/management" element={<Management />} />
+        <Route path="/management" element={<Management />} loader={ManagementLoader} />
     </Route>
 ))
 

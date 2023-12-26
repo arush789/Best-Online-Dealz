@@ -1,4 +1,5 @@
-import React from "react";
+import React, { Suspense } from "react";
+import { defer, Await, useLoaderData } from "react-router";
 import {
     Table,
     TableBody,
@@ -9,16 +10,15 @@ import {
     Paper
 } from "@mui/material";
 
-import { sql } from '@vercel/postgres';
+import { getTable } from "../Server/api";
 
-async function vercel() {
-    const rows = await sql`SELECT * from products`
-    return rows
-  }
-  
+export function loader() {
+    return defer({ rows: getTable()})
+}
   
 export default function Management() {
-    console.log(vercel())
+    const rows = useLoaderData();
+    // console.log(rows)
     return (
         <TableContainer component={Paper} >
             <Table sx={{ minWidth: 250 }} aria-label="simple table">
@@ -32,7 +32,20 @@ export default function Management() {
                 </TableHead>
 
                 <TableBody>
-                    
+                    <Suspense fallback={<></>}>
+                        <Await resolve={rows.rows}>
+                            {(rows) => {
+                                rows.map((row) => (
+                                    console.log(row.product_name)
+                                    // <TableRow key={row.id}>
+                                    //     <TableCell>Hallo</TableCell>
+                                    //     <TableCell>{row.product_name}</TableCell>
+                                    //     <TableCell>{row.asin}</TableCell>
+                                    // </TableRow>
+                                ))
+                            }}
+                        </Await>
+                    </Suspense>
                 </TableBody>
             </Table>
         </TableContainer>

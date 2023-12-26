@@ -1,3 +1,5 @@
+import { sql } from '@vercel/postgres';
+
 export async function getAllOffers() {
     const url = "/api/offers"
     const res = await fetch(url)
@@ -24,4 +26,9 @@ export async function getOffer(id) {
     }
     const data = await res.json()
     return data.offers
+}
+
+export async function getTable() {
+    const { rows } = await sql`SELECT * FROM products`;
+    return rows;
 }
