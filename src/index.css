@@ -284,6 +284,14 @@ html::-webkit-scrollbar {
     }
 }
 
+/*> Management */
+
+.table-delete-btn{
+    color: black;
+}
+
+
+
 /*> Footer */
 
 .footer-up {

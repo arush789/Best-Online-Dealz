@@ -32,3 +32,7 @@ export async function getTable() {
     const { rows } = await sql`SELECT * FROM products`;
     return rows;
 }
+
+export async function delRow(id){
+    
+}
