@@ -7,7 +7,8 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    Paper
+    Paper,
+    Button
 } from "@mui/material";
 
 import { getTable } from "../Server/api";
@@ -28,22 +29,23 @@ export default function Management() {
                         <TableCell>Id</TableCell>
                         <TableCell>Name</TableCell>
                         <TableCell>ASIN</TableCell>
+                        <TableCell>Action</TableCell>
                     </TableRow>
                 </TableHead>
 
                 <TableBody>
                     <Suspense fallback={<></>}>
                         <Await resolve={rows.rows}>
-                            {(rows) => {
+                            {(rows) => (
                                 rows.map((row) => (
-                                    console.log(row.product_name)
-                                    // <TableRow key={row.id}>
-                                    //     <TableCell>Hallo</TableCell>
-                                    //     <TableCell>{row.product_name}</TableCell>
-                                    //     <TableCell>{row.asin}</TableCell>
-                                    // </TableRow>
+                                    <TableRow key={row.id}>
+                                        <TableCell>{row.id}</TableCell>
+                                        <TableCell>{row.product_name}</TableCell>
+                                        <TableCell>{row.asin}</TableCell>
+                                        <TableCell><Button>x</Button></TableCell>
+                                    </TableRow>
                                 ))
-                            }}
+                            )}
                         </Await>
                     </Suspense>
                 </TableBody>
