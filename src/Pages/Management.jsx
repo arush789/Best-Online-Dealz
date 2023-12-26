@@ -42,7 +42,6 @@ export default function Management() {
 
     const [open, setOpen] = React.useState(false);
     const [row , setRow] = React.useState({
-        id : 1,
         name : "",
         asin : ""
     })
@@ -62,14 +61,6 @@ export default function Management() {
         addRow(id , name ,asin)
     }
 
-    const handleIdChange = (event) => {
-        setRow(prevRow => (
-            {
-                ...prevRow,
-                id : event.target.value
-            } 
-        ))
-    }
     const handleNameChange = (event) => {
         setRow(prevRow => (
             {
@@ -86,8 +77,7 @@ export default function Management() {
             } 
         ))
     }
-      
-    // console.log(rows)
+    
     return (
         <>
             <div>
@@ -105,12 +95,11 @@ export default function Management() {
                     Modal title
                 </DialogTitle>
                 <DialogContent dividers>
-                    <TextField id="outlined-basic" label="Id" variant="outlined" onChange={handleIdChange} />
                     <TextField id="outlined-basic" label="Name" variant="outlined" onChange={handleNameChange}/>
                     <TextField id="outlined-basic" label="Asin" variant="outlined" onChange={handleAsinChange}/>
                 </DialogContent>
                 <DialogActions>
-                    <Button variant="contained" onClick={() => handleAdd(row.id,row.name,row.asin)}>
+                    <Button variant="contained" onClick={() => handleAdd(row.name,row.asin)}>
                         ADD
                     </Button>
                 </DialogActions>
@@ -135,7 +124,7 @@ export default function Management() {
                                 rows.map((row) => (
                                     <TableRow key={row.id}>
                                         <TableCell>{row.id}</TableCell>
-                                        <TableCell>{row.product_name}</TableCell>
+                                        <TableCell>{row.name}</TableCell>
                                         <TableCell>{row.asin}</TableCell>
                                         <TableCell><Button onClick={() => delRow(row.id)}><DeleteIcon className="table-delete-btn"/></Button></TableCell>
                                     </TableRow>

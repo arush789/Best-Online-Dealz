@@ -29,7 +29,7 @@ export async function getOffer(id) {
 }
 
 export async function getTable() {
-    const { rows } = await sql`SELECT * FROM products`;
+    const { rows } = await sql`SELECT * FROM products ORDER BY id`;
     return rows;
 }
 
@@ -38,7 +38,7 @@ export async function delRow(id){
     window.location.reload(false);
 }
 
-export async function addRow(id,product_name,asin){
-    await sql`INSERT INTO products (id,product_name,asin) VALUES (${id} , ${product_name} , ${asin});`
+export async function addRow(name,asin){
+    await sql`INSERT INTO products (name,asin) VALUES (${name} , ${asin});`
     window.location.reload(false);
 }
