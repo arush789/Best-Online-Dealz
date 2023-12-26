@@ -34,5 +34,6 @@ export async function getTable() {
 }
 
 export async function delRow(id){
-    
+    await sql`DELETE FROM products WHERE id=${id}`
+    window.location.reload(false);
 }
