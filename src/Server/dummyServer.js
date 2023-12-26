@@ -108,5 +108,7 @@ createServer({
             const id = request.params.id
             return schema.offers.find(id)
         })
+
+        
     }
 })

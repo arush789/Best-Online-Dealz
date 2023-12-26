@@ -15,14 +15,14 @@ export default function Home() {
         <div>
             <img src={myImage} className="home-img" />
             <h1 className="item-header">Offers</h1>
-            <Suspense fallback={<h1>Loading...</h1>}>
+            {/* <Suspense fallback={<h1>Loading...</h1>}>
                 <Await resolve={data.offers}>
                     {(offers) => (
 
                         <OfferItems data={offers} />
                     )}
                 </Await>
-            </Suspense>
+            </Suspense> */}
         </div>
     )
 }

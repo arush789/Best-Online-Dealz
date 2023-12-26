@@ -8,20 +8,15 @@ import {
     TableRow,
     Paper
 } from "@mui/material";
-import { sql } from "@vercel/postgres";
 
-// const rows = [];
+import { sql } from '@vercel/postgres';
+
 async function vercel() {
-    const { rows } = await sql`SELECT * FROM Offers `;
-    return rows;
-}
-
-console.log({
-    POSTGRES_URL: process.env.POSTGRES_URL,
-    POSTGRES_URL_NON_POOLING: process.env.POSTGRES_URL_NON_POOLING
-});
-
-
+    const rows = await sql`SELECT * from products`
+    return rows
+  }
+  
+  
 export default function Management() {
     console.log(vercel())
     return (

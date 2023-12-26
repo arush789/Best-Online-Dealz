@@ -14,7 +14,9 @@ import Management from "./Pages/Management.jsx";
 import OfferDetail, {loader as OfferDetailLoader} from "./Pages/OfferDetail.jsx";
 
 
-import "./Server/dummyServer.js"
+// import "./Server/dummyServer.js"
+
+
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Layout />} >
