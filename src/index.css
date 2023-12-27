@@ -290,7 +290,11 @@ html::-webkit-scrollbar {
     color: black;
 }
 
-
+.add-product-btn{
+    display: flex;
+    justify-content: center;
+    padding-block: 30px;
+}
 
 /*> Footer */
 

@@ -18,6 +18,7 @@ import OfferDetail, {loader as OfferDetailLoader} from "./Pages/OfferDetail.jsx"
 
 
 
+
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Layout />} >
 

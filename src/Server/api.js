@@ -1,5 +1,6 @@
 import { sql } from '@vercel/postgres';
 
+
 export async function getAllOffers() {
     const url = "/api/offers"
     const res = await fetch(url)
@@ -42,3 +43,6 @@ export async function addRow(name,asin){
     await sql`INSERT INTO products (name,asin) VALUES (${name} , ${asin});`
     window.location.reload(false);
 }
+
+
+
