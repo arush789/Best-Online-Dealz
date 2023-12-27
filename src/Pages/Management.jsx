@@ -15,7 +15,8 @@ import {
     DialogContent,
     DialogContentText,
     TextField,
-    styled
+    styled,
+    Alert
 } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -61,8 +62,11 @@ export default function Management() {
 
     const handleAdd = () => {
         setOpen(false);
-        // Provide a proper ID or modify your addRow function accordingly
-        addRow(row.name, row.asin);
+        if (row.name === "" || row.asin === "") {
+            alert("Name and AsinCode should be filled.")
+        } else {
+            addRow(row.name, row.asin);
+        }
     }
 
     const handleNameChange = (event) => {
