@@ -16,7 +16,8 @@ import {
     DialogContentText,
     TextField,
     styled,
-    Alert
+    Alert,
+    LinearProgress
 } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -47,8 +48,6 @@ export default function Management() {
     });
     const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
     const [selectedRowId, setSelectedRowId] = React.useState(null);
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -107,14 +106,14 @@ export default function Management() {
                 open={open}
             >
                 <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-                    Modal title
+                    ADD PRODUCT
                 </DialogTitle>
                 <DialogContent dividers>
-                    <DialogContent dividers>
+                    <DialogContent >
                         <h1>Product Name</h1>
-                        <TextField id="outlined-basic" label="Name" variant="outlined" onChange={handleNameChange} />
+                        <TextField id="outlined-name" label="Name" variant="outlined" onChange={handleNameChange} />
                         <h1>ASIN</h1>
-                        <TextField id="outlined-basic" label="Asin" variant="outlined" onChange={handleAsinChange} />
+                        <TextField id="outlined-asin" label="Asin" variant="outlined" onChange={handleAsinChange} />
                     </DialogContent>
                 </DialogContent>
                 <DialogActions>
@@ -137,7 +136,7 @@ export default function Management() {
                     </TableHead>
 
                     <TableBody>
-                        <Suspense fallback={<TableRow><TableCell colSpan={4}>Loading...</TableCell></TableRow>}>
+                        <Suspense fallback={<TableRow><TableCell colSpan={4}><LinearProgress variant="indeterminate"/></TableCell></TableRow>}>
                             <Await resolve={rows.rows}>
                                 {(rows) => (
                                     rows.map((row) => (
