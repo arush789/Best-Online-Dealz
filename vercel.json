@@ -1,0 +1,7 @@
+{
+    "routes": {
+      "/api/amazon-api": {
+        "methods": ["POST"]
+      }
+    }
+  }
