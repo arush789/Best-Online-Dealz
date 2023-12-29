@@ -3,7 +3,7 @@ import axios from "axios";
 module.exports = async (req, res) => {
     try {
         const response = await axios.post(
-            'https://webservices.amazon.in/paapi5/getitems',
+            'https://webservices.amazon.in/!YW16LTEuMDtjb20uYW1hem9uLnBhYXBpNS52MS5Qcm9kdWN0QWR2ZXJ0aXNpbmdBUEl2MS5HZXRJdGVtczt7CiAgICAiSXRlbUlkcyI6IFsKICAgICAgICAiQjA5RzlGUEdUTiIKICAgIF0sCiAgICAiUmVzb3VyY2VzIjogWwogICAgICAgICJCcm93c2VOb2RlSW5mby5Ccm93c2VOb2RlcyIsCiAgICAgICAgIkJyb3dzZU5vZGVJbmZvLkJyb3dzZU5vZGVzLkFuY2VzdG9yIiwKICAgICAgICAiQnJvd3NlTm9kZUluZm8uQnJvd3NlTm9kZXMuU2FsZXNSYW5rIiwKICAgICAgICAiQnJvd3NlTm9kZUluZm8uV2Vic2l0ZVNhbGVzUmFuayIsCiAgICAgICAgIkltYWdlcy5QcmltYXJ5LlNtYWxsIiwKICAgICAgICAiSW1hZ2VzLlByaW1hcnkuTGFyZ2UiLAogICAgICAgICJJdGVtSW5mby5CeUxpbmVJbmZvIiwKICAgICAgICAiSXRlbUluZm8uQ29udGVudEluZm8iLAogICAgICAgICJJdGVtSW5mby5Db250ZW50UmF0aW5nIiwKICAgICAgICAiSXRlbUluZm8uQ2xhc3NpZmljYXRpb25zIiwKICAgICAgICAiSXRlbUluZm8uRXh0ZXJuYWxJZHMiLAogICAgICAgICJJdGVtSW5mby5GZWF0dXJlcyIsCiAgICAgICAgIkl0ZW1JbmZvLk1hbnVmYWN0dXJlSW5mbyIsCiAgICAgICAgIkl0ZW1JbmZvLlByb2R1Y3RJbmZvIiwKICAgICAgICAiSXRlbUluZm8uVGVjaG5pY2FsSW5mbyIsCiAgICAgICAgIkl0ZW1JbmZvLlRpdGxlIiwKICAgICAgICAiSXRlbUluZm8uVHJhZGVJbkluZm8iCiAgICBdLAogICAgIlBhcnRuZXJUYWciOiAiY2F0Y2hrYXBzMGUtMjEiLAogICAgIlBhcnRuZXJUeXBlIjogIkFzc29jaWF0ZXMiLAogICAgIk1hcmtldHBsYWNlIjogInd3dy5hbWF6b24uaW4iCn0=',
             {
                 'ItemIds': [
                     'B09G9FPGTN'
