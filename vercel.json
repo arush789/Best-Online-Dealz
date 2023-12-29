@@ -1,7 +1,10 @@
 {
-    "routes": {
-      "/api/amazon-api": {
-        "methods": ["POST"]
-      }
-    }
-  }
+    "routes": [
+        {
+            "src": "/api/amazon-api",
+            "methods": [
+                "POST"
+            ]
+        }
+    ]
+}
