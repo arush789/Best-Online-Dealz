@@ -34,6 +34,13 @@ module.exports = async (req, res) => {
             {
                 headers: {
                     // Add any required headers for authentication
+                    'Host': 'webservices.amazon.in',
+                    'Accept': 'application/json, text/javascript',
+                    'Accept-Language': 'en-US',
+                    'Content-Type': 'application/json; charset=UTF-8',
+                    'X-Amz-Date': '20231229T135724Z',
+                    'X-Amz-Target': 'com.amazon.paapi5.v1.ProductAdvertisingAPIv1.GetItems',
+                    'Content-Encoding': 'amz-1.0',
                     'Authorization': 'AWS4-HMAC-SHA256 Credential=AKIAI46JMULHWNX6X66A/20231229/eu-west-1/ProductAdvertisingAPI/aws4_request SignedHeaders=content-encoding;host;x-amz-date;x-amz-target  Signature=ef460e09ad2fc4c529437a13cec6878617ac132d79edd5088efb8df8b0fcbab2'
                 },
             });
