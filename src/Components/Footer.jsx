@@ -54,7 +54,7 @@ export default function Footer() {
                     Amazon and the Amazon logo are trademarks of Amazon.com, Inc. or its affiliates.
                 </p>
                 <p>
-                    ©2023 bestonlinedealz.in - All Rights Reserved.
+                    ©2023 best-online-dealz.vercel.app - All Rights Reserved.
                 </p>
             </div>
         </footer>

@@ -1,28 +1,31 @@
-import React, { Suspense } from "react";
-import { defer, useLoaderData, Await } from "react-router-dom"
-import { getAllOffers } from "../Server/api";
+import React, { Suspense, useEffect, useState } from "react";
+import myImage from "/assets/images/home-img/home-img-3.png";
+import axios from "axios";
+import { Await } from "react-router";
 import OfferItems from "../Components/OfferItems";
-import myImage from "/assets/images/home-img/home-img-3.png"
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
-
-export function loader() {
-    return defer({ offers: getAllOffers() })
-}
+// ... (imports)
 
 export default function Home() {
-    const data = useLoaderData()
+    const [offer, setOffer] = useState([]);
+
+    useEffect(() => {
+        axios.get('https://bodz-server.vercel.app/api/getItems')
+            .then(res => {
+                setOffer(res?.data?.items?.ItemsResult?.Items);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }, []);
+
     return (
-        <div>
+        <div style={{ position: "relative", minHeight: "100vh" }}>
             <img src={myImage} className="home-img" />
             <h1 className="item-header">Offers</h1>
-            {/* <Suspense fallback={<h1>Loading...</h1>}>
-                <Await resolve={data.offers}>
-                    {(offers) => (
-
-                        <OfferItems data={offers} />
-                    )}
-                </Await>
-            </Suspense> */}
+            <OfferItems data={offer} />
         </div>
-    )
+    );
 }

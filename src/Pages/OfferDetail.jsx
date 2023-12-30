@@ -1,34 +1,62 @@
-import React, { Suspense } from "react";
-import { defer, useLoaderData, Await } from "react-router";
-import { getOffer } from "../Server/api";
-
-export function loader({ params }) {
-    return defer({ offer : getOffer(params.id) })
-}
+import axios from "axios";
+import React, { Suspense, useEffect, useState } from "react";
+import { Await, useParams } from "react-router";
+import { Link } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function OfferDetail() {
-    const offer = useLoaderData()
+    const params = useParams();
+    const [item, setItem] = useState();
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        axios.get(`https://bodz-server.vercel.app/api/getItem/${params.id}`)
+            .then(res => {
+                setItem(res?.data?.item?.ItemsResult?.Items[0]);
+                setLoading(false); // Set loading to false when data is fetched
+            })
+            .catch(err => {
+                console.log(err);
+                setLoading(false); // Set loading to false on error
+            });
+    }, [params.id]);
+    console.log(item)
 
     return (
-        <Suspense fallback={<h1>Loading...</h1>}>
-            <Await resolve={offer.offer}>
-                {(offer) => (
-                    <div className="offer-page">
-                        <div className="offer-img-div">
-                            <img className="offer-img" src={offer.imageUrl} alt="" />
-                        </div>
-                        <div className="offer-info">
-                            <h1>{offer.title}</h1>
-                            <p className="offer-description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                            <div className="offer-price-div">
-                                <p className="og-price">₹{offer.ogPrice}</p>
-                                <p className="offer-price">₹{offer.offerPrice}</p>
+        <Suspense fallback={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}><CircularProgress /></div>}>
+            {loading ? (
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
+                    <CircularProgress />
+                </div>
+            ) : (
+                <Await resolve={item}>
+                    {(itemDetail) => (
+                        <div className="offer-page">
+                            <div className="offer-img-div">
+                                <img className="offer-img" src={itemDetail?.Images?.Primary?.Large?.URL} alt="" />
                             </div>
-                            <a className="buy-now-btn" href={offer.imageUrl} target="_blank">Buy Now</a>
+                            <div className="offer-info">
+                                <h1>{itemDetail?.ItemInfo?.Title?.DisplayValue.split(',').slice(0, 3).join('\n')}</h1>
+                                {itemDetail?.ItemInfo?.Features?.DisplayValues.slice(0, 3).map((itemDetailInfo, index) => (
+                                    <ul className="offer-description-ul">
+                                        <li key={index} className="offer-description">{itemDetailInfo}</li>
+                                    </ul>
+                                ))}
+                            </div>
+                            <div className="offer-price-div">
+                                {itemDetail?.Offers?.Listings?.map((itemPrice, index) => (
+                                    <div key={index}>
+                                        <p className="og-price">{itemPrice?.SavingBasis?.DisplayAmount}</p>
+                                        <span>(-{itemPrice?.Price?.Savings?.Percentage}%)</span>
+                                        <p className="offer-price">{itemPrice?.Price?.DisplayAmount}</p>
+                                    </div>
+                                ))}
+                                <Link to={itemDetail?.DetailPageURL} className="buy-now-btn">Buy Now</Link>
+                            </div>
                         </div>
-                    </div>
-                )}
-            </Await>
+                    )}
+                </Await>
+            )}
         </Suspense>
-    )
+    );
 }
