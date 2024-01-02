@@ -10,7 +10,7 @@ export default function OfferItems(props) {
             <img src={item?.Images?.Primary?.Large.URL} className='item-img' alt={item?.ItemInfo?.Title?.DisplayValue} />
           </div>
           <h1 className='item-title'>
-            {item?.ItemInfo?.Title?.DisplayValue.split(',').slice(0, 1).join('\n')}
+            {item?.ItemInfo?.Title?.DisplayValue.split(/[,\s\n-]+/).slice(0, 7).join('\n')}
           </h1>
           <p className='item-price'>{itemPrice?.Price?.DisplayAmount}</p>
           {/* <p className='item-more'>More...</p> */}

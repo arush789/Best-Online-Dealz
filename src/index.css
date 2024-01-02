@@ -157,13 +157,13 @@ html::-webkit-scrollbar {
 }
 
 .item-img {
-    width: 250px;
     object-fit: cover;
-    height: 250px;
+    height:250px;
 }
 
 .item-container {
     padding: 20px;
+
 }
 
 .item-link:hover {
@@ -186,16 +186,22 @@ html::-webkit-scrollbar {
 .item-title {
     text-decoration: none;
     color: black;
-    font-size: 20px;
+    font-size: 19px;
     width: 250px;
 }
 
 .item-price {
     color: black;
     font-weight: bold;
+    font-size: 20px;
 }
 
 /*> Offer Detail Page */
+
+.offer-title{
+    font-size: 25px;
+}
+
 .offer-page {
     display: flex;
     padding: 50px 0 50px 40px;
@@ -238,11 +244,13 @@ html::-webkit-scrollbar {
 
 .offer-description {
     line-height: 2rem;
+    font-size: 15px;
 }
 
 .offer-info-price-div{
     display: flex;
     justify-content: space-evenly;
+    align-items: center;
 }
 
 .buy-now-btn {
@@ -272,7 +280,7 @@ html::-webkit-scrollbar {
 
 
 
-@media (max-width: 1200px) {
+@media (max-width: 1100px) {
     .offer-page {
         flex-direction: column;
         text-align: center;
@@ -299,10 +307,11 @@ html::-webkit-scrollbar {
         padding: 0 10px 0 10px;
     }
 
+    
     .offer-info-price-div{
         display: block;
     }
-
+    
     .buy-now-btn{
         padding-block: 15px;
         padding-inline: 50px;

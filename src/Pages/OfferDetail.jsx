@@ -39,12 +39,16 @@ export default function OfferDetail() {
                                 </div>
                                 <div className="offer-info-price-div">
                                     <div className="offer-info">
-                                        <h1>{itemDetail?.ItemInfo?.Title?.DisplayValue.split(',').slice(0, 3).join('\n')}</h1>
-                                        {itemDetail?.ItemInfo?.Features?.DisplayValues.slice(0, 2).map((itemDetailInfo, index) => (
-                                            <ul className="offer-description-ul">
-                                                <li key={index} className="offer-description">{itemDetailInfo}</li>
-                                            </ul>
-                                        ))}
+                                        <div className="offer-title-div">
+                                            <h1 className="offer-title">{itemDetail?.ItemInfo?.Title?.DisplayValue.split(',').slice(0, 3).join('\n')}</h1>
+                                        </div>
+                                        <div className="offer-description-div">
+                                            {itemDetail?.ItemInfo?.Features?.DisplayValues.slice(0, 2).map((itemDetailInfo, index) => (
+                                                <ul key={index} className="offer-description-ul">
+                                                    <li key={index} className="offer-description">{itemDetailInfo}</li>
+                                                </ul>
+                                            ))}
+                                        </div>
                                     </div>
                                     <div className="offer-price-div">
                                         {itemDetail?.Offers?.Listings?.map((itemPrice, index) => (
