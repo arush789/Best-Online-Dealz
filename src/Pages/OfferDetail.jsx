@@ -3,6 +3,7 @@ import React, { Suspense, useEffect, useState } from "react";
 import { Await, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
+import OfferItems from "../Components/OfferItems";
 
 export default function OfferDetail() {
     const params = useParams();
@@ -31,29 +32,38 @@ export default function OfferDetail() {
             ) : (
                 <Await resolve={item}>
                     {(itemDetail) => (
-                        <div className="offer-page">
-                            <div className="offer-img-div">
-                                <img className="offer-img" src={itemDetail?.Images?.Primary?.Large?.URL} alt="" />
-                            </div>
-                            <div className="offer-info">
-                                <h1>{itemDetail?.ItemInfo?.Title?.DisplayValue.split(',').slice(0, 3).join('\n')}</h1>
-                                {itemDetail?.ItemInfo?.Features?.DisplayValues.slice(0, 3).map((itemDetailInfo, index) => (
-                                    <ul className="offer-description-ul">
-                                        <li key={index} className="offer-description">{itemDetailInfo}</li>
-                                    </ul>
-                                ))}
-                            </div>
-                            <div className="offer-price-div">
-                                {itemDetail?.Offers?.Listings?.map((itemPrice, index) => (
-                                    <div key={index}>
-                                        <p className="og-price">{itemPrice?.SavingBasis?.DisplayAmount}</p>
-                                        <span>(-{itemPrice?.Price?.Savings?.Percentage}%)</span>
-                                        <p className="offer-price">{itemPrice?.Price?.DisplayAmount}</p>
+                        <>
+                            <div className="offer-page">
+                                <div className="offer-img-div">
+                                    <img className="offer-img" src={itemDetail?.Images?.Primary?.Large?.URL} alt="" />
+                                </div>
+                                <div className="offer-info-price-div">
+                                    <div className="offer-info">
+                                        <h1>{itemDetail?.ItemInfo?.Title?.DisplayValue.split(',').slice(0, 3).join('\n')}</h1>
+                                        {itemDetail?.ItemInfo?.Features?.DisplayValues.slice(0, 2).map((itemDetailInfo, index) => (
+                                            <ul className="offer-description-ul">
+                                                <li key={index} className="offer-description">{itemDetailInfo}</li>
+                                            </ul>
+                                        ))}
                                     </div>
-                                ))}
-                                <Link to={itemDetail?.DetailPageURL} className="buy-now-btn">Buy Now</Link>
+                                    <div className="offer-price-div">
+                                        {itemDetail?.Offers?.Listings?.map((itemPrice, index) => (
+                                            <div key={index}>
+                                                <p className="og-price">{itemPrice?.SavingBasis?.DisplayAmount}</p>
+                                                <span>(-{itemPrice?.Price?.Savings?.Percentage}%)</span>
+                                                <p className="offer-price">₹ {itemPrice?.Price?.Amount}</p>
+                                                <Link to={itemDetail?.DetailPageURL} className="buy-now-btn">Buy Now</Link>
+                                                <p>
+                                                    Please be aware that product prices may vary at times,
+                                                    attributed to factors such as different sellers or concluded
+                                                    promotional offers.
+                                                </p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        </>
                     )}
                 </Await>
             )}

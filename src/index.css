@@ -22,7 +22,7 @@ html::-webkit-scrollbar {
     justify-content: space-between;
     padding: 0 38px;
     z-index: 1;
-    box-shadow: 5px 5px 5px 5px  rgba(0, 0, 0, 0.11);
+    box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.11);
 }
 
 .pc-header>.brand-name {
@@ -37,13 +37,13 @@ html::-webkit-scrollbar {
     padding: 0;
     margin: 0;
     height: 100%;
-    
+
 }
 
 .pc-header>ul>li {
     height: inherit;
     position: relative;
-    
+
 }
 
 .pc-header>ul>li>a {
@@ -55,7 +55,7 @@ html::-webkit-scrollbar {
     font-weight: 500;
     text-transform: uppercase;
     transition: 0.3s ease;
-    
+
 }
 
 .pc-header>ul>li>a::before {
@@ -76,7 +76,7 @@ html::-webkit-scrollbar {
 
 .active::before {
     transform: scaleX(1) !important;
-    
+
 }
 
 .mob-header,
@@ -131,16 +131,16 @@ html::-webkit-scrollbar {
 
 /*> Home */
 
-.home-img{
+.home-img {
     width: 100%;
 }
 
-.item-header{
+.item-header {
     text-align: center;
     font-size: 50px;
 }
 
-.item-link{
+.item-link {
     text-decoration: none;
     border: 2px grey solid;
     transition: .2s ease;
@@ -148,7 +148,7 @@ html::-webkit-scrollbar {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.item-page{
+.item-page {
     display: flex;
     flex-wrap: wrap;
     gap: 3rem;
@@ -156,17 +156,17 @@ html::-webkit-scrollbar {
     padding-bottom: 50px;
 }
 
-.item-img{
+.item-img {
     width: 250px;
     object-fit: cover;
     height: 250px;
 }
 
-.item-container{
+.item-container {
     padding: 20px;
 }
 
-.item-link:hover{
+.item-link:hover {
     box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.281);
     transform: scale(1.1);
 }
@@ -183,33 +183,44 @@ html::-webkit-scrollbar {
 }
 
 
-.item-title{
+.item-title {
     text-decoration: none;
     color: black;
     font-size: 20px;
     width: 250px;
 }
 
+.item-price {
+    color: black;
+    font-weight: bold;
+}
+
 /*> Offer Detail Page */
 .offer-page {
     display: flex;
-    padding: 50px;
+    padding: 50px 0 50px 40px;
     width: 100%;
-    justify-content: space-evenly;
+    /* justify-content: space-evenly; */
 }
 
-.offer-img-div, .offer-img {
+.offer-img-div,
+.offer-img {
     width: 500px;
 }
 
 .offer-info {
     width: 40%;
+    padding: 20px;
 }
 
 .offer-price-div {
     display: flex;
-    align-items: center;
+    /* justify-content: center;
+    align-items: center; */
+    flex-direction: column;
     gap: 10px;
+    width: 30%;
+    padding: 20px;
 }
 
 .og-price {
@@ -225,72 +236,87 @@ html::-webkit-scrollbar {
     font-weight: bold;
 }
 
-.offer-description{
+.offer-description {
     line-height: 2rem;
 }
 
+.offer-info-price-div{
+    display: flex;
+    justify-content: space-evenly;
+}
+
 .buy-now-btn {
-  background-color: #222;
-  border-radius: 4px;
-  border-style: none;
-  box-sizing: border-box;
-  color: #fff;
-  cursor: pointer;
-  display: inline-block;
-  font-family: "Farfetch Basis","Helvetica Neue",Arial,sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 1.5;
-  margin: 0;
-  max-width: none;
-  min-height: 44px;
-  min-width: 10px;
-  outline: none;
-  overflow: hidden;
-  padding: 9px 20px 8px;
-  position: relative;
-  text-align: center;
-  text-transform: none;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  width: 100%;
-  text-decoration: none;
-  margin: 10px 0;
-  transition: 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+    outline: 0;
+    border: 0;
+    cursor: pointer;
+    color: #fff;
+    font-weight: 500;
+    border-radius: 4px;
+    font-size: 14px;
+    margin: 10px 0px;
+    padding: 10px 50px;
+    text-shadow: rgb(0 0 0 / 25%) 0px 3px 8px;
+    background: black;
+    /* Change this line to set the background color to black */
+    transition: all 0.5s ease 0s;
+    width: 100%;
+    text-align: center;
 }
 
-.buy-now-btn:hover,
-.buy-now-btn:focus {
-  opacity: .75;
+.buy-now-btn:hover {
+    box-shadow: rgb(80 63 205 / 50%) 0px 1px 40px;
+    transition: all 0.1s ease 0s;
 }
 
-@media (max-width: 1024px) {
+
+
+@media (max-width: 1200px) {
     .offer-page {
         flex-direction: column;
         text-align: center;
+        padding: 0 0 10px 0;
     }
 
-    .offer-img-div, .offer-img {
+    .offer-img-div,
+    .offer-img {
         width: 100%;
     }
-    
+
     .offer-info {
         width: 100%;
+        padding: 10px;
     }
 
     .offer-price-div {
         justify-content: center;
+        width: 100%;
     }
+
+    .offer-description-ul {
+        list-style: none;
+        padding: 0 10px 0 10px;
+    }
+
+    .offer-info-price-div{
+        display: block;
+    }
+
+    .buy-now-btn{
+        padding-block: 15px;
+        padding-inline: 50px;
+    }
+    
 }
 
 /*> Management */
 
-.table-delete-btn{
+.table-delete-btn {
     color: black;
 }
 
-.add-product-btn{
+.add-product-btn {
     display: flex;
     justify-content: center;
     padding-block: 30px;
@@ -356,7 +382,7 @@ html::-webkit-scrollbar {
     text-align: center;
 }
 
-.footer-down > p {
+.footer-down>p {
     font-size: 15px;
     margin: 0;
     padding: 5px 0;
@@ -386,17 +412,23 @@ html::-webkit-scrollbar {
 }
 
 /*> About Page & Disclaimer Page */
-.about-div, .disclaimer-div {
+.about-div,
+.disclaimer-div {
     padding: 20px 100px 100px;
     font-size: clamp(1rem, 2.5vw, 1.5rem);
 }
 
-.about-title, .disclaimer-title, .contact-title {
+.about-title,
+.disclaimer-title,
+.contact-title {
     text-align: center;
 }
 
 @media (max-width: 768px) {
-    .about-div, .disclaimer-div, .contact-div {
+
+    .about-div,
+    .disclaimer-div,
+    .contact-div {
         padding: 10px 20px;
     }
 }
