@@ -1,15 +1,22 @@
-import React, { Suspense, useEffect, useState } from "react";
-import myImage from "/assets/images/home-img/home-img-3.png";
 import axios from "axios";
-import { Await } from "react-router";
+import React, { useEffect, useState } from "react";
 import OfferItems from "../Components/OfferItems";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
+import { Select, FormControl, MenuItem, OutlinedInput } from "@mui/material";
 
-// ... (imports)
+const ITEM_HEIGHT = 48;
+const MenuProps = {
+    PaperProps: {
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 ,
+            width: 250,
+        },
+    },
+};
+
 
 export default function Home() {
     const [offer, setOffer] = useState([]);
+    const [selectedValues, setSelectedValues] = useState([]);
 
     useEffect(() => {
         axios.get('https://bodz-server.vercel.app/api/getItems')
@@ -23,8 +30,40 @@ export default function Home() {
 
     return (
         <div style={{ position: "relative", minHeight: "100vh" }}>
-            {/* <img src={myImage} className="home-img" /> */}
-            <h1 className="item-header">Offers</h1>
+            <div className="home-page-offer">
+                <h1 className="item-header">Offers</h1>
+                <FormControl sx={{ m: 1, width: 300, mt: 3 }}>
+                    <Select
+                        multiple
+                        displayEmpty
+                        value={selectedValues}
+                        onChange={(event) => setSelectedValues(event.target.value)}
+                        input={<OutlinedInput />}
+                        renderValue={(selected) => {
+                            if (!Array.isArray(selected)) {
+                                return <em>Catogeries</em>;
+                            }
+
+                            if (selected.length === 0) {
+                                return <em>Catogeries</em>;
+                            }
+
+                            return selected.join(', ');
+                        }}
+                        MenuProps={MenuProps}
+                        inputProps={{ 'aria-label': 'Without label' }}
+                    >
+                        {/* <MenuItem disabled value="">
+                            <em>Placeholder</em>
+                        </MenuItem> */}
+                        {offer.map(item => (
+                            <MenuItem>
+                                {item?.ItemInfo?.Classifications?.Binding?.DisplayValue}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+            </div>
             <OfferItems data={offer} />
         </div>
     );
