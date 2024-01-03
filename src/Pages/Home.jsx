@@ -14,7 +14,7 @@ const catagories = [
     "Electronics",
     "Fashion and Apparel",
     "Home and Furniture",
-    "Beauty and Personal Care",
+    "Health and Beauty",
     "Health and Fitness",
     "Toys and Baby Products",
     "Books and Stationery",
