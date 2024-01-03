@@ -7,6 +7,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import Button from '@mui/material/Button';
+import { CircularProgress } from "@mui/material";
 
 
 
@@ -35,54 +37,77 @@ const catagories = [
 ]
 
 
+
 export default function Home() {
-    const [searchParams, setSearchParams] = useSearchParams()
-    const [offer, setOffer] = useState([])
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [offer, setOffer] = useState([]);
     const [catagory, setCatagory] = React.useState('');
-
-    const catagoryFilter = searchParams.get("catagory")
-
+    const [loading, setLoading] = useState(true);
+  
+    const catagoryFilter = searchParams.get("catagory");
+  
     const handleChange = (event) => {
-        setCatagory(event.target.value);
-        window.location.reload(false);
+      setCatagory(event.target.value);
+      window.location.reload(false);
     };
-
+  
+    const handleClearFilter = () => {
+      setSearchParams({});
+      setCatagory('');
+      window.location.reload(false);
+    };
+  
     useEffect(() => {
-        axios.get('https://bodz-server.vercel.app/api/getItems')
-            .then(res => {
-                if (catagoryFilter) {
-                    const catagorisedItems = res?.data?.items?.ItemsResult?.Items.filter(item => item?.ItemInfo?.Classifications?.Binding?.DisplayValue === catagoryFilter);
-                    setOffer(catagorisedItems);
-                } else {
-                    setOffer(res?.data?.items?.ItemsResult?.Items);
-                }
-            })
-            .catch(err => {
-                console.log(err);
-            });
+      setLoading(true);
+      axios.get('https://bodz-server.vercel.app/api/getItems')
+        .then(res => {
+          if (catagoryFilter) {
+            const catagorisedItems = res?.data?.items?.ItemsResult?.Items.filter(item => item?.ItemInfo?.Classifications?.Binding?.DisplayValue === catagoryFilter);
+            setOffer(catagorisedItems);
+          } else {
+            setOffer(res?.data?.items?.ItemsResult?.Items);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     }, []);
-
+  
     return (
-        <div style={{ position: "relative", minHeight: "100vh" }}>
-            <div className="home-page-offer">
-                <h1>Offers</h1>
-                <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
-                    <InputLabel id="demo-select-small-label">Catagories</InputLabel>
-                    <Select
-                        labelId="demo-select-small-label"
-                        id="demo-select-small"
-                        autoWidth
-                        value={catagoryFilter ? catagoryFilter : ""}
-                        label="catagory"
-                        onChange={handleChange}
-                    >
-                        {catagories.map((item, index) => (
-                            <MenuItem onClick={() => setSearchParams({ catagory: item })} key={index} value={item} >{item}</MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-            </div>
-            <OfferItems data={offer} />
+      <div style={{ position: "relative", minHeight: "100vh" }}>
+        <div className="home-page-offer">
+          <h1>Offers</h1>
+          <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
+            <InputLabel id="demo-select-small-label">Categories</InputLabel>
+            <Select
+              labelId="demo-select-small-label"
+              id="demo-select-small"
+              autoWidth
+              value={catagoryFilter ? catagoryFilter : ""}
+              label="category"
+              onChange={handleChange}
+            >
+              {catagories.map((item, index) => (
+                <MenuItem onClick={() => setSearchParams({ catagory: item })} key={index} value={item}>{item}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          {catagoryFilter && (
+            <Button variant="contained" color="secondary" onClick={handleClearFilter} style={{ margin: '10px' }}>
+              Clear Filter
+            </Button>
+          )}
         </div>
+        {loading ? (
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '70vh' }}>
+            <CircularProgress />
+          </div>
+        ) : (
+          <OfferItems data={offer} />
+        )}
+      </div>
     );
-}
+  }

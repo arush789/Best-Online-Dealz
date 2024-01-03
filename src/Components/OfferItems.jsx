@@ -1,15 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Pagination, Stack } from '@mui/material';
 
 export default function OfferItems(props) {
+  const itemsPerPage = 10;
+  const totalItems = props.data.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const [currentPage, setCurrentPage] = useState(1);
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth', // optional: smooth scroll animation
+      behavior: 'smooth',
     });
   };
 
-  const offerItems = props.data.map((item) =>
+  const handlePageChange = (event, newPage) => {
+    setCurrentPage(newPage);
+    scrollToTop();
+  };
+
+  const slicedData = props.data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+  const offerItems = slicedData.map((item) => (
     <Link key={item?.ASIN} className='item-link' to={`/offers/${item?.ASIN}`} onClick={scrollToTop}>
       <div className='item-container'>
         <div className='item-img-div'>
@@ -18,19 +32,30 @@ export default function OfferItems(props) {
         <h1 className='item-title'>
           {item?.ItemInfo?.Title?.DisplayValue.split(/[,\s\n-]+/).slice(0, 7).join('\n')}
         </h1>
-        {
-          item?.Offers?.Listings?.map((itemPrice) => (
-            <p key={item?.ASIN} className='item-price'>{itemPrice?.Price?.DisplayAmount}</p>
-          ))
-        }
-        {/* <p className='item-more'>More...</p> */}
+        {item?.Offers?.Listings?.map((itemPrice) => (
+          <p key={item?.ASIN} className='item-price'>{itemPrice?.Price?.DisplayAmount}</p>
+        ))}
         <button className="buy-now-btn" onClick={scrollToTop}>
           Buy Now
         </button>
       </div>
     </Link>
+  ));
 
+  return (
+    <>
+      <div className='item-page'>{offerItems}</div>
+      <div className='pagination'>
+        <Stack spacing={2} justifyContent="center" style={{ margin: 'auto' }}>
+          <Pagination
+            count={totalPages}
+            page={currentPage}
+            onChange={handlePageChange}
+            shape="rounded"
+            color="primary"
+          />
+        </Stack>
+      </div>
+    </>
   );
-
-  return <div className='item-page'>{offerItems}</div>;
 }

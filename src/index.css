@@ -155,27 +155,12 @@ html::-webkit-scrollbar {
     align-items: center;
 }
 
-.home-page-offer > h1 {
+.home-page-offer>h1 {
     text-align: center;
     font-size: 50px;
     margin: 0;
 }
 
-
-.category-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.category-button:hover {
-    background-color: #45a049;
-    /* Darker green on hover */
-}
 
 .item-header {
     text-align: center;
@@ -240,8 +225,14 @@ html::-webkit-scrollbar {
     font-size: 20px;
 }
 
-@media (max-width: 1100px){
-    .home-page-offer{
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0 40px 0px;
+}
+
+@media (max-width: 1100px) {
+    .home-page-offer {
         flex-direction: column;
         padding: 0;
     }
