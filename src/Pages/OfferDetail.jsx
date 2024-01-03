@@ -21,7 +21,6 @@ export default function OfferDetail() {
                 setLoading(false); // Set loading to false on error
             });
     }, [params.id]);
-    console.log(item)
 
     return (
         <Suspense fallback={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}><CircularProgress /></div>}>
@@ -51,19 +50,25 @@ export default function OfferDetail() {
                                         </div>
                                     </div>
                                     <div className="offer-price-div">
-                                        {itemDetail?.Offers?.Listings?.map((itemPrice, index) => (
-                                            <div key={index}>
-                                                <p className="og-price">{itemPrice?.SavingBasis?.DisplayAmount}</p>
-                                                <span>(-{itemPrice?.Price?.Savings?.Percentage}%)</span>
-                                                <p className="offer-price">₹ {itemPrice?.Price?.Amount}</p>
-                                                <Link to={itemDetail?.DetailPageURL} className="buy-now-btn">Buy Now</Link>
-                                                <p>
-                                                    Please be aware that product prices may vary at times,
-                                                    attributed to factors such as different sellers or concluded
-                                                    promotional offers.
-                                                </p>
-                                            </div>
-                                        ))}
+                                        {
+                                            itemDetail?.Offers
+                                                ?
+                                                itemDetail?.Offers?.Listings?.map((itemPrice, index) => (
+                                                    <div key={index}>
+                                                        <p className="og-price">{itemPrice?.SavingBasis?.DisplayAmount}</p>
+                                                        <span>(-{itemPrice?.Price?.Savings?.Percentage}%)</span>
+                                                        <p className="offer-price">₹ {itemPrice?.Price?.Amount}</p>
+                                                    </div>
+                                                ))
+                                                :
+                                                <p>Please check the price on Amazon</p>
+                                        }
+                                        <Link to={itemDetail?.DetailPageURL} target="_blank" className="buy-now-btn">Buy Now</Link>
+                                        <p>
+                                            Please be aware that product prices may vary at times,
+                                            attributed to factors such as different sellers or concluded
+                                            promotional offers.
+                                        </p>
                                     </div>
                                 </div>
                             </div>

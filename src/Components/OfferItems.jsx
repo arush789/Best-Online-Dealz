@@ -10,23 +10,26 @@ export default function OfferItems(props) {
   };
 
   const offerItems = props.data.map((item) =>
-    item?.Offers?.Listings?.map((itemPrice) => (
-      <Link key={item?.ASIN} className='item-link' to={`offers/${item?.ASIN}`} onClick={scrollToTop}>
-        <div className='item-container'>
-          <div className='item-img-div'>
-            <img src={item?.Images?.Primary?.Large.URL} className='item-img' alt={item?.ItemInfo?.Title?.DisplayValue} />
-          </div>
-          <h1 className='item-title'>
-            {item?.ItemInfo?.Title?.DisplayValue.split(/[,\s\n-]+/).slice(0, 7).join('\n')}
-          </h1>
-          <p className='item-price'>{itemPrice?.Price?.DisplayAmount}</p>
-          {/* <p className='item-more'>More...</p> */}
-          <Link to={`offers/${item?.ASIN}`} className="buy-now-btn" onClick={scrollToTop}>
-            Buy Now
-          </Link>
+    <Link key={item?.ASIN} className='item-link' to={`offers/${item?.ASIN}`} onClick={scrollToTop}>
+      <div className='item-container'>
+        <div className='item-img-div'>
+          <img src={item?.Images?.Primary?.Large.URL} className='item-img' alt={item?.ItemInfo?.Title?.DisplayValue} />
         </div>
-      </Link>
-    ))
+        <h1 className='item-title'>
+          {item?.ItemInfo?.Title?.DisplayValue.split(/[,\s\n-]+/).slice(0, 7).join('\n')}
+        </h1>
+        {
+          item?.Offers?.Listings?.map((itemPrice) => (
+            <p key={item?.ASIN} className='item-price'>{itemPrice?.Price?.DisplayAmount}</p>
+          ))
+        }
+        {/* <p className='item-more'>More...</p> */}
+        <button className="buy-now-btn" onClick={scrollToTop}>
+          Buy Now
+        </button>
+      </div>
+    </Link>
+
   );
 
   return <div className='item-page'>{offerItems}</div>;
