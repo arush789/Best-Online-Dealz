@@ -21,6 +21,8 @@ const router = createBrowserRouter(createRoutesFromElements(
         <Route path="/offers/:id" element={<OfferDetail />} exact  />
         
         <Route path="/best-deals" element={<BestDeals />} exact />
+        <Route path="/best-deals/offers/:id" element={<OfferDetail />} exact  />
+        
         <Route path="/contact" element={<Contact />} exact />
         <Route path="/disclaimer" element={<Disclaimer />} exact />
         <Route path="/about" element={<About />} exact />

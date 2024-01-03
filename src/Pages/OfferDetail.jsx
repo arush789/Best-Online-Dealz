@@ -22,6 +22,8 @@ export default function OfferDetail() {
             });
     }, [params.id]);
 
+    console.log(item)
+
     return (
         <Suspense fallback={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}><CircularProgress /></div>}>
             {loading ? (
