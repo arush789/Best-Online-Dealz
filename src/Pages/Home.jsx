@@ -106,7 +106,7 @@ export default function Home() {
             <CircularProgress />
           </div>
         ) : (
-          <OfferItems data={offer} />
+          <OfferItems data={offer} pagination={true} />
         )}
       </div>
     );

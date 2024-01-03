@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Pagination, Stack } from '@mui/material';
 
 export default function OfferItems(props) {
-  const itemsPerPage = 10;
+  const itemsPerPage = 5;
   const totalItems = props.data.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
@@ -45,17 +45,22 @@ export default function OfferItems(props) {
   return (
     <>
       <div className='item-page'>{offerItems}</div>
-      <div className='pagination'>
-        <Stack spacing={2} justifyContent="center" style={{ margin: 'auto' }}>
-          <Pagination
-            count={totalPages}
-            page={currentPage}
-            onChange={handlePageChange}
-            shape="rounded"
-            color="primary"
-          />
-        </Stack>
-      </div>
+      {
+        props.pagination ?
+        <div className='pagination'>
+          <Stack spacing={2} justifyContent="center" style={{ margin: 'auto' }}>
+            <Pagination
+              count={totalPages}
+              page={currentPage}
+              onChange={handlePageChange}
+              shape="rounded"
+              color="primary"
+            />
+          </Stack>
+        </div>
+        :
+        <></>
+      }
     </>
   );
 }

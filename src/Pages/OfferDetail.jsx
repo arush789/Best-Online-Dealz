@@ -91,7 +91,7 @@ export default function OfferDetail() {
                     <hr />
                     <div className="related-offers-container">
                         <h1 className="item-header">Related Offers</h1>
-                        <OfferItems data={relatedItems} />
+                        <OfferItems data={relatedItems} pagination={false} />
                     </div>
                 </>
             )}
