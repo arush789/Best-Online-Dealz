@@ -23,7 +23,7 @@ export default function Home() {
 
     return (
         <div style={{ position: "relative", minHeight: "100vh" }}>
-            <img src={myImage} className="home-img" />
+            {/* <img src={myImage} className="home-img" /> */}
             <h1 className="item-header">Offers</h1>
             <OfferItems data={offer} />
         </div>

@@ -84,6 +84,13 @@ html::-webkit-scrollbar {
     display: none;
 }
 
+.brand-name{
+    color: black;
+    text-decoration: none;
+    font-size: 40px;
+    font-weight: bold;
+}
+
 /*> Mobile Header */
 
 @media (max-width: 768px) {
@@ -97,6 +104,7 @@ html::-webkit-scrollbar {
         align-items: center;
         justify-content: space-between;
         padding: 0 38px;
+        box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.11); 
     }
 
     .mob-header-menu {
@@ -110,7 +118,10 @@ html::-webkit-scrollbar {
     }
 
     .active-menu {
-        height: 100px;
+        height: 250px;
+        background-color: #000000;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
     }
 
     .mob-header-menu>ul {
@@ -119,15 +130,16 @@ html::-webkit-scrollbar {
         padding: 0;
         display: flex;
         flex-direction: column;
-        gap: 15px;
+        gap: 50px;
     }
 
     .mob-header-menu>ul>li>a {
         text-decoration: none;
-        color: #2C3333;
+        color: #ffffff;
         font-size: 20px;
     }
 }
+
 
 /*> Home */
 
@@ -290,6 +302,7 @@ html::-webkit-scrollbar {
     .offer-img-div,
     .offer-img {
         width: 100%;
+        padding-top: 10px;
     }
 
     .offer-info {

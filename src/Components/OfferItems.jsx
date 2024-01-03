@@ -2,9 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default function OfferItems(props) {
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth', // optional: smooth scroll animation
+    });
+  };
+
   const offerItems = props.data.map((item) =>
     item?.Offers?.Listings?.map((itemPrice) => (
-      <Link key={item?.ASIN} className='item-link' to={`offers/${item?.ASIN}`}>
+      <Link key={item?.ASIN} className='item-link' to={`offers/${item?.ASIN}`} onClick={scrollToTop}>
         <div className='item-container'>
           <div className='item-img-div'>
             <img src={item?.Images?.Primary?.Large.URL} className='item-img' alt={item?.ItemInfo?.Title?.DisplayValue} />
@@ -14,7 +21,9 @@ export default function OfferItems(props) {
           </h1>
           <p className='item-price'>{itemPrice?.Price?.DisplayAmount}</p>
           {/* <p className='item-more'>More...</p> */}
-          <Link to={`offers/${item?.ASIN}`} className="buy-now-btn">Buy Now</Link>
+          <Link to={`offers/${item?.ASIN}`} className="buy-now-btn" onClick={scrollToTop}>
+            Buy Now
+          </Link>
         </div>
       </Link>
     ))
