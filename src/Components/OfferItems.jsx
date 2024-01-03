@@ -10,7 +10,7 @@ export default function OfferItems(props) {
   };
 
   const offerItems = props.data.map((item) =>
-    <Link key={item?.ASIN} className='item-link' to={`offers/${item?.ASIN}`} onClick={scrollToTop}>
+    <Link key={item?.ASIN} className='item-link' to={`/offers/${item?.ASIN}`} onClick={scrollToTop}>
       <div className='item-container'>
         <div className='item-img-div'>
           <img src={item?.Images?.Primary?.Large.URL} className='item-img' alt={item?.ItemInfo?.Title?.DisplayValue} />
