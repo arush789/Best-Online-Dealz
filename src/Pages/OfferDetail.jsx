@@ -8,7 +8,6 @@ import OfferItems from "../Components/OfferItems";
 export default function OfferDetail() {
     const params = useParams();
     const [item, setItem] = useState();
-    const [relatedItems, setRelatedItems] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -21,26 +20,7 @@ export default function OfferDetail() {
                 console.log(err);
                 setLoading(false);
             });
-
-        axios.get('https://bodz-server.vercel.app/api/getItems')
-            .then(res => {
-                const allItems = res?.data?.items?.ItemsResult?.Items;
-
-                if (allItems && allItems.length > 0) {
-                    const currentCategory = item?.ItemInfo?.Classifications?.Binding?.DisplayValue || '';
-                    const relatedItems = allItems.filter((item) =>
-                        item?.ItemInfo?.Classifications?.Binding?.DisplayValue === currentCategory
-                    );
-
-                    const relatedFourItems = relatedItems.slice(0, 4);
-
-                    setRelatedItems(relatedFourItems);
-                }
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    }, [params.id, item?.ItemInfo?.Classifications?.Binding?.DisplayValue]);
+    }, [params.id]);
 
     return (
         <div className="offer-detail-container">
@@ -87,11 +67,6 @@ export default function OfferDetail() {
                                 </p>
                             </div>
                         </div>
-                    </div>
-                    <hr />
-                    <div className="related-offers-container">
-                        <h1 className="item-header">Related Offers</h1>
-                        <OfferItems data={relatedItems} pagination={false} />
                     </div>
                 </>
             )}

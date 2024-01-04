@@ -1,14 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { Pagination, Stack } from '@mui/material';
 
 export default function OfferItems(props) {
-  const itemsPerPage = 5;
-  const totalItems = props.data.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-
-  const [currentPage, setCurrentPage] = useState(1);
-
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -16,14 +9,7 @@ export default function OfferItems(props) {
     });
   };
 
-  const handlePageChange = (event, newPage) => {
-    setCurrentPage(newPage);
-    scrollToTop();
-  };
-
-  const slicedData = props.data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-
-  const offerItems = slicedData.map((item) => (
+  const offerItems = props.data.map((item) => (
     <Link key={item?.ASIN} className='item-link' to={`/offers/${item?.ASIN}`} onClick={scrollToTop}>
       <div className='item-container'>
         <div className='item-img-div'>
@@ -45,22 +31,6 @@ export default function OfferItems(props) {
   return (
     <>
       <div className='item-page'>{offerItems}</div>
-      {
-        props.pagination ?
-        <div className='pagination'>
-          <Stack spacing={2} justifyContent="center" style={{ margin: 'auto' }}>
-            <Pagination
-              count={totalPages}
-              page={currentPage}
-              onChange={handlePageChange}
-              shape="rounded"
-              color="primary"
-            />
-          </Stack>
-        </div>
-        :
-        <></>
-      }
     </>
   );
 }
