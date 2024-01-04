@@ -1,34 +1,75 @@
-import React, { Suspense } from "react";
-import { defer, useLoaderData, Await } from "react-router";
-import { getOffer } from "../Server/api";
-
-export function loader({ params }) {
-    return defer({ offer : getOffer(params.id) })
-}
+import CircularProgress from "@mui/material/CircularProgress";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import { Link } from "react-router-dom";
+import OfferItems from "../Components/OfferItems";
 
 export default function OfferDetail() {
-    const offer = useLoaderData()
+    const params = useParams();
+    const [item, setItem] = useState();
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        axios.get(`https://bodz-server.vercel.app/api/getItem/${params.id}`)
+            .then(res => {
+                setItem(res?.data?.item?.ItemsResult?.Items[0]);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.log(err);
+                setLoading(false);
+            });
+    }, [params.id]);
 
     return (
-        <Suspense fallback={<h1>Loading...</h1>}>
-            <Await resolve={offer.offer}>
-                {(offer) => (
+        <div className="offer-detail-container">
+            {loading ? (
+                <div className="loading-container">
+                    <CircularProgress />
+                </div>
+            ) : (
+                <>
                     <div className="offer-page">
                         <div className="offer-img-div">
-                            <img className="offer-img" src={offer.imageUrl} alt="" />
+                            <img className="offer-img" src={item?.Images?.Primary?.Large?.URL} alt="" />
                         </div>
-                        <div className="offer-info">
-                            <h1>{offer.title}</h1>
-                            <p className="offer-description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                            <div className="offer-price-div">
-                                <p className="og-price">₹{offer.ogPrice}</p>
-                                <p className="offer-price">₹{offer.offerPrice}</p>
+                        <div className="offer-info-price-div">
+                            <div className="offer-info">
+                                <div className="offer-title-div">
+                                    <h1 className="offer-title">{item?.ItemInfo?.Title?.DisplayValue.split(',').slice(0, 3).join('\n')}</h1>
+                                </div>
+                                <div className="offer-description-div">
+                                    {item?.ItemInfo?.Features?.DisplayValues.slice(0, 2).map((itemDetailInfo, index) => (
+                                        <ul key={index} className="offer-description-ul">
+                                            <li key={index} className="offer-description">{itemDetailInfo}</li>
+                                        </ul>
+                                    ))}
+                                </div>
                             </div>
-                            <a className="buy-now-btn" href={offer.imageUrl} target="_blank">Buy Now</a>
+                            <div className="offer-price-div">
+                                {item?.Offers ? (
+                                    item?.Offers?.Listings?.map((itemPrice, index) => (
+                                        <div key={index}>
+                                            <p className="og-price">{itemPrice?.SavingBasis?.DisplayAmount}</p>
+                                            <span>(-{itemPrice?.Price?.Savings?.Percentage}%)</span>
+                                            <p className="offer-price">₹ {itemPrice?.Price?.Amount}</p>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p>Please check the price on Amazon</p>
+                                )}
+                                <Link to={item?.DetailPageURL} target="_blank" className="buy-now-btn">Buy Now</Link>
+                                <p>
+                                    Please be aware that product prices may vary at times,
+                                    attributed to factors such as different sellers or concluded
+                                    promotional offers.
+                                </p>
+                            </div>
                         </div>
                     </div>
-                )}
-            </Await>
-        </Suspense>
-    )
+                </>
+            )}
+        </div>
+    );
 }

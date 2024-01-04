@@ -3,27 +3,32 @@ import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route } 
 
 import Layout from "./Components/Layout";
 
-import Home, {loader as HomeDataLoader} from "./Pages/Home";
+import Home from "./Pages/Home";
 import BestDeals from "./Pages/BestDeals";
 import Contact from "./Pages/Contact";
 import Disclaimer from "./Pages/Disclaimer";
 import About from "./Pages/About";
 
-import OfferDetail, {loader as OfferDetailLoader} from "./Pages/OfferDetail.jsx";
+import SignIn from "./Pages/Login.jsx";
+import Management, {loader as ManagementLoader} from "./Pages/Management.jsx";
 
+import OfferDetail from "./Pages/OfferDetail.jsx";
 
-// import "./Server/dummyServer.js"
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Layout />} >
 
-        <Route index element={<Home />} loader={HomeDataLoader}/>
-        <Route path="/offers/:id" element={<OfferDetail />} loader={OfferDetailLoader} />
+        <Route index element={<Home />} exact />
+        <Route path="/offers/:id" element={<OfferDetail />} exact  />
         
-        <Route path="/best-deals" element={<BestDeals />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/disclaimer" element={<Disclaimer />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/best-deals" element={<BestDeals />} exact />
+        
+        <Route path="/contact" element={<Contact />} exact />
+        <Route path="/disclaimer" element={<Disclaimer />} exact />
+        <Route path="/about" element={<About />} exact />
+
+        <Route path="/login" element={<SignIn />} />
+        <Route path="/management" element={<Management />} loader={ManagementLoader} exact />
     </Route>
 ))
 
