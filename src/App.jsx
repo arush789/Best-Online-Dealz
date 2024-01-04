@@ -9,6 +9,7 @@ import Contact from "./Pages/Contact";
 import Disclaimer from "./Pages/Disclaimer";
 import About from "./Pages/About";
 
+import SignIn from "./Pages/Login.jsx";
 import Management, {loader as ManagementLoader} from "./Pages/Management.jsx";
 
 import OfferDetail from "./Pages/OfferDetail.jsx";
@@ -26,6 +27,7 @@ const router = createBrowserRouter(createRoutesFromElements(
         <Route path="/disclaimer" element={<Disclaimer />} exact />
         <Route path="/about" element={<About />} exact />
 
+        <Route path="/login" element={<SignIn />} />
         <Route path="/management" element={<Management />} loader={ManagementLoader} exact />
     </Route>
 ))

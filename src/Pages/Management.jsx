@@ -22,10 +22,12 @@ import {
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { getTable, delRow, addRow } from "../Server/api";
+import { requireAuth } from "../utils";
 
 
-export function loader() {
-    return defer({ rows: getTable() })
+export async function loader({ request }) {
+    await requireAuth();
+    return defer({ rows: getTable() });
 }
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({

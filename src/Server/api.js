@@ -16,7 +16,11 @@ export async function addRow(name,asin){
     window.location.reload(false);
 }
 
-
+export async function getUsers() {
+    const { rows } = await sql`SELECT * FROM users`;
+    // console.log(rows[0]);
+    return rows;
+}
 
 
 
