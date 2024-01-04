@@ -14,27 +14,9 @@ import { CircularProgress, Typography, Pagination } from "@mui/material";
 
 
 const catagories = [
+    "Personal Computer",
     "Electronics",
-    // "Fashion and Apparel",
-    // "Home and Furniture",
-    "Health and Beauty",
-    // "Health and Fitness",
-    // "Toys and Baby Products",
-    // "Books and Stationery",
-    // "Automotive",
-    // "Sports and Outdoors",
-    // "Jewelry and Watches",
-    // "Pet Supplies",
-    // "Art and Craft Supplies",
-    // "Electrical Appliances",
-    // "Gifts and Occasions",
-    // "Gardening and Outdoor Decor",
-    // "Food and Beverages",
-    // "Electrical and Lighting",
-    // "Business and Industrial Supplies",
-    // "Digital Products",
-    // "Bags & Luggage",
-    // "Subscription Boxes"
+    "Beauty",
 ]
 
 
@@ -70,7 +52,7 @@ export default function Home() {
         axios.get(`https://bodz-server.vercel.app/api/getItems?page=${currentPage}`)
             .then(res => {
                 if (catagoryFilter) {
-                    const catagorisedItems = res?.data?.items?.ItemsResult?.Items.filter(item => item?.ItemInfo?.Classifications?.Binding?.DisplayValue === catagoryFilter);
+                    const catagorisedItems = res?.data?.items?.ItemsResult?.Items.filter(item => item?.ItemInfo?.Classifications?.ProductGroup?.DisplayValue === catagoryFilter);
                     setOffer(catagorisedItems);
 
                 } else {
@@ -130,7 +112,7 @@ export default function Home() {
                     ) : (
                         <>
                             <OfferItems data={offer} />
-                            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', marginBottom: '40px' }}>
                                 <Pagination
                                     count={totalPages}
                                     page={currentPage}
