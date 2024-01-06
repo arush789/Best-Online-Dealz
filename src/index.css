@@ -378,7 +378,7 @@ html::-webkit-scrollbar {
 
 .add-product-btn {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     padding-block: 30px;
 }
 

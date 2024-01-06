@@ -100,6 +100,12 @@ export default function Management() {
                 <Button variant="outlined" onClick={handleClickOpen} >
                     <span>Add Products</span><AddCircleIcon />
                 </Button>
+                <Button variant="outlined" color="secondary" onClick={() => {
+                    localStorage.clear()
+                    window.location.reload(false)
+                }}>
+                    <span>Log Out</span>
+                </Button>
             </div>
 
             <BootstrapDialog
