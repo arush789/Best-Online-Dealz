@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Avatar from '@mui/material/Avatar';
@@ -12,23 +12,23 @@ import Typography from '@mui/material/Typography';
 
 import { getUsers } from "../Server/api";
 
-
 const defaultTheme = createTheme();
 
 async function Auth(username, password) {
     const user = await getUsers()
     if (username === user[0].username && password === user[0].password) {
         localStorage.setItem("loggedIn", true);
-        return true
+        return true;
     } else {
-        return false
+        return false;
     }
 }
 
 export default function SignIn() {
     const navigate = useNavigate();
-    
-    const handleSubmit = (event) => {
+    const [error, setError] = useState('');
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const username = data.get('username');
@@ -36,16 +36,16 @@ export default function SignIn() {
         const pathName = '/management';
 
         try {
-            if (Auth(username, password)) {
+            const isAuthenticated = await Auth(username, password);
+            if (isAuthenticated) {
                 navigate(pathName);
+            } else {
+                setError('Invalid username or password');
             }
         } catch (err) {
-            return err.message
+            setError(err.message);
         }
     };
-
-    // console.log(import.meta.env.VITE_LOGIN_USERNAME)
-    // console.log(import.meta.env.VITE_LOGIN_PASSWORD)
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -63,6 +63,7 @@ export default function SignIn() {
                     <Typography component="h1" variant="h5">
                         Log in
                     </Typography>
+                    {error && <Typography color="error">{error}</Typography>}
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
