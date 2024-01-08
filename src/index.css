@@ -175,6 +175,7 @@ html::-webkit-scrollbar {
     transition: .2s ease;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 .item-page {
@@ -186,7 +187,6 @@ html::-webkit-scrollbar {
 }
 
 .item-img {
-    object-fit: cover;
     height: 250px;
 }
 
@@ -215,7 +215,7 @@ html::-webkit-scrollbar {
 .item-title {
     text-decoration: none;
     color: black;
-    font-size: 19px;
+    font-size: 17px;
     width: 250px;
 }
 
@@ -482,6 +482,10 @@ html::-webkit-scrollbar {
 .disclaimer-title,
 .contact-title {
     text-align: center;
+}
+
+.contact-para{
+    display: none;
 }
 
 @media (max-width: 768px) {
