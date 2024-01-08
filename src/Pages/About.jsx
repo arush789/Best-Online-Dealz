@@ -5,7 +5,7 @@ export default function About() {
         <div className="about-div">
             <h1 className="about-title">About Us</h1>
             <p>
-                Online Offers (Best Online Dealz) disclaims any guarantees,
+                Best Online Dealz disclaims any guarantees,
                 endorsements, or warranties for external website content and products
                 linked from this Website.
                 We don't verify or endorse the accuracy or quality of information
