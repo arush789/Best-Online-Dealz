@@ -22,8 +22,7 @@ import {
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { getTable, delRow, addRow } from "../Server/api";
-import { requireAuth } from "../utils";
-
+import { requireAuth , shortUrl} from "../utils";
 
 export async function loader({ request }) {
     await requireAuth();
@@ -46,7 +45,8 @@ export default function Management() {
     const [open, setOpen] = React.useState(false);
     const [row, setRow] = React.useState({
         name: "",
-        asin: ""
+        asin: "",
+        additional: ""
     });
     const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
     const [selectedRowId, setSelectedRowId] = React.useState(null);
@@ -66,6 +66,7 @@ export default function Management() {
         if (row.name === "" || row.asin === "") {
             alert("Name and AsinCode should be filled.")
         } else {
+            shortUrl(row.name,row.asin,row.additional)
             addRow(row.name, row.asin);
         }
     }
@@ -81,6 +82,12 @@ export default function Management() {
         setRow(prevRow => ({
             ...prevRow,
             asin: event.target.value
+        }))
+    }
+    const handleAdditionalChange = (event) => {
+        setRow(prevRow => ({
+            ...prevRow,
+            additional: event.target.value
         }))
     }
 
@@ -122,6 +129,8 @@ export default function Management() {
                         <TextField id="outlined-name" label="Name" variant="outlined" onChange={handleNameChange} />
                         <h1>ASIN</h1>
                         <TextField id="outlined-asin" label="Asin" variant="outlined" onChange={handleAsinChange} />
+                        <h1>Additional Info</h1>
+                        <TextField id="outlined-additional" label="Coupon" variant="outlined" onChange={handleAdditionalChange} />
                     </DialogContent>
                 </DialogContent>
                 <DialogActions>

@@ -13,7 +13,7 @@ export async function delRow(id){
 
 export async function addRow(name,asin){
     await sql`INSERT INTO products (name,asin) VALUES (${name} , ${asin});`
-    window.location.reload(false);
+    // window.location.reload(false);
 }
 
 export async function getUsers() {
