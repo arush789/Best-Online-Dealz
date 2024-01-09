@@ -7,20 +7,20 @@ export default function Disclaimer() {
             <p>
                 In 2015, the Federal Trade Commission established disclosure guidelines 
                 to enhance transparency in online content engagement. 
-                These rules aim to inform Online Dealz.in readers about any 
+                These rules aim to inform best-online-dealz.vercel.app readers about any 
                 affiliations between the blogger/publisher and external companies, 
                 ensuring awareness of financial gains tied to shared links or product promotions.
             </p>
             <p>
                 As per FTC guidelines, assume the following about links and posts on this site: 
-                Online Dealz.in may contain affiliate links, yielding modest compensation from specific item sales.
+                best-online-dealz.vercel.app may contain affiliate links, yielding modest compensation from specific item sales.
             </p>
             <p>
                 Affiliate Link Insights: Clicking these links redirects readers to the seller's site, 
                 not completing the purchase directly on Online Dealz.in. The site earns commissions 
                 from companies like Amazon, maintaining consistent prices for readers.
             </p>
-            <p>Online Dealz engages in two main affiliate programs:</p>
+            <p>Best Online Dealz engages in two main affiliate programs:</p>
             <ul>
                 <li>
                     <p>
