@@ -15,6 +15,7 @@ import {
     DialogContent,
     DialogContentText,
     TextField,
+    Checkbox, // Import Checkbox
     styled,
     Alert,
     LinearProgress
@@ -22,7 +23,7 @@ import {
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { getTable, delRow, addRow } from "../Server/api";
-import { requireAuth , shortUrl} from "../utils";
+import { requireAuth, shortUrl } from "../utils";
 
 export async function loader({ request }) {
     await requireAuth();
@@ -39,7 +40,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 export default function Management() {
-
     const rows = useLoaderData();
 
     const [open, setOpen] = React.useState(false);
@@ -49,7 +49,8 @@ export default function Management() {
         additional: ""
     });
     const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
-    const [selectedRowId, setSelectedRowId] = React.useState(null);
+    const [selectedRowIds, setSelectedRowIds] = React.useState([]);
+    const [selectAll, setSelectAll] = React.useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -58,7 +59,7 @@ export default function Management() {
     const handleClose = () => {
         setOpen(false);
         setDeleteDialogOpen(false);
-        setSelectedRowId(null);
+        setSelectedRowIds([]);
     }
 
     const handleAdd = () => {
@@ -66,7 +67,7 @@ export default function Management() {
         if (row.name === "" || row.asin === "") {
             alert("Name and AsinCode should be filled.")
         } else {
-            shortUrl(row.name,row.asin,row.additional)
+            shortUrl(row.name, row.asin, row.additional)
             addRow(row.name, row.asin);
         }
     }
@@ -84,6 +85,7 @@ export default function Management() {
             asin: event.target.value
         }))
     }
+
     const handleAdditionalChange = (event) => {
         setRow(prevRow => ({
             ...prevRow,
@@ -91,21 +93,64 @@ export default function Management() {
         }))
     }
 
-    const handleDeleteClick = (id) => {
-        setDeleteDialogOpen(true);
-        setSelectedRowId(id);
-    }
+    const handleCheckboxChange = (id) => {
+        const selectedIndex = selectedRowIds.indexOf(id);
+        let newSelected = [];
 
-    const handleDeleteConfirm = () => {
-        delRow(selectedRowId);
+        if (selectedIndex === -1) {
+            newSelected = newSelected.concat(selectedRowIds, id);
+        } else if (selectedIndex === 0) {
+            newSelected = newSelected.concat(selectedRowIds.slice(1));
+        } else if (selectedIndex === selectedRowIds.length - 1) {
+            newSelected = newSelected.concat(selectedRowIds.slice(0, -1));
+        } else if (selectedIndex > 0) {
+            newSelected = newSelected.concat(
+                selectedRowIds.slice(0, selectedIndex),
+                selectedRowIds.slice(selectedIndex + 1)
+            );
+        }
+
+        setSelectedRowIds(newSelected);
+    };
+
+    const handleSelectAll = () => {
+        if (selectAll) {
+            setSelectedRowIds([]);
+        } else {
+            const newSelected = rows.rows.map((row) => row.id);
+            setSelectedRowIds(newSelected);
+        }
+
+        setSelectAll(!selectAll);
+    };
+
+    const handleDeleteSelected = () => {
+        selectedRowIds.forEach((id) => {
+            delRow(id);
+        });
         setDeleteDialogOpen(false);
-    }
+        setSelectedRowIds([]);
+    };
+
+    // const handleDeleteClick = (id) => {
+    //     setDeleteDialogOpen(true);
+    //     setSelectedRowIds([id]);
+    // }
 
     return (
         <>
             <div className="add-product-btn">
                 <Button variant="outlined" onClick={handleClickOpen} >
-                    <span>Add Products</span><AddCircleIcon />
+                    <span>Add</span><AddCircleIcon />
+                </Button>
+                <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => {
+                        setDeleteDialogOpen(true);
+                    }}
+                >
+                    <span>Delete Selected</span>
                 </Button>
                 <Button variant="outlined" color="secondary" onClick={() => {
                     localStorage.clear()
@@ -124,7 +169,7 @@ export default function Management() {
                     ADD PRODUCT
                 </DialogTitle>
                 <DialogContent dividers>
-                    <DialogContent >
+                    <DialogContent>
                         <h1>Product Name</h1>
                         <TextField id="outlined-name" label="Name" variant="outlined" onChange={handleNameChange} />
                         <h1>ASIN</h1>
@@ -145,27 +190,40 @@ export default function Management() {
 
                     <TableHead>
                         <TableRow>
+                            <TableCell>
+                                <Checkbox
+                                    indeterminate={selectedRowIds.length > 0 && selectedRowIds.length < rows.rows.length}
+                                    checked={selectAll}
+                                    onChange={handleSelectAll}
+                                />
+                            </TableCell>
                             <TableCell>Id</TableCell>
                             <TableCell>Name</TableCell>
                             <TableCell>ASIN</TableCell>
-                            <TableCell>Action</TableCell>
+                            {/* <TableCell>Action</TableCell> */}
                         </TableRow>
                     </TableHead>
 
                     <TableBody>
-                        <Suspense fallback={<TableRow><TableCell colSpan={4}><LinearProgress variant="indeterminate"/></TableCell></TableRow>}>
+                        <Suspense fallback={<TableRow><TableCell colSpan={5}><LinearProgress variant="indeterminate" /></TableCell></TableRow>}>
                             <Await resolve={rows.rows}>
                                 {(rows) => (
                                     rows.map((row) => (
                                         <TableRow key={row.id}>
+                                            <TableCell>
+                                                <Checkbox
+                                                    checked={selectedRowIds.indexOf(row.id) !== -1}
+                                                    onChange={() => handleCheckboxChange(row.id)}
+                                                />
+                                            </TableCell>
                                             <TableCell>{row.id}</TableCell>
                                             <TableCell>{row.name}</TableCell>
                                             <TableCell>{row.asin}</TableCell>
-                                            <TableCell>
+                                            {/* <TableCell>
                                                 <Button onClick={() => handleDeleteClick(row.id)}>
                                                     <DeleteIcon className="table-delete-btn" />
                                                 </Button>
-                                            </TableCell>
+                                            </TableCell> */}
                                         </TableRow>
                                     ))
                                 )}
@@ -191,11 +249,11 @@ export default function Management() {
                     <Button onClick={handleClose} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={handleDeleteConfirm} color="primary" autoFocus>
+                    <Button onClick={handleDeleteSelected} color="primary" autoFocus>
                         Confirm
                     </Button>
                 </DialogActions>
             </Dialog>
         </>
-    )
+    );
 }

@@ -9,8 +9,12 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Button from '@mui/material/Button';
 import { CircularProgress, Typography, Pagination } from "@mui/material";
+import Carousel from 'react-bootstrap/Carousel';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-
+import myImage1 from "/assets/images/home-img/home-img-1.png"
+import myImage2 from "/assets/images/home-img/home-img-2.png"
+import myImage3 from "/assets/images/home-img/home-img-3.png"
 
 
 const catagories = [
@@ -18,6 +22,8 @@ const catagories = [
     "Electronics",
     "Beauty",
 ]
+
+const carouselImages = [myImage1, myImage2, myImage3];
 
 
 
@@ -76,6 +82,19 @@ export default function Home() {
 
     return (
         <div style={{ position: "relative", minHeight: "100vh" }}>
+            <div>
+                <Carousel>
+                    {carouselImages.map((image, index) => (
+                        <Carousel.Item key={index}>
+                            <img
+                                src={image}
+                                alt={`Slide ${index + 1}`}
+                                className="home-images" // Set the desired width and maintain aspect ratio
+                            />
+                        </Carousel.Item>
+                    ))}
+                </Carousel>
+            </div>
             <div className="home-page-offer">
                 <h1>Offers</h1>
                 <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
