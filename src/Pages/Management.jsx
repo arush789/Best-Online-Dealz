@@ -113,16 +113,16 @@ export default function Management() {
         setSelectedRowIds(newSelected);
     };
 
-    const handleSelectAll = () => {
-        if (selectAll) {
-            setSelectedRowIds([]);
-        } else {
-            const newSelected = rows.rows.map((row) => row.id);
-            setSelectedRowIds(newSelected);
-        }
+    // const handleSelectAll = () => {
+    //     if (selectAll) {
+    //         setSelectedRowIds([]);
+    //     } else {
+    //         const newSelected = rows.rows.map((row) => row.id);
+    //         setSelectedRowIds(newSelected);
+    //     }
 
-        setSelectAll(!selectAll);
-    };
+    //     setSelectAll(!selectAll);
+    // };
 
     const handleDeleteSelected = () => {
         selectedRowIds.forEach((id) => {
@@ -194,7 +194,7 @@ export default function Management() {
                                 <Checkbox
                                     indeterminate={selectedRowIds.length > 0 && selectedRowIds.length < rows.rows.length}
                                     checked={selectAll}
-                                    onChange={handleSelectAll}
+                                    // onChange={handleSelectAll}
                                 />
                             </TableCell>
                             <TableCell>Id</TableCell>
