@@ -6,7 +6,7 @@ body,
 html {
     margin: 0;
     padding: 0;
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Space Grotesk', sans-serif !important;
     color: #2C3333;
 }
 
@@ -143,8 +143,9 @@ html::-webkit-scrollbar {
 
 /*> Home */
 
-.home-img {
+.home-images {
     width: 100%;
+    height: auto;
 }
 
 .home-page-offer {
@@ -175,6 +176,7 @@ html::-webkit-scrollbar {
     transition: .2s ease;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 .item-page {
@@ -186,9 +188,9 @@ html::-webkit-scrollbar {
 }
 
 .item-img {
-    object-fit: contain;
-    width: 250px;
     height: 250px;
+    width: 250px;
+    object-fit: contain;
 }
 
 .item-container {
@@ -216,7 +218,7 @@ html::-webkit-scrollbar {
 .item-title {
     text-decoration: none;
     color: black;
-    font-size: 19px;
+    font-size: 17px;
     width: 250px;
 }
 
@@ -232,7 +234,8 @@ html::-webkit-scrollbar {
     margin: 10px 0 40px 0px;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1100px) {    
+
     .home-page-offer {
         flex-direction: column;
         padding: 0;
@@ -379,7 +382,7 @@ html::-webkit-scrollbar {
 
 .add-product-btn {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     padding-block: 30px;
 }
 
@@ -475,7 +478,7 @@ html::-webkit-scrollbar {
 /*> About Page & Disclaimer Page */
 .about-div,
 .disclaimer-div {
-    padding: 20px 100px 100px;
+    padding: 20px 100px 100px ;
     font-size: clamp(1rem, 2.5vw, 1.5rem);
 }
 
@@ -483,6 +486,11 @@ html::-webkit-scrollbar {
 .disclaimer-title,
 .contact-title {
     text-align: center;
+    font-size: calc(1.375rem + 1.5vw);
+}
+
+.contact-para{
+    display: none;
 }
 
 @media (max-width: 768px) {
@@ -490,7 +498,7 @@ html::-webkit-scrollbar {
     .about-div,
     .disclaimer-div,
     .contact-div {
-        padding: 10px 20px;
+        padding: 30px 20px;
     }
 }
 

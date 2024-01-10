@@ -6,14 +6,16 @@ export async function getTable() {
     return rows;
 }
 
-export async function delRow(id){
+export async function delRow(id) {
     await sql`DELETE FROM products WHERE id=${id}`
     window.location.reload(false);
 }
 
-export async function addRow(name,asin){
+export async function addRow(name, asin) {
     await sql`INSERT INTO products (name,asin) VALUES (${name} , ${asin});`
-    window.location.reload(false);
+    setTimeout(() => {
+        window.location.reload(false);
+    }, 300);
 }
 
 export async function getUsers() {
