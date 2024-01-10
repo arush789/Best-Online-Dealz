@@ -12,9 +12,7 @@ import { CircularProgress, Typography, Pagination } from "@mui/material";
 import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import myImage1 from "/assets/images/home-img/home-img-1.png"
-import myImage2 from "/assets/images/home-img/home-img-2.png"
-import myImage3 from "/assets/images/home-img/home-img-3.png"
+import myImage from "/assets/images/home-img/home-img-3.png"
 
 
 const catagories = [
@@ -23,7 +21,7 @@ const catagories = [
     "Beauty",
 ]
 
-const carouselImages = [myImage1, myImage2, myImage3];
+const carouselImages = [myImage];
 
 
 
@@ -87,7 +85,7 @@ export default function Home() {
                     {carouselImages.map((image, index) => (
                         <Carousel.Item key={index}>
                             <img
-                                src={image}
+                                src={myImage}
                                 alt={`Slide ${index + 1}`}
                                 className="home-images" // Set the desired width and maintain aspect ratio
                             />

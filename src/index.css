@@ -478,7 +478,7 @@ html::-webkit-scrollbar {
 /*> About Page & Disclaimer Page */
 .about-div,
 .disclaimer-div {
-    padding: 20px 100px 100px;
+    padding: 20px 100px 100px ;
     font-size: clamp(1rem, 2.5vw, 1.5rem);
 }
 
@@ -486,6 +486,7 @@ html::-webkit-scrollbar {
 .disclaimer-title,
 .contact-title {
     text-align: center;
+    font-size: calc(1.375rem + 1.5vw);
 }
 
 .contact-para{
@@ -497,7 +498,7 @@ html::-webkit-scrollbar {
     .about-div,
     .disclaimer-div,
     .contact-div {
-        padding: 10px 20px;
+        padding: 30px 20px;
     }
 }
 

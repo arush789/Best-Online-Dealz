@@ -2,6 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export default function Footer() {
+
+    const scrollToTop = () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      };
+
     return (
         <footer>
             <div className="footer-up">
@@ -12,9 +20,9 @@ export default function Footer() {
                 <div>
                     <h2>Imp Links</h2>
                     <ul className="imp-link-list">
-                        <li><Link to="/contact">Contact Us</Link></li>
-                        <li><Link to="/disclaimer">Disclaimer</Link></li>
-                        <li><Link to="/about">More About Us</Link></li>
+                        <li><Link to="/contact" onClick={scrollToTop}>Contact Us</Link></li>
+                        <li><Link to="/disclaimer" onClick={scrollToTop}>Disclaimer</Link></li>
+                        <li><Link to="/about" onClick={scrollToTop}>More About Us</Link></li>
                     </ul>
                 </div>
                 <div>
