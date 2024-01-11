@@ -17,7 +17,7 @@ export default function Disclaimer() {
             </p>
             <p>
                 Affiliate Link Insights: Clicking these links redirects readers to the seller's site, 
-                not completing the purchase directly on est-online-dealz.vercel.app The site earns commissions 
+                not completing the purchase directly on best-online-dealz.vercel.app The site earns commissions 
                 from companies like Amazon, maintaining consistent prices for readers.
             </p>
             <p>Best Online Dealz engages in two main affiliate programs:</p>
