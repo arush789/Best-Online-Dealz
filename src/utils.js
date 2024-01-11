@@ -19,6 +19,7 @@ export async function shortUrl(name,asin,additional){
     const res = await fetch(url)
     const data = await res.json()
     const link = data.url.shortLink
+    alert(link)
     teleMessage(name,link,additional)
 }
 
