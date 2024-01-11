@@ -20,7 +20,7 @@ export default function Disclaimer() {
                 not completing the purchase directly on best-online-dealz.vercel.app The site earns commissions 
                 from companies like Amazon, maintaining consistent prices for readers.
             </p>
-            <p>Best Online Dealz engages in two main affiliate programs:</p>
+            <p>BestOnlineDealz engages in two main affiliate programs:</p>
             <ul>
                 <li>
                     <p>
@@ -40,7 +40,7 @@ export default function Disclaimer() {
                 of a "pay per click" model.
             </p>
             <p>
-                Sponsored Content Policy: Best Online Dealz doesn't produce sponsored posts to uphold authenticity. 
+                Sponsored Content Policy: BestOnlineDealz doesn't produce sponsored posts to uphold authenticity. 
                 Any sponsored content is transparently disclosed at a post's beginning. 
                 Product recommendations stem from personal use or endorsement for family and friends.
             </p>
