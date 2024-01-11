@@ -17,7 +17,7 @@ export default function Disclaimer() {
             </p>
             <p>
                 Affiliate Link Insights: Clicking these links redirects readers to the seller's site, 
-                not completing the purchase directly on Online Dealz.in. The site earns commissions 
+                not completing the purchase directly on est-online-dealz.vercel.app The site earns commissions 
                 from companies like Amazon, maintaining consistent prices for readers.
             </p>
             <p>Best Online Dealz engages in two main affiliate programs:</p>
@@ -30,7 +30,7 @@ export default function Disclaimer() {
                 </li>
                 <li>
                     <p>
-                        Product Affiliate Links: Clicking and purchasing through these links results in Online 
+                        Product Affiliate Links: Clicking and purchasing through these links results in Best Online 
                         Dealz earning a percentage of the sale or other compensation.
                     </p>
                 </li>
@@ -40,7 +40,7 @@ export default function Disclaimer() {
                 of a "pay per click" model.
             </p>
             <p>
-                Sponsored Content Policy: Online Dealz doesn't produce sponsored posts to uphold authenticity. 
+                Sponsored Content Policy: Best Online Dealz doesn't produce sponsored posts to uphold authenticity. 
                 Any sponsored content is transparently disclosed at a post's beginning. 
                 Product recommendations stem from personal use or endorsement for family and friends.
             </p>
