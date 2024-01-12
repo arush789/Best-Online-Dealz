@@ -54,7 +54,7 @@ export default function Footer() {
             </div>
             <div className="footer-down">
                 <p>
-                    Online Offers is a participant in the Amazon Associates Program, 
+                    BestOnlineDealz is a participant in the Amazon Associates Program, 
                     an affiliate advertising program designed to provide a means for sites to 
                     earn advertising fees by advertising and linking to Amazon.in
                 </p>
