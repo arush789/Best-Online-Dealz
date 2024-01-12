@@ -20,7 +20,11 @@ export async function teleMessage(name,link,additional){
 
 export async function shortUrl(name,asin,additional){
     const url = `https://cutt.ly/api/api.php?key=${process.env.VITE_CUTLY_KEY}&short=https://best-online-dealz.vercel.app/offers/${asin}`
-    const res = await fetch(url)
+    const res = await fetch(url, {
+        headers: {
+            "access-control-allow-origin": "*"
+        }
+    })
     const data = await res.json()
     const link = data.url.shortLink
     teleMessage(name,link,additional)
