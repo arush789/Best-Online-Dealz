@@ -15,7 +15,7 @@ export async function addRow(name, asin) {
     await sql`INSERT INTO products (name,asin) VALUES (${name} , ${asin});`
     setTimeout(() => {
         window.location.reload(false);
-    }, 1000);
+    }, 500);
 }
 
 export async function getUsers() {
