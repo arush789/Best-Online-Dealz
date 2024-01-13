@@ -69,6 +69,12 @@ export default function Management() {
         } else {
             shortUrl(row.name, row.asin, row.additional)
             addRow(row.name, row.asin);
+            setRow(
+                prevRow => ({
+                    ...prevRow,
+                    additional:""
+                })
+            )
         }
     }
 
