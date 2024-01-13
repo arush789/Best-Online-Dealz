@@ -86,10 +86,23 @@ export default function Management() {
     }
 
     const handleAsinChange = (event) => {
-        setRow(prevRow => ({
-            ...prevRow,
-            asin: event.target.value
-        }))
+        const regex = /\b([A-Z0-9]+)\b/;
+        const matchResult = event.target.value.match(regex);
+    
+        if (matchResult) {
+            // If there is a match, update the state with the matched value
+            setRow(prevRow => ({
+                ...prevRow,
+                asin: matchResult[0]
+            }));
+        } else {
+            // If there is no match or an empty value, you can handle it accordingly
+            // For example, you may choose to clear the 'asin' field or show an error message
+            setRow(prevRow => ({
+                ...prevRow,
+                asin: ''  // Update this based on your requirement
+            }));
+        }
     }
 
     const handleAdditionalChange = (event) => {
