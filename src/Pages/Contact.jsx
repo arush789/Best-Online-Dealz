@@ -1,5 +1,4 @@
 import React from "react";
-import MessengerCustomerChat from 'react-messenger-customer-chat';
 
 export default function Contact() {
     return (
@@ -12,13 +11,9 @@ export default function Contact() {
             <iframe
                 src="https://www.chatbase.co/chatbot-iframe/XTytznOBwCjf5q3A9EUEr"
                 width="100%"
-                style={{ height: 100, minHeight: 700 }}
+                style={{height: 100  , minHeight: 700 }}
                 frameborder="0"
             ></iframe>
-            <MessengerCustomerChat
-                pageId="194040820465985"
-                appId="694805529189611"
-            />,
         </div>
     )
 }
