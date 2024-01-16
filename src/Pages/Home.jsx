@@ -1,7 +1,8 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import React, { Suspense, useEffect, useState } from "react";
+import { useSearchParams, defer, useLoaderData, Await } from "react-router-dom";
 import OfferItems from "../Components/OfferItems";
+import OtherOfferItems from "../Components/OtherOfferItems";
 
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -14,6 +15,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import myImage from "/assets/images/home-img/home-img-3.png"
 
+import { getOtherOffers } from "../Server/api";
+
 
 const catagories = [
     "Personal Computer",
@@ -22,6 +25,10 @@ const catagories = [
 ]
 
 const carouselImages = [myImage];
+
+export async function loader() {
+    return defer({ rows: getOtherOffers() });
+}
 
 
 
@@ -35,6 +42,8 @@ export default function Home() {
     const [totalPages, setTotalPages] = useState(1)
 
     const catagoryFilter = searchParams.get("catagory");
+
+    const otherOffers = useLoaderData();
 
     const handleChange = (event) => {
         setCatagory(event.target.value);
@@ -142,6 +151,16 @@ export default function Home() {
                 </>
 
             )}
+            <div>
+                <h1>Other Offers</h1>
+                <Suspense fallback={loading}>
+                    <Await resolve={otherOffers.rows}>
+                        {(rows) => (
+                            <OtherOfferItems data={rows} />
+                        )}
+                    </Await>
+                </Suspense>
+            </div>
         </div>
     );
 }

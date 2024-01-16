@@ -13,9 +13,9 @@ export async function delRow(id) {
 
 export async function addRow(name, asin) {
     await sql`INSERT INTO products (name,asin) VALUES (${name} , ${asin});`
-    setTimeout(() => {
-        window.location.reload(false);
-    }, 1000);
+    // setTimeout(() => {
+    //     window.location.reload(false);
+    // }, 1000);
 }
 
 export async function getUsers() {
@@ -25,6 +25,23 @@ export async function getUsers() {
 }
 
 
+export async function getOtherOffers() {
+    const { rows } = await sql`SELECT * FROM otherproducts`
+    return rows;
+}
 
+export async function getOtherOfferDetail(id) {
+    const { rows } = await sql`SELECT * FROM otherproducts WHERE id=${id}`
+    // console.log(rows)
+    return rows;
+}
 
+export async function addOtherRow(title, description, price, imageurl, affiliatelink) {
+    await sql`INSERT INTO otherproducts (title, description, price, imageurl, affiliatelink) VALUES (${title}, ${description}, ${price}, ${imageurl}, ${affiliatelink});`
+}
+
+export async function delOtherRow(id) {
+    await sql`DELETE FROM otherproducts WHERE id=${id}`
+    window.location.reload(false);
+}
 
