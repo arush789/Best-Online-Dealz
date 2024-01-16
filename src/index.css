@@ -489,10 +489,6 @@ html::-webkit-scrollbar {
     font-size: calc(1.375rem + 1.5vw);
 }
 
-.contact-para{
-    display: none;
-}
-
 @media (max-width: 768px) {
 
     .about-div,
