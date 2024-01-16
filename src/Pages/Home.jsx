@@ -83,9 +83,7 @@ export default function Home() {
         <div style={{ position: "relative", minHeight: "100vh" }}>
             <div>
             <Carousel
-                    activeIndex={index}
-                    onSelect={handleSelect}
-                    interval={interval}  // Set the auto-scrolling interval
+                    interval={3000}
                 >
                     {carouselImages.map((image, i) => (
                         <Carousel.Item key={i}>
