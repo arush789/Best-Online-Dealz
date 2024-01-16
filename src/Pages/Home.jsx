@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { Suspense, useEffect, useState } from "react";
-import { useSearchParams, defer, useLoaderData, Await } from "react-router-dom";
+import { useSearchParams, defer, useLoaderData, Await, Link } from "react-router-dom";
 import OfferItems from "../Components/OfferItems";
 import OtherOfferItems from "../Components/OtherOfferItems";
 
@@ -14,6 +14,7 @@ import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import myImage from "/assets/images/home-img/home-img-3.png"
+import myImage2 from "/assets/images/Boat-Airdopes.png"
 
 import { getOtherOffers } from "../Server/api";
 
@@ -24,7 +25,7 @@ const catagories = [
     "Beauty",
 ]
 
-const carouselImages = [myImage];
+const carouselImages = [myImage, myImage2];
 
 export async function loader() {
     return defer({ rows: getOtherOffers() });
@@ -90,14 +91,24 @@ export default function Home() {
     return (
         <div style={{ position: "relative", minHeight: "100vh" }}>
             <div>
-                <Carousel>
+                <Carousel interval={3000}>
                     {carouselImages.map((image, index) => (
                         <Carousel.Item key={index}>
-                            <img
-                                src={myImage}
-                                alt={`Slide ${index + 1}`}
-                                className="home-images" // Set the desired width and maintain aspect ratio
-                            />
+                            {index === 1 ? (
+                                <a href="https://best-online-dealz.vercel.app/offers/B09YRYCWF8" target="_blank" rel="noopener noreferrer">
+                                    <img
+                                        src={image}
+                                        alt={`Slide ${index + 1}`}
+                                        className="home-images" // Set the desired width and maintain aspect ratio
+                                    />
+                                </a>
+                            ) : (
+                                <img
+                                    src={image}
+                                    alt={`Slide ${index + 1}`}
+                                    className="home-images" // Set the desired width and maintain aspect ratio
+                                />
+                            )}
                         </Carousel.Item>
                     ))}
                 </Carousel>
@@ -155,7 +166,6 @@ export default function Home() {
                 <h1>Other Offers</h1>
             </div>
             <div>
-
                 <Suspense fallback={loading}>
                     <Await resolve={otherOffers.rows}>
                         {(rows) => (

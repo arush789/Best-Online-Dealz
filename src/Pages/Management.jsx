@@ -24,6 +24,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { getTable, delRow, addRow } from "../Server/api";
 import { requireAuth, shortUrl } from "../utils";
+import { Link } from "react-router-dom";
 
 export async function loader({ request }) {
     await requireAuth();
@@ -159,19 +160,25 @@ export default function Management() {
     return (
         <>
             <div className="add-product-btn">
-                <Button variant="outlined" onClick={handleClickOpen} >
+                <Button variant="contained" onClick={handleClickOpen} >
                     <span>Add</span><AddCircleIcon />
                 </Button>
                 <Button
-                    variant="outlined"
+                    variant="contained"
                     color="secondary"
                     onClick={() => {
                         setDeleteDialogOpen(true);
                     }}
+                    className="delete-row-btn"
                 >
                     <span>Delete Selected</span>
                 </Button>
-                <Button variant="outlined" color="secondary" onClick={() => {
+                <Link to="/other-management">
+                    <Button variant="contained" color="success">
+                        Switch
+                    </Button>
+                </Link>
+                <Button variant="contained" color="error" onClick={() => {
                     localStorage.clear()
                     window.location.reload(false)
                 }}>

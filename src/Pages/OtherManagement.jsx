@@ -23,6 +23,7 @@ import {
     LinearProgress
 } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { Link } from "react-router-dom";
 
 export async function loader() {
     await requireAuth();
@@ -140,11 +141,11 @@ export default function OtherManagement() {
     return (
         <>
             <div className="add-product-btn">
-                <Button variant="outlined" onClick={handleClickOpen} >
+                <Button variant="contained" onClick={handleClickOpen} >
                     <span>Add</span><AddCircleIcon />
                 </Button>
                 <Button
-                    variant="outlined"
+                    variant="contained"
                     color="secondary"
                     onClick={() => {
                         setDeleteDialogOpen(true);
@@ -152,7 +153,12 @@ export default function OtherManagement() {
                 >
                     <span>Delete Selected</span>
                 </Button>
-                <Button variant="outlined" color="secondary" onClick={() => {
+                <Link to="/management">
+                    <Button variant="contained" color="success">
+                        Switch
+                    </Button>
+                </Link>
+                <Button variant="contained" color="error" onClick={() => {
                     localStorage.clear()
                     window.location.reload(false)
                 }}>

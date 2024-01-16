@@ -145,7 +145,6 @@ html::-webkit-scrollbar {
 
 .home-images {
     width: 100%;
-    height: auto;
 }
 
 .home-page-offer {
@@ -381,10 +380,16 @@ html::-webkit-scrollbar {
     color: black;
 }
 
+.delete-row-btn{
+    background-color: rgb(185, 104, 37) !important;
+}
+
 .add-product-btn {
     display: flex;
     justify-content: space-around;
     padding-block: 30px;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 /*> Footer */
