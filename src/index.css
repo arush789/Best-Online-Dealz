@@ -392,6 +392,12 @@ html::-webkit-scrollbar {
     gap: 1rem;
 }
 
+.delete-row-btn-2{
+    display: flex;
+    justify-content: center;
+    margin-block: 30px;
+}
+
 /*> Footer */
 
 .footer-up {

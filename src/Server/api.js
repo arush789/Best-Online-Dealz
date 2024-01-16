@@ -11,11 +11,10 @@ export async function delRow(id) {
     window.location.reload(false);
 }
 
-export async function addRow(name, asin) {
-    await sql`INSERT INTO products (name,asin) VALUES (${name} , ${asin});`
-    // setTimeout(() => {
-    //     window.location.reload(false);
-    // }, 1000);
+export async function addRow(name, asin, categories) {
+    await sql`INSERT INTO products (name, asin, category) VALUES (${name}, ${asin}, ${categories});`;
+    const { rows } = await sql`SELECT * FROM products WHERE name=${name} AND asin=${asin}`;
+    return rows;
 }
 
 export async function getUsers() {
