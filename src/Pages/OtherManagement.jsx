@@ -40,12 +40,13 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function OtherManagement() {
     const rows = useLoaderData();
+    
 
     const [open, setOpen] = React.useState(false);
     const [row, setRow] = React.useState({
         title: "",
         description: "",
-        price: 0,
+        price: "",
         imageurl: "",
         affiliatelink: ""
     });

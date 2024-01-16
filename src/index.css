@@ -191,6 +191,7 @@ html::-webkit-scrollbar {
     height: 250px;
     width: 250px;
     object-fit: contain;
+    margin-bottom: 20px;
 }
 
 .item-container {

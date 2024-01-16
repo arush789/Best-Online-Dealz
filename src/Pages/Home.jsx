@@ -151,8 +151,11 @@ export default function Home() {
                 </>
 
             )}
-            <div>
+            <div className="home-page-offer">
                 <h1>Other Offers</h1>
+            </div>
+            <div>
+
                 <Suspense fallback={loading}>
                     <Await resolve={otherOffers.rows}>
                         {(rows) => (
