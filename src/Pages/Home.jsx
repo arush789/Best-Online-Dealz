@@ -13,6 +13,7 @@ import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import myImage from "/assets/images/home-img/home-img-3.png"
+import myImage2 from "/assets/images/Boat-Airdopes.png"
 
 
 const catagories = [
@@ -21,7 +22,7 @@ const catagories = [
     "Beauty",
 ]
 
-const carouselImages = [myImage];
+const carouselImages = [myImage, myImage2];
 
 
 
@@ -81,14 +82,28 @@ export default function Home() {
     return (
         <div style={{ position: "relative", minHeight: "100vh" }}>
             <div>
-                <Carousel>
-                    {carouselImages.map((image, index) => (
-                        <Carousel.Item key={index}>
-                            <img
-                                src={myImage}
-                                alt={`Slide ${index + 1}`}
-                                className="home-images" // Set the desired width and maintain aspect ratio
-                            />
+            <Carousel
+                    activeIndex={index}
+                    onSelect={handleSelect}
+                    interval={interval}  // Set the auto-scrolling interval
+                >
+                    {carouselImages.map((image, i) => (
+                        <Carousel.Item key={i}>
+                            {i === 1 ? (
+                                <a href="https://best-online-dealz.vercel.app/offers/B09YRYCWF8" target="_blank" rel="noopener noreferrer">
+                                    <img
+                                        src={image}
+                                        alt={`Slide ${i + 1}`}
+                                        className="home-images" // Set the desired width and maintain aspect ratio
+                                    />
+                                </a>
+                            ) : (
+                                <img
+                                    src={image}
+                                    alt={`Slide ${i + 1}`}
+                                    className="home-images" // Set the desired width and maintain aspect ratio
+                                />
+                            )}
                         </Carousel.Item>
                     ))}
                 </Carousel>
