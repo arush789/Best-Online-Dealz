@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useMediaQuery } from 'react-responsive';
 import OfferItems from "../Components/OfferItems";
 
 import InputLabel from '@mui/material/InputLabel';
@@ -13,8 +14,10 @@ import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import myImage from "/assets/images/home-img/home-img-3.png"
-import myImage2 from "/assets/images/Boat-Airdopes.png"
-import myImage3 from "/assets/images/Zebronics Zeb-Bang.png"
+import myImage2 from "/assets/images/Zebronics Zeb-Bang.png"
+
+import phoneImage from "/assets/images/Zebronics Zeb-Bang Pro-phone.png"
+import phoneImage2 from "/assets/images/home-img/home-img-phone.png"
 
 
 
@@ -32,11 +35,16 @@ const catagories = [
     "Power Banks"
 ]
 
-const carouselImages = [myImage, myImage2, myImage3];
+const carouselPcImages = [myImage, myImage2];
+const carouselPhoneImages = [phoneImage , phoneImage2];
+
 
 
 
 export default function Home() {
+    const [carouselImage, setCarouselImage] = useState([])
+    const screen = useMediaQuery({ query: `(max-width:768px)` })
+
     const [searchParams, setSearchParams] = useSearchParams();
     const [offer, setOffer] = useState([]);
     const [catagory, setCatagory] = React.useState('');
@@ -63,16 +71,22 @@ export default function Home() {
     };
 
     useEffect(() => {
+        
+        if (screen) {
+            setCarouselImage(carouselPhoneImages);
+        } else {
+            setCarouselImage(carouselPcImages);
+        }
         setLoading(true);
         const apiUrl = catagoryFilter
             ? `https://bodz-server.vercel.app/api/getItems?page=${currentPage}&category=${catagoryFilter}`
             : `https://bodz-server.vercel.app/api/getItems?page=${currentPage}`;
-    
+
         axios.get(apiUrl)
             .then(res => {
                 const receivedItems = res?.data?.items?.ItemsResult?.Items;
                 setOffer(receivedItems);
-    
+
                 const receivedTotalPages = res?.data?.totalPages;
                 setTotalPages(receivedTotalPages);
             })
@@ -83,8 +97,7 @@ export default function Home() {
             .finally(() => {
                 setLoading(false);
             });
-    }, [currentPage, catagoryFilter]);
-
+    }, [currentPage, catagoryFilter, screen]);
 
 
 
@@ -92,17 +105,9 @@ export default function Home() {
         <div style={{ position: "relative", minHeight: "100vh" }}>
             <div>
                 <Carousel interval={3000}>
-                    {carouselImages.map((image, i) => (
+                    {carouselImage && carouselImage.map((image, i) => (
                         <Carousel.Item key={i}>
                             {i === 1 ? (
-                                <a href="https://best-online-dealz.vercel.app/offers/B09YRYCWF8" target="_blank" rel="noopener noreferrer">
-                                    <img
-                                        src={image}
-                                        alt={`Slide ${i + 1}`}
-                                        className="home-images" // Set the desired width and maintain aspect ratio
-                                    />
-                                </a>
-                            ) : i === 2 ? (
                                 <a href="https://best-online-dealz.vercel.app/offers/B09NNT5338" target="_blank" rel="noopener noreferrer">
                                     <img
                                         src={image}
