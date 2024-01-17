@@ -200,6 +200,7 @@ html::-webkit-scrollbar {
     height: 250px;
     width: 250px;
     object-fit: contain;
+    margin-bottom: 20px;
 }
 
 .item-container {
@@ -227,7 +228,7 @@ html::-webkit-scrollbar {
 .item-title {
     text-decoration: none;
     color: black;
-    font-size: 17px;
+    font-size: 18px;
     width: 250px;
 }
 
