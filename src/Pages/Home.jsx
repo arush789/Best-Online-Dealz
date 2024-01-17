@@ -32,7 +32,8 @@ const catagories = [
     "Mixer Grinders",
     "Smart TVs",
     "Speakers",
-    "Power Banks"
+    "Power Banks",
+    "Trimmers & Shavers"
 ]
 
 const carouselPcImages = [myImage, myImage2];
