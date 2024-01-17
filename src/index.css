@@ -384,6 +384,8 @@ html::-webkit-scrollbar {
     display: flex;
     justify-content: space-around;
     padding-block: 30px;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .delete-row-btn-2{

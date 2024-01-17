@@ -213,7 +213,7 @@ export default function Management() {
                     }}
                     className="delete-row-btn"
                 >
-                    <span>Delete Selected</span>
+                    <span>Delete</span>
                 </Button>
                 <Link to="/other-management">
                     <Button variant="contained" color="success">
@@ -311,7 +311,7 @@ export default function Management() {
                         setDeleteDialogOpen(true);
                     }}
                 >
-                    <span>Delete Selected</span>
+                    <span>Delete</span>
                 </Button>
             </div>
             <Dialog
