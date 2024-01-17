@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import { defer, Await, useLoaderData } from "react-router";
 import {
     Table,
@@ -22,13 +22,26 @@ import {
 } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { getTable, delRow, addRow } from "../Server/api";
+import { getTable, delRow, addRow} from "../Server/api";
 import { requireAuth, shortUrl } from "../utils";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 export async function loader({ request }) {
     await requireAuth();
     return defer({ rows: getTable() });
 }
+
+const catagories = [
+    "Smartphones",
+    "Laptops",
+    "In-Ear Headphones",
+    "Ceiling Fans",
+    "Smart Watches",
+    "Perfume",
+    "Kitchen appliances",
+    "Mixer Grinders"
+]
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -52,6 +65,7 @@ export default function Management() {
     const [selectedRowIds, setSelectedRowIds] = React.useState([]);
     const [selectAll, setSelectAll] = React.useState(false);
 
+
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -62,21 +76,47 @@ export default function Management() {
         setSelectedRowIds([]);
     }
 
-    const handleAdd = () => {
+    const handleAdd = async () => {
         setOpen(false);
+
         if (row.name === "" || row.asin === "") {
-            alert("Name and AsinCode should be filled.")
-        } else {
-            shortUrl(row.name, row.asin, row.additional)
-            addRow(row.name, row.asin);
-            setRow(
-                prevRow => ({
-                    ...prevRow,
-                    additional:""
-                })
-            )
+            alert("Name and AsinCode should be filled.");
+            return;
         }
-    }
+
+        try {
+            // Fetch browse nodes based on the added product details
+            const browseNodesResponse = await axios.get(`https://bodz-server.vercel.app/api/getItem/${row.asin}`);
+            const browseNodes = browseNodesResponse?.data?.item?.ItemsResult?.Items[0]?.BrowseNodeInfo?.BrowseNodes.map(nodes => nodes?.ContextFreeName) || [];
+
+            // Log the retrieved browse nodes
+            console.log('Retrieved Browse Nodes:', browseNodes);
+
+            // Match browse nodes with predefined categories
+            const matchedCategories = catagories.filter(category =>
+                browseNodes.some(node => node.trim().toLowerCase() === category.trim().toLowerCase())
+            );
+
+            // Convert matchedCategories into a comma-separated string
+            const matchedCategoriesString = matchedCategories.join(', ');
+            console.log('Matched Categories (String):', matchedCategoriesString);
+
+            // Update the product with matched categories
+            const addedProduct = await addRow(row.name, row.asin, matchedCategoriesString);
+            console.log('Added Product:', addedProduct);
+
+            // Clear the additional field
+            shortUrl(row.name, row.asin, row.additional)
+            setRow(prevRow => ({
+                ...prevRow,
+                additional: ""
+            }));
+        } catch (error) {
+            console.error("Error fetching browse nodes:", error);
+            // Handle error fetching browse nodes
+        }
+    };
+
 
     const handleNameChange = (event) => {
         setRow(prevRow => ({
@@ -88,23 +128,22 @@ export default function Management() {
     const handleAsinChange = (event) => {
         const regex = /\b([A-Z0-9]+)\b/;
         const matchResult = event.target.value.match(regex);
-    
+
         if (matchResult) {
-            // If there is a match, update the state with the matched value
+
             setRow(prevRow => ({
                 ...prevRow,
                 asin: matchResult[0]
             }));
         } else {
-            // If there is no match or an empty value, you can handle it accordingly
-            // For example, you may choose to clear the 'asin' field or show an error message
+
+
             setRow(prevRow => ({
                 ...prevRow,
-                asin: ''  // Update this based on your requirement
+                asin: ''
             }));
         }
     }
-
 
     const handleAdditionalChange = (event) => {
         setRow(prevRow => ({
@@ -160,19 +199,25 @@ export default function Management() {
     return (
         <>
             <div className="add-product-btn">
-                <Button variant="outlined" onClick={handleClickOpen} >
+                <Button variant="contained" onClick={handleClickOpen} >
                     <span>Add</span><AddCircleIcon />
                 </Button>
                 <Button
-                    variant="outlined"
+                    variant="contained"
                     color="secondary"
                     onClick={() => {
                         setDeleteDialogOpen(true);
                     }}
+                    className="delete-row-btn"
                 >
                     <span>Delete Selected</span>
                 </Button>
-                <Button variant="outlined" color="secondary" onClick={() => {
+                <Link to="/other-management">
+                    <Button variant="contained" color="success">
+                        Switch
+                    </Button>
+                </Link>
+                <Button variant="contained" color="error" onClick={() => {
                     localStorage.clear()
                     window.location.reload(false)
                 }}>
@@ -214,12 +259,13 @@ export default function Management() {
                                 <Checkbox
                                     indeterminate={selectedRowIds.length > 0 && selectedRowIds.length < rows.rows.length}
                                     checked={selectAll}
-                                    // onChange={handleSelectAll}
+                                // onChange={handleSelectAll}
                                 />
                             </TableCell>
                             <TableCell>Id</TableCell>
                             <TableCell>Name</TableCell>
                             <TableCell>ASIN</TableCell>
+                            <TableCell>Category</TableCell>
                             {/* <TableCell>Action</TableCell> */}
                         </TableRow>
                     </TableHead>
@@ -239,6 +285,7 @@ export default function Management() {
                                             <TableCell>{row.id}</TableCell>
                                             <TableCell>{row.name}</TableCell>
                                             <TableCell>{row.asin}</TableCell>
+                                            <TableCell>{row.category}</TableCell>
                                             {/* <TableCell>
                                                 <Button onClick={() => handleDeleteClick(row.id)}>
                                                     <DeleteIcon className="table-delete-btn" />
@@ -252,7 +299,18 @@ export default function Management() {
                     </TableBody>
                 </Table>
             </TableContainer>
-
+            <div className="delete-row-btn-2">
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    className="delete-row-btn-2"
+                    onClick={() => {
+                        setDeleteDialogOpen(true);
+                    }}
+                >
+                    <span>Delete Selected</span>
+                </Button>
+            </div>
             <Dialog
                 open={deleteDialogOpen}
                 onClose={handleClose}

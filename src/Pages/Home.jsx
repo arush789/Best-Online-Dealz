@@ -17,10 +17,16 @@ import myImage2 from "/assets/images/Boat-Airdopes.png"
 import myImage3 from "/assets/images/Zebronics Zeb-Bang.png"
 
 
+
 const catagories = [
-    "Personal Computer",
-    "Electronics",
-    "Beauty",
+    "Smartphones",
+    "Laptops",
+    "In-Ear Headphones",
+    "Ceiling Fans",
+    "Smart Watches",
+    "Perfume",
+    "Kitchen appliances",
+    "Mixer Grinders"
 ]
 
 const carouselImages = [myImage, myImage2, myImage3];
@@ -55,19 +61,17 @@ export default function Home() {
 
     useEffect(() => {
         setLoading(true);
-        axios.get(`https://bodz-server.vercel.app/api/getItems?page=${currentPage}`)
+        const apiUrl = catagoryFilter
+            ? `https://bodz-server.vercel.app/api/getItems?page=${currentPage}&category=${catagoryFilter}`
+            : `https://bodz-server.vercel.app/api/getItems?page=${currentPage}`;
+    
+        axios.get(apiUrl)
             .then(res => {
-                if (catagoryFilter) {
-                    const catagorisedItems = res?.data?.items?.ItemsResult?.Items.filter(item => item?.ItemInfo?.Classifications?.ProductGroup?.DisplayValue === catagoryFilter);
-                    setOffer(catagorisedItems);
-
-                } else {
-                    setOffer(res?.data?.items?.ItemsResult?.Items);
-                }
-
+                const receivedItems = res?.data?.items?.ItemsResult?.Items;
+                setOffer(receivedItems);
+    
                 const receivedTotalPages = res?.data?.totalPages;
-                setTotalPages(receivedTotalPages)
-
+                setTotalPages(receivedTotalPages);
             })
             .catch(err => {
                 console.error(err);
@@ -77,6 +81,7 @@ export default function Home() {
                 setLoading(false);
             });
     }, [currentPage, catagoryFilter]);
+
 
 
 

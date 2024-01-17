@@ -386,6 +386,12 @@ html::-webkit-scrollbar {
     padding-block: 30px;
 }
 
+.delete-row-btn-2{
+    display: flex;
+    justify-content: center;
+    margin-block: 30px;
+}
+
 /*> Footer */
 
 .footer-up {
