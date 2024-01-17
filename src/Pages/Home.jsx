@@ -36,7 +36,7 @@ const catagories = [
 ]
 
 const carouselPcImages = [myImage, myImage2];
-const carouselPhoneImages = [phoneImage , phoneImage2];
+const carouselPhoneImages = [phoneImage2 , phoneImage];
 
 
 
