@@ -39,7 +39,8 @@ const catagories = [
     "Ceiling Fans",
     "Smart Watches",
     "Perfume",
-    "Kitchen appliances"
+    "Kitchen appliances",
+    "Mixer Grinders"
 ]
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -264,6 +265,7 @@ export default function Management() {
                             <TableCell>Id</TableCell>
                             <TableCell>Name</TableCell>
                             <TableCell>ASIN</TableCell>
+                            <TableCell>Category</TableCell>
                             {/* <TableCell>Action</TableCell> */}
                         </TableRow>
                     </TableHead>
@@ -283,6 +285,7 @@ export default function Management() {
                                             <TableCell>{row.id}</TableCell>
                                             <TableCell>{row.name}</TableCell>
                                             <TableCell>{row.asin}</TableCell>
+                                            <TableCell>{row.category}</TableCell>
                                             {/* <TableCell>
                                                 <Button onClick={() => handleDeleteClick(row.id)}>
                                                     <DeleteIcon className="table-delete-btn" />
