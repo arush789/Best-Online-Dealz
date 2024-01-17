@@ -40,7 +40,10 @@ const catagories = [
     "Smart Watches",
     "Perfume",
     "Kitchen appliances",
-    "Mixer Grinders"
+    "Mixer Grinders",
+    "Smart TVs",
+    "Speakers",
+    "Power Banks"
 ]
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
