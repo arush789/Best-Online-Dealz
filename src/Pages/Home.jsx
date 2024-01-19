@@ -26,14 +26,7 @@ const catagories = [
     "Laptops",
     "In-Ear Headphones",
     "Ceiling Fans",
-    "Smart Watches",
-    "Perfume",
-    "Kitchen appliances",
-    "Mixer Grinders",
-    "Smart TVs",
-    "Speakers",
-    "Power Banks",
-    "Trimmers & Shavers"
+    "Smart Watches"
 ]
 
 const carouselPcImages = [myImage];
