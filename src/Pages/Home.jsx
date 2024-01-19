@@ -13,11 +13,11 @@ import { CircularProgress, Typography, Pagination } from "@mui/material";
 import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import myImage from "/assets/images/home-img/home-img-3.png"
-import myImage2 from "/assets/images/Zebronics Zeb-Bang.png"
+// import myImage from "/assets/images/home-img/home-img-3.png"
+import myImage from "/assets/video/BODZ-Home.mp4"
 
-import phoneImage from "/assets/images/Zebronics Zeb-Bang Pro-phone.png"
-import phoneImage2 from "/assets/images/home-img/home-img-phone.png"
+
+import phoneImage from "/assets/video/BODZ-Home-phone.mp4"
 
 
 
@@ -36,8 +36,8 @@ const catagories = [
     "Trimmers & Shavers"
 ]
 
-const carouselPcImages = [myImage, myImage2];
-const carouselPhoneImages = [phoneImage2 , phoneImage];
+const carouselPcImages = [myImage];
+const carouselPhoneImages = [phoneImage];
 
 
 
@@ -58,13 +58,11 @@ export default function Home() {
 
     const handleChange = (event) => {
         setCatagory(event.target.value);
-        window.location.reload(false);
     };
 
     const handleClearFilter = () => {
         setSearchParams({});
         setCatagory('');
-        window.location.reload(false);
     };
 
     const handlePageChange = (event, page) => {
@@ -72,7 +70,7 @@ export default function Home() {
     };
 
     useEffect(() => {
-        
+
         if (screen) {
             setCarouselImage(carouselPhoneImages);
         } else {
@@ -108,21 +106,15 @@ export default function Home() {
                 <Carousel interval={3000}>
                     {carouselImage && carouselImage.map((image, i) => (
                         <Carousel.Item key={i}>
-                            {i === 1 ? (
-                                <a href="https://best-online-dealz.vercel.app/offers/B09NNT5338" target="_blank" rel="noopener noreferrer">
-                                    <img
-                                        src={image}
-                                        alt={`Slide ${i + 1}`}
-                                        className="home-images" // Set the desired width and maintain aspect ratio
-                                    />
-                                </a>
-                            ) : (
-                                <img
-                                    src={image}
-                                    alt={`Slide ${i + 1}`}
-                                    className="home-images" // Set the desired width and maintain aspect ratio
-                                />
-                            )}
+                            <video
+                                autoPlay
+                                controls={false}  // Optional: Controls attribute set to false
+                                muted
+                                playsInline
+                                src={image}
+                                alt={`Slide ${i + 1}`}
+                                className="home-images"
+                            />
                         </Carousel.Item>
                     ))}
                 </Carousel>
