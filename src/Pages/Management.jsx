@@ -44,7 +44,8 @@ const catagories = [
     "Smart TVs",
     "Speakers",
     "Power Banks",
-    "Trimmers & Shavers"
+    "Trimmers & Shavers",
+    "Backpacks"
 ]
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
