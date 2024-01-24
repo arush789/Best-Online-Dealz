@@ -96,7 +96,7 @@ export default function Home() {
     return (
         <div style={{ position: "relative", minHeight: "100vh" }}>
             <div>
-                <Carousel interval={3000}>
+                {/* <Carousel interval={3000}>
                     {carouselImage && carouselImage.map((image, i) => (
                         <Carousel.Item key={i}>
                             <video
@@ -110,7 +110,18 @@ export default function Home() {
                             />
                         </Carousel.Item>
                     ))}
-                </Carousel>
+                </Carousel> */}
+                {carouselImage && carouselImage.map((image, i) => (
+                <video
+                    autoPlay
+                    controls={false}  // Optional: Controls attribute set to false
+                    muted
+                    playsInline
+                    src={image}
+                    alt={`Slide ${i + 1}`}
+                    className="home-images"
+                />
+                ))}
             </div>
             <div className="home-page-offer">
                 <h1>Offers</h1>
