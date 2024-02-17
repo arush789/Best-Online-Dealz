@@ -1,6 +1,6 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import React, { Suspense, useEffect, useState } from "react";
+import { Await, defer, useLoaderData, useSearchParams } from "react-router-dom";
 import { useMediaQuery } from 'react-responsive';
 import OfferItems from "../Components/OfferItems";
 import OtherOfferItems from "../Components/OtherOfferItems";
@@ -14,14 +14,13 @@ import { CircularProgress, Typography, Pagination } from "@mui/material";
 import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
-// import myImage from "/assets/images/home-img/home-img-3.png"
 import myImage from "/assets/video/BODZ-Home.mp4"
-
-
 import phoneImage from "/assets/video/BODZ-Home-phone.mp4"
+import { getOtherOffers } from "../Server/api";
 
-
+export async function loader() {
+    return defer({ rows: getOtherOffers() });
+}
 
 const catagories = [
     "Smartphones",
@@ -31,12 +30,8 @@ const catagories = [
     "Smart Watches"
 ]
 
-
 const carouselPcImages = [myImage];
 const carouselPhoneImages = [phoneImage];
-
-
-
 
 
 export default function Home() {
@@ -119,15 +114,15 @@ export default function Home() {
                     ))}
                 </Carousel> */}
                 {carouselImage && carouselImage.map((image, i) => (
-                <video
-                    autoPlay
-                    controls={false}  // Optional: Controls attribute set to false
-                    muted
-                    playsInline
-                    src={image}
-                    alt={`Slide ${i + 1}`}
-                    className="home-images"
-                />
+                    <video
+                        autoPlay
+                        controls={false}  // Optional: Controls attribute set to false
+                        muted
+                        playsInline
+                        src={image}
+                        alt={`Slide ${i + 1}`}
+                        className="home-images"
+                    />
                 ))}
             </div>
             <div className="home-page-offer">
