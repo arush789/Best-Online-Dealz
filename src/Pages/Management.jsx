@@ -40,7 +40,12 @@ const catagories = [
     "Smart Watches",
     "Perfume",
     "Kitchen appliances",
-    "Mixer Grinders"
+    "Mixer Grinders",
+    "Smart TVs",
+    "Speakers",
+    "Power Banks",
+    "Trimmers & Shavers",
+    "Backpacks"
 ]
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -210,7 +215,7 @@ export default function Management() {
                     }}
                     className="delete-row-btn"
                 >
-                    <span>Delete Selected</span>
+                    <span>Delete</span>
                 </Button>
                 <Link to="/other-management">
                     <Button variant="contained" color="success">
@@ -303,12 +308,14 @@ export default function Management() {
                 <Button
                     variant="contained"
                     color="secondary"
+
+                    className="delete-row-btn-2"
                     onClick={() => {
                         setDeleteDialogOpen(true);
                     }}
-                    className="delete-row-btn"
                 >
-                    <span>Delete Selected</span>
+                    <span>Delete</span>
+
                 </Button>
             </div>
             <Dialog
