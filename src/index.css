@@ -154,7 +154,6 @@ html::-webkit-scrollbar {
 
 .home-images {
     width: 100%;
-    height: auto;
 }
 
 .home-page-offer {
@@ -388,6 +387,10 @@ html::-webkit-scrollbar {
 
 .table-delete-btn {
     color: black;
+}
+
+.delete-row-btn{
+    background-color: rgb(185, 104, 37) !important;
 }
 
 .add-product-btn {

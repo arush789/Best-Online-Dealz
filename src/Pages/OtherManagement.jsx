@@ -1,5 +1,7 @@
-import React, { Suspense, useEffect } from "react";
-import { defer, Await, useLoaderData } from "react-router";
+import React, { Suspense } from "react";
+import { requireAuth } from "../utils";
+import { getOtherOffers, addOtherRow, delOtherRow } from "../Server/api";
+import { defer, useLoaderData, Await } from "react-router";
 import {
     Table,
     TableBody,
@@ -21,32 +23,12 @@ import {
     LinearProgress
 } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { getTable, delRow, addRow} from "../Server/api";
-import { requireAuth, shortUrl } from "../utils";
 import { Link } from "react-router-dom";
-import axios from "axios";
 
-export async function loader({ request }) {
+export async function loader() {
     await requireAuth();
-    return defer({ rows: getTable() });
+    return defer({ rows: getOtherOffers() });
 }
-
-const catagories = [
-    "Smartphones",
-    "Laptops",
-    "In-Ear Headphones",
-    "Ceiling Fans",
-    "Smart Watches",
-    "Perfume",
-    "Kitchen appliances",
-    "Mixer Grinders",
-    "Smart TVs",
-    "Speakers",
-    "Power Banks",
-    "Trimmers & Shavers",
-    "Backpacks"
-]
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -57,19 +39,21 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
 }));
 
-export default function Management() {
+export default function OtherManagement() {
     const rows = useLoaderData();
+    
 
     const [open, setOpen] = React.useState(false);
     const [row, setRow] = React.useState({
-        name: "",
-        asin: "",
-        additional: ""
+        title: "",
+        description: "",
+        price: "",
+        additionainfo: "",
+        affiliatelink: ""
     });
     const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
     const [selectedRowIds, setSelectedRowIds] = React.useState([]);
     const [selectAll, setSelectAll] = React.useState(false);
-
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -81,79 +65,48 @@ export default function Management() {
         setSelectedRowIds([]);
     }
 
-    const handleAdd = async () => {
+    const handleAdd = () => {
         setOpen(false);
-
-        if (row.name === "" || row.asin === "") {
-            alert("Name and AsinCode should be filled.");
-            return;
+        if (row.title === "" || row.description === "" || row.price === 0 || row.imageurl === "" || row.affiliatelink === "") {
+            alert("All fields should be filled.")
+        } else {
+            // shortUrl(row.name, row.asin, row.additional)
+            addOtherRow(row.title, row.description, row.price, row.imageurl, row.affiliatelink);
         }
+    }
 
-        try {
-            // Fetch browse nodes based on the added product details
-            const browseNodesResponse = await axios.get(`https://bodz-server.vercel.app/api/getItem/${row.asin}`);
-            const browseNodes = browseNodesResponse?.data?.item?.ItemsResult?.Items[0]?.BrowseNodeInfo?.BrowseNodes.map(nodes => nodes?.ContextFreeName) || [];
-
-            // Log the retrieved browse nodes
-            console.log('Retrieved Browse Nodes:', browseNodes);
-
-            // Match browse nodes with predefined categories
-            const matchedCategories = catagories.filter(category =>
-                browseNodes.some(node => node.trim().toLowerCase() === category.trim().toLowerCase())
-            );
-
-            // Convert matchedCategories into a comma-separated string
-            const matchedCategoriesString = matchedCategories.join(', ');
-            console.log('Matched Categories (String):', matchedCategoriesString);
-
-            // Update the product with matched categories
-            const addedProduct = await addRow(row.name, row.asin, matchedCategoriesString);
-            console.log('Added Product:', addedProduct);
-
-            // Clear the additional field
-            shortUrl(row.name, row.asin, row.additional)
-            setRow(prevRow => ({
-                ...prevRow,
-                additional: ""
-            }));
-        } catch (error) {
-            console.error("Error fetching browse nodes:", error);
-            // Handle error fetching browse nodes
-        }
-    };
-
-
-    const handleNameChange = (event) => {
+    const handleTitleChange = (event) => {
         setRow(prevRow => ({
             ...prevRow,
-            name: event.target.value
+            title: event.target.value
+        }))
+    }
+    
+    const handleDescriptionChange = (event) => {
+        setRow(prevRow => ({
+            ...prevRow,
+            description: event.target.value
         }))
     }
 
-    const handleAsinChange = (event) => {
-        const regex = /\b([A-Z0-9]+)\b/;
-        const matchResult = event.target.value.match(regex);
-
-        if (matchResult) {
-
-            setRow(prevRow => ({
-                ...prevRow,
-                asin: matchResult[0]
-            }));
-        } else {
-
-
-            setRow(prevRow => ({
-                ...prevRow,
-                asin: ''
-            }));
-        }
-    }
-
-    const handleAdditionalChange = (event) => {
+    const handlePriceChange = (event) => {
         setRow(prevRow => ({
             ...prevRow,
-            additional: event.target.value
+            price: event.target.value
+        }))
+    }
+    
+    const handleAdditionalInfoChange = (event) => {
+        setRow(prevRow => ({
+            ...prevRow,
+            additionainfo: event.target.value
+        }))
+    }
+    
+    const handleAffiliateLinkChange = (event) => {
+        setRow(prevRow => ({
+            ...prevRow,
+            affiliatelink: event.target.value
         }))
     }
 
@@ -177,29 +130,13 @@ export default function Management() {
         setSelectedRowIds(newSelected);
     };
 
-    // const handleSelectAll = () => {
-    //     if (selectAll) {
-    //         setSelectedRowIds([]);
-    //     } else {
-    //         const newSelected = rows.rows.map((row) => row.id);
-    //         setSelectedRowIds(newSelected);
-    //     }
-
-    //     setSelectAll(!selectAll);
-    // };
-
     const handleDeleteSelected = () => {
         selectedRowIds.forEach((id) => {
-            delRow(id);
+            delOtherRow(id);
         });
         setDeleteDialogOpen(false);
         setSelectedRowIds([]);
     };
-
-    // const handleDeleteClick = (id) => {
-    //     setDeleteDialogOpen(true);
-    //     setSelectedRowIds([id]);
-    // }
 
     return (
         <>
@@ -213,11 +150,10 @@ export default function Management() {
                     onClick={() => {
                         setDeleteDialogOpen(true);
                     }}
-                    className="delete-row-btn"
                 >
-                    <span>Delete</span>
+                    <span>Delete Selected</span>
                 </Button>
-                <Link to="/other-management">
+                <Link to="/management">
                     <Button variant="contained" color="success">
                         Switch
                     </Button>
@@ -240,12 +176,16 @@ export default function Management() {
                 </DialogTitle>
                 <DialogContent dividers>
                     <DialogContent>
-                        <h1>Product Name</h1>
-                        <TextField id="outlined-name" label="Name" variant="outlined" onChange={handleNameChange} />
-                        <h1>ASIN</h1>
-                        <TextField id="outlined-asin" label="Asin" variant="outlined" onChange={handleAsinChange} />
+                        <h1>Title</h1>
+                        <TextField id="outlined-title" label="Title" variant="outlined" onChange={handleTitleChange} />
+                        <h1>Description</h1>
+                        <TextField id="outlined-decription" label="Description" variant="outlined" onChange={handleDescriptionChange} />
+                        <h1>Price</h1>
+                        <TextField id="outlined-price" label="Price" variant="outlined" onChange={handlePriceChange} />
                         <h1>Additional Info</h1>
-                        <TextField id="outlined-additional" label="Coupon" variant="outlined" onChange={handleAdditionalChange} />
+                        <TextField id="outlined-imageurl" label="ImageUrl" variant="outlined" onChange={handleAdditionalInfoChange} />
+                        <h1>Affiliate Link</h1>
+                        <TextField id="outlined-affiliatelink" label="AffiliateLink" variant="outlined" onChange={handleAffiliateLinkChange} />
                     </DialogContent>
                 </DialogContent>
                 <DialogActions>
@@ -264,13 +204,12 @@ export default function Management() {
                                 <Checkbox
                                     indeterminate={selectedRowIds.length > 0 && selectedRowIds.length < rows.rows.length}
                                     checked={selectAll}
-                                // onChange={handleSelectAll}
+                                    // onChange={handleSelectAll}
                                 />
                             </TableCell>
                             <TableCell>Id</TableCell>
-                            <TableCell>Name</TableCell>
-                            <TableCell>ASIN</TableCell>
-                            <TableCell>Category</TableCell>
+                            <TableCell>Title</TableCell>
+                            <TableCell>Price</TableCell>
                             {/* <TableCell>Action</TableCell> */}
                         </TableRow>
                     </TableHead>
@@ -288,9 +227,8 @@ export default function Management() {
                                                 />
                                             </TableCell>
                                             <TableCell>{row.id}</TableCell>
-                                            <TableCell>{row.name}</TableCell>
-                                            <TableCell>{row.asin}</TableCell>
-                                            <TableCell>{row.category}</TableCell>
+                                            <TableCell>{row.title}</TableCell> 
+                                            <TableCell>{row.price}</TableCell>
                                             {/* <TableCell>
                                                 <Button onClick={() => handleDeleteClick(row.id)}>
                                                     <DeleteIcon className="table-delete-btn" />
@@ -304,20 +242,7 @@ export default function Management() {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <div className="delete-row-btn-2">
-                <Button
-                    variant="contained"
-                    color="secondary"
 
-                    className="delete-row-btn-2"
-                    onClick={() => {
-                        setDeleteDialogOpen(true);
-                    }}
-                >
-                    <span>Delete</span>
-
-                </Button>
-            </div>
             <Dialog
                 open={deleteDialogOpen}
                 onClose={handleClose}

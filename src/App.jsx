@@ -3,7 +3,7 @@ import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route } 
 
 import Layout from "./Components/Layout";
 
-import Home from "./Pages/Home";
+import Home, {loader as otherOfferLoader} from "./Pages/Home";
 import BestDeals from "./Pages/BestDeals";
 import Contact from "./Pages/Contact";
 import Disclaimer from "./Pages/Disclaimer";
@@ -11,15 +11,18 @@ import About from "./Pages/About";
 
 import SignIn from "./Pages/Login.jsx";
 import Management, {loader as ManagementLoader} from "./Pages/Management.jsx";
+import OtherManagement, {loader as OtherManagementLoader} from "./Pages/OtherManagement.jsx";
 
 import OfferDetail from "./Pages/OfferDetail.jsx";
+import OtherOfferDetail, {loader as OtherOfferDetailLoader} from "./Pages/OtherOfferDetail.jsx";
 
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Layout />} >
 
-        <Route index element={<Home />} exact />
+        <Route index element={<Home />} loader={otherOfferLoader} exact />
         <Route path="/offers/:id" element={<OfferDetail />} exact  />
+        <Route path="/other-offers/:id" element={<OtherOfferDetail />} loader={OtherOfferDetailLoader} exact  />
         
         <Route path="/best-deals" element={<BestDeals />} exact />
         
@@ -29,6 +32,7 @@ const router = createBrowserRouter(createRoutesFromElements(
 
         <Route path="/login" element={<SignIn />} />
         <Route path="/management" element={<Management />} loader={ManagementLoader} exact />
+        <Route path="/other-management" element={<OtherManagement />} loader={OtherManagementLoader} exact />
     </Route>
 ))
 
