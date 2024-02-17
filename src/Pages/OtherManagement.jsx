@@ -48,7 +48,7 @@ export default function OtherManagement() {
         title: "",
         description: "",
         price: "",
-        imageurl: "",
+        additionainfo: "",
         affiliatelink: ""
     });
     const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
@@ -96,10 +96,10 @@ export default function OtherManagement() {
         }))
     }
     
-    const handleImageUrlChange = (event) => {
+    const handleAdditionalInfoChange = (event) => {
         setRow(prevRow => ({
             ...prevRow,
-            imageurl: event.target.value
+            additionainfo: event.target.value
         }))
     }
     
@@ -182,8 +182,8 @@ export default function OtherManagement() {
                         <TextField id="outlined-decription" label="Description" variant="outlined" onChange={handleDescriptionChange} />
                         <h1>Price</h1>
                         <TextField id="outlined-price" label="Price" variant="outlined" onChange={handlePriceChange} />
-                        <h1>Image Url</h1>
-                        <TextField id="outlined-imageurl" label="ImageUrl" variant="outlined" onChange={handleImageUrlChange} />
+                        <h1>Additional Info</h1>
+                        <TextField id="outlined-imageurl" label="ImageUrl" variant="outlined" onChange={handleAdditionalInfoChange} />
                         <h1>Affiliate Link</h1>
                         <TextField id="outlined-affiliatelink" label="AffiliateLink" variant="outlined" onChange={handleAffiliateLinkChange} />
                     </DialogContent>

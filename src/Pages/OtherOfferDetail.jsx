@@ -15,9 +15,9 @@ export default function OtherOfferDetail() {
                 <Await resolve={data.row}>
                     {(row) => (
                         <div className="offer-page">
-                            <div className="offer-img-div">
+                            {/* <div className="offer-img-div">
                                 <img className="offer-img" src={row[0].imageurl} alt="" />
-                            </div>
+                            </div> */}
                             <div className="offer-info-price-div">
                                 <div className="offer-info">
                                     <div className="offer-title-div">

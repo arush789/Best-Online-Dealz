@@ -22,9 +22,9 @@ export default function OtherOfferItems(props) {
     const offerItems = currentItems.map((item) => (
         <Link key={item?.id} className='item-link' to={`/other-offers/${item?.id}`} onClick={scrollToTop}>
             <div className='item-container'>
-                <div className='item-img-div'>
+                {/* <div className='item-img-div'>
                     <img src={item?.imageurl} className='item-img' alt={item?.title} />
-                </div>
+                </div> */}
                 <h1 className='item-title'>{item?.title}</h1>
                 <p key={item?.ASIN} className='item-price'>
                     ₹{item?.price}
