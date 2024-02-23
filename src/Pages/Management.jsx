@@ -247,7 +247,7 @@ export default function Management() {
     const handleUpdate = () => {
        updateData(editTableData.id,row.name,row.asin)
        setOpen(false)
-       shortUrl(row.name, row.asin, row?.additional )
+       shortUrl(row.name, row.asin, row.additional )
        setRow(prevRow => ({
         ...prevRow,
         additional: ""
@@ -378,7 +378,7 @@ export default function Management() {
                                             <TableCell>{row.asin}</TableCell>
                                             <TableCell>
                                                 <Button onClick={() => handleEditClick(row.id)}>
-                                                    <EditIcon />
+                                                    <EditIcon sx={{color: "black"}} />
                                                 </Button>
                                             </TableCell>
                                             {/* <TableCell>
