@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { defer, Await, useLoaderData } from "react-router";
 import {
     Table,
@@ -22,10 +22,11 @@ import {
 } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { getTable, delRow, addRow} from "../Server/api";
+import { getTable, delRow, addRow, getRowById, updateData } from "../Server/api";
 import { requireAuth, shortUrl } from "../utils";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import EditIcon from '@mui/icons-material/Edit';
 
 export async function loader({ request }) {
     await requireAuth();
@@ -59,6 +60,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function Management() {
     const rows = useLoaderData();
+    const [editTableData, setEditTableData] = useState()
+    const [editDialogOpen, setEditDialogOpen] = useState(false)
 
     const [open, setOpen] = React.useState(false);
     const [row, setRow] = React.useState({
@@ -73,12 +76,21 @@ export default function Management() {
 
     const handleClickOpen = () => {
         setOpen(true);
+        setRow({
+            name: "",
+            asin: "",
+            additional: ""
+        })
     };
+
+
 
     const handleClose = () => {
         setOpen(false);
+        setEditTableData([])
         setDeleteDialogOpen(false);
         setSelectedRowIds([]);
+        setEditDialogOpen(false)
     }
 
     const handleAdd = async () => {
@@ -90,27 +102,16 @@ export default function Management() {
         }
 
         try {
-            // Fetch browse nodes based on the added product details
             const browseNodesResponse = await axios.get(`https://bodz-server.vercel.app/api/getItem/${row.asin}`);
+
             const browseNodes = browseNodesResponse?.data?.item?.ItemsResult?.Items[0]?.BrowseNodeInfo?.BrowseNodes.map(nodes => nodes?.ContextFreeName) || [];
 
-            // Log the retrieved browse nodes
-            console.log('Retrieved Browse Nodes:', browseNodes);
-
-            // Match browse nodes with predefined categories
             const matchedCategories = catagories.filter(category =>
                 browseNodes.some(node => node.trim().toLowerCase() === category.trim().toLowerCase())
             );
-
-            // Convert matchedCategories into a comma-separated string
             const matchedCategoriesString = matchedCategories.join(', ');
-            console.log('Matched Categories (String):', matchedCategoriesString);
-
-            // Update the product with matched categories
             const addedProduct = await addRow(row.name, row.asin, matchedCategoriesString);
-            console.log('Added Product:', addedProduct);
 
-            // Clear the additional field
             shortUrl(row.name, row.asin, row.additional)
             setRow(prevRow => ({
                 ...prevRow,
@@ -118,44 +119,74 @@ export default function Management() {
             }));
         } catch (error) {
             console.error("Error fetching browse nodes:", error);
-            // Handle error fetching browse nodes
+
         }
     };
 
 
-    const handleNameChange = (event) => {
-        setRow(prevRow => ({
-            ...prevRow,
-            name: event.target.value
-        }))
-    }
+    const handleFieldChange = (fieldName, value) => {
+        if (fieldName === "asin") {
+            const regex = /\b([A-Z0-9]+)\b/;
+            const matchResult = value.match(regex);
 
-    const handleAsinChange = (event) => {
-        const regex = /\b([A-Z0-9]+)\b/;
-        const matchResult = event.target.value.match(regex);
+            if (matchResult) {
 
-        if (matchResult) {
+                setRow(prevRow => ({
+                    ...prevRow,
+                    [fieldName]: matchResult[0]
+                }));
 
-            setRow(prevRow => ({
-                ...prevRow,
-                asin: matchResult[0]
-            }));
+            } else {
+
+                setRow(prevRow => ({
+                    ...prevRow,
+                    [fieldName]: ''
+                }));
+
+            }
         } else {
-
-
             setRow(prevRow => ({
                 ...prevRow,
-                asin: ''
+                [fieldName]: value
             }));
         }
     }
 
-    const handleAdditionalChange = (event) => {
-        setRow(prevRow => ({
-            ...prevRow,
-            additional: event.target.value
-        }))
-    }
+
+
+    // const handleNameChange = (event) => {
+    //     setRow(prevRow => ({
+    //         ...prevRow,
+    //         name: event.target.value
+    //     }))
+    // }
+
+    // const handleAsinChange = (event) => {
+    //     const regex = /\b([A-Z0-9]+)\b/;
+    //     const matchResult = event.target.value.match(regex);
+
+    //     if (matchResult) {
+
+    //         setRow(prevRow => ({
+    //             ...prevRow,
+    //             asin: matchResult[0]
+    //         }));
+    //     } else {
+
+
+    //         setRow(prevRow => ({
+    //             ...prevRow,
+    //             asin: ''
+    //         }));
+    //     }
+    // }
+
+    // const handleAdditionalChange = (event) => {
+    //     setRow(prevRow => ({
+    //         ...prevRow,
+    //         additional: event.target.value
+    //     }))
+    // }
 
     const handleCheckboxChange = (id) => {
         const selectedIndex = selectedRowIds.indexOf(id);
@@ -189,12 +220,39 @@ export default function Management() {
     // };
 
     const handleDeleteSelected = () => {
-        selectedRowIds.forEach((id) => {
+        const reversedSelectedRowIds = [...selectedRowIds].reverse();
+        reversedSelectedRowIds.forEach((id) => {
             delRow(id);
         });
         setDeleteDialogOpen(false);
         setSelectedRowIds([]);
     };
+
+    const handleEditClick = async (id) => {
+        try {
+            const tableData = await getRowById(id);
+            setEditTableData(tableData[0])
+            setOpen(true);
+            setEditDialogOpen(true);
+            setRow({
+                name: tableData[0].name,
+                asin: tableData[0].asin,
+                additional: tableData[0].additional
+            });
+        } catch (error) {
+            console.error("Error editing table data:", error);
+        }
+    };
+
+    const handleUpdate = () => {
+       updateData(editTableData.id,row.name,row.asin)
+       setOpen(false)
+       shortUrl(row.name, row.asin, row?.additional )
+       setRow(prevRow => ({
+        ...prevRow,
+        additional: ""
+    }));
+    }
 
     // const handleDeleteClick = (id) => {
     //     setDeleteDialogOpen(true);
@@ -239,19 +297,47 @@ export default function Management() {
                     ADD PRODUCT
                 </DialogTitle>
                 <DialogContent dividers>
-                    <DialogContent>
-                        <h1>Product Name</h1>
-                        <TextField id="outlined-name" label="Name" variant="outlined" onChange={handleNameChange} />
-                        <h1>ASIN</h1>
-                        <TextField id="outlined-asin" label="Asin" variant="outlined" onChange={handleAsinChange} />
-                        <h1>Additional Info</h1>
-                        <TextField id="outlined-additional" label="Coupon" variant="outlined" onChange={handleAdditionalChange} />
-                    </DialogContent>
+                    <h3>Name</h3>
+                    <TextField
+                        id="outlined-name"
+                        label="Name"
+                        variant="outlined"
+                        onChange={(event) => handleFieldChange('name', event.target.value)}
+                        sx={{
+                            "& .MuiInputBase-input": {
+                                overflow: "hidden",
+                                textOverflow: "ellipsis"
+                            }
+                        }}
+                        value={editTableData && editTableData.length > 0 ? editTableData[0].name : row.name}
+                    />
+                    <h3>ASIN</h3>
+                    <TextField
+                        id="outlined-asin"
+                        label="Asin"
+                        variant="outlined"
+                        onChange={(event) => handleFieldChange('asin', event.target.value)}
+                        value={editTableData && editTableData.length > 0 ? editTableData[0].asin : row.asin}
+                    />
+                    <h3>Additonal</h3>
+                    <TextField
+                        id="outlined-additional"
+                        label="Coupon"
+                        variant="outlined"
+                        onChange={(event) => handleFieldChange('additional', event.target.value)}
+                        value={editTableData && editTableData.length > 0 ? editTableData[0].additional : row.additional}
+                    />
                 </DialogContent>
                 <DialogActions>
-                    <Button variant="contained" onClick={handleAdd}>
-                        ADD
-                    </Button>
+                    {editDialogOpen ?
+                        <Button variant="contained" onClick={handleUpdate}>
+                            UPDATE
+                        </Button>
+                        :
+                        <Button variant="contained" onClick={handleAdd}>
+                            ADD
+                        </Button>
+                    }
                 </DialogActions>
             </BootstrapDialog>
 
@@ -270,7 +356,7 @@ export default function Management() {
                             <TableCell>Id</TableCell>
                             <TableCell>Name</TableCell>
                             <TableCell>ASIN</TableCell>
-                            <TableCell>Category</TableCell>
+                            <TableCell>Edit</TableCell>
                             {/* <TableCell>Action</TableCell> */}
                         </TableRow>
                     </TableHead>
@@ -290,7 +376,11 @@ export default function Management() {
                                             <TableCell>{row.id}</TableCell>
                                             <TableCell>{row.name}</TableCell>
                                             <TableCell>{row.asin}</TableCell>
-                                            <TableCell>{row.category}</TableCell>
+                                            <TableCell>
+                                                <Button onClick={() => handleEditClick(row.id)}>
+                                                    <EditIcon />
+                                                </Button>
+                                            </TableCell>
                                             {/* <TableCell>
                                                 <Button onClick={() => handleDeleteClick(row.id)}>
                                                     <DeleteIcon className="table-delete-btn" />

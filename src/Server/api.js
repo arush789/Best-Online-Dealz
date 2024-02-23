@@ -6,6 +6,16 @@ export async function getTable() {
     return rows;
 }
 
+export async function getRowById(id) {
+    const { rows } = await sql`SELECT * FROM products WHERE id=${id}`;
+    return rows;
+}
+
+export async function updateData(id,name,asin) {
+    const { rows } = await sql`UPDATE products SET name=${name} , asin=${asin} WHERE id=${id}`;
+    return rows;
+}
+
 export async function delRow(id) {
     await sql`DELETE FROM products WHERE id=${id}`
     window.location.reload(false);

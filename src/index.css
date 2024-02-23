@@ -185,6 +185,8 @@ html::-webkit-scrollbar {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    display: flex;
+    align-items: center;
 }
 
 .item-page {
@@ -200,6 +202,7 @@ html::-webkit-scrollbar {
     width: 250px;
     object-fit: contain;
     margin-bottom: 20px;
+   
 }
 
 .item-container {
