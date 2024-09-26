@@ -11,7 +11,11 @@ export async function requireAuth(request) {
   return null;
 }
 export async function teleMessage(name, link, additional) {
-  const url = `https://api.telegram.org/bot${process.env.VITE_BOT_FATHER_TOKEN}/sendMessage?chat_id=${process.env.VITE_TELE_GROUP_ID}&text=${name}%0A%0A${link}%0A%0A${additional}`;
+  const url = `https://api.telegram.org/bot${
+    process.env.VITE_BOT_FATHER_TOKEN
+  }/sendMessage?chat_id=${
+    process.env.VITE_TELE_GROUP_ID
+  }&text=${name}%0A%0A${link}%0A%0A${additional ? additional : ""}`;
   await fetch(url);
 }
 
