@@ -8,9 +8,10 @@ import BestDeals from "./Pages/BestDeals";
 import Contact from "./Pages/Contact";
 import Disclaimer from "./Pages/Disclaimer";
 import About from "./Pages/About";
+import Offers from "./Pages/Offers.jsx";
 
 import SignIn from "./Pages/Login.jsx";
-import Management, {loader as ManagementLoader} from "./Pages/Management.jsx";
+import Management, { loader as ManagementLoader } from "./Pages/Management.jsx";
 
 import OfferDetail from "./Pages/OfferDetail.jsx";
 
@@ -19,10 +20,11 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Layout />} >
 
         <Route index element={<Home />} exact />
-        <Route path="/offers/:id" element={<OfferDetail />} exact  />
-        
+        <Route path="/offers/:id" element={<OfferDetail />} exact />
+
         <Route path="/best-deals" element={<BestDeals />} exact />
-        
+        <Route path="/offers" element={<Offers />} exact />
+
         <Route path="/contact" element={<Contact />} exact />
         <Route path="/disclaimer" element={<Disclaimer />} exact />
         <Route path="/about" element={<About />} exact />

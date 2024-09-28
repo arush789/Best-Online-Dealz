@@ -14,7 +14,7 @@ import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // import myImage from "/assets/images/home-img/home-img-3.png"
-import myImage from "/assets/video/BODZ-Home.mp4"
+import myImage from "/assets/video/Untitled design.mp4"
 
 
 import phoneImage from "/assets/video/BODZ-Home-phone.mp4"
@@ -95,7 +95,7 @@ export default function Home() {
 
     return (
         <div style={{ position: "relative", minHeight: "100vh" }}>
-            <div>
+            <div className="home-video-div">
                 {/* <Carousel interval={3000}>
                     {carouselImage && carouselImage.map((image, i) => (
                         <Carousel.Item key={i}>
@@ -112,15 +112,15 @@ export default function Home() {
                     ))}
                 </Carousel> */}
                 {carouselImage && carouselImage.map((image, i) => (
-                <video
-                    autoPlay
-                    controls={false}  // Optional: Controls attribute set to false
-                    muted
-                    playsInline
-                    src={image}
-                    alt={`Slide ${i + 1}`}
-                    className="home-images"
-                />
+                    <video
+                        autoPlay
+                        controls={false}  // Optional: Controls attribute set to false
+                        muted
+                        playsInline
+                        src={image}
+                        alt={`Slide ${i + 1}`}
+                        className="home-images"
+                    />
                 ))}
             </div>
             <div className="home-page-offer">

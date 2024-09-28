@@ -6,7 +6,7 @@ export default function Contact() {
             <h1 className="contact-title">Contact Us</h1>
             <p className="contact-para">
                 Should you have any questions about the site, advertising, or any other concerns,
-                feel free to get in touch with us at help.bodz@gmail.com
+                feel free to get in touch with us at <b>help.bodz@gmail.com</b>
             </p>
             {/* <iframe
                 src="https://www.chatbase.co/chatbot-iframe/XTytznOBwCjf5q3A9EUEr"
