@@ -20,24 +20,19 @@ export async function teleMessage(name, link, additional) {
 }
 
 export async function shortUrl(name, asin, additional) {
-  // const url = `https://bodz-server.vercel.app/api/shortUrl/${asin}`;
+  const url = `https://bodz-server.vercel.app/api/shortUrl/${asin}`;
 
   try {
-    //   const response = await axios.get(url, {
-    //       headers: {
-    //           'Content-Type': 'application/json',
-    //       },
-    //   });
+    const response = await axios.get(url, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-    //   const data = response.data;
-    //   const link = data.shortLink;
-    //   console.log(link);
-    //   teleMessage(name, link, additional);
-    teleMessage(
-      name,
-      `https://best-online-dealz.vercel.app/offers/${asin}`,
-      additional
-    );
+    const data = response.data;
+    const link = data.shortLink;
+    console.log(link);
+    teleMessage(name, link, additional);
   } catch (error) {
     console.error("Error fetching short URL:", error);
   }
