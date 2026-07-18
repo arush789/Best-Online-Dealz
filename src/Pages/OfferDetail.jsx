@@ -71,9 +71,9 @@ export default function OfferDetail() {
                         {item?.Offers ? (
                             item?.Offers?.Listings?.map((itemPrice, index) => (
                                 <div key={index}>
-                                    <p className="og-price">{itemPrice?.SavingBasis?.DisplayAmount}</p>
+                                    <p className="og-price">{itemPrice?.Price?.SavingBasis?.Money?.DisplayAmount}</p>
                                     <span>(-{itemPrice?.Price?.Savings?.Percentage}%)</span>
-                                    <p className="offer-price">₹ {itemPrice?.Price?.Amount}</p>
+                                    <p className="offer-price">₹ {itemPrice?.Price?.Money?.Amount}</p>
                                 </div>
                             ))
                         ) : (
@@ -96,11 +96,11 @@ export default function OfferDetail() {
     return (
         <div className="offer-detail-container">
             {loading ? renderLoading() : (error ? <Typography
-              variant="body1"
-              color="error"
-              style={{ textAlign: "center", margin: "20px" }}
+                variant="body1"
+                color="error"
+                style={{ textAlign: "center", margin: "20px" }}
             >
-              {error}
+                {error}
             </Typography> : renderContent())}
         </div>
     );
