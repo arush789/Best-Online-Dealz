@@ -5,7 +5,7 @@ import DealCard from "./DealCard";
 
 export const SORTS = [
   { key: "newest", label: "Newest first" },
-  { key: "score", label: "BODZ Score" },
+  { key: "score", label: "Best value" },
   { key: "discount", label: "Biggest % off" },
   { key: "price-asc", label: "Price: low to high" },
   { key: "price-desc", label: "Price: high to low" },

@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useCatalog, useItems, useTitle } from "../lib/hooks";
 import { CATEGORIES } from "../lib/categories";
 import { compact } from "../lib/format";
@@ -14,17 +14,16 @@ export const BANDS = [499, 999, 1999, 4999];
 
 export default function Home() {
   useTitle(null);
-  const navigate = useNavigate();
   const { rows, error } = useCatalog();
   const asins = useMemo(() => (rows ? rows.slice(0, HOME_POOL).map((r) => r.asin) : null), [rows]);
   const { items, slots, done } = useItems(asins);
 
   const fresh = slots.slice(0, 8);
-  const steals = useMemo(
+  const bestValue = useMemo(
     () => items.filter((i) => i.score != null).sort((a, b) => b.score - a.score).slice(0, 4),
     [items]
   );
-  const heroTags = steals.length >= 3 ? steals.slice(0, 3) : [];
+  const heroTags = bestValue.length >= 3 ? bestValue.slice(0, 3) : [];
   const avgOff = items.length
     ? Math.round(items.filter((i) => i.price != null).reduce((s, i) => s + (i.pct || 0), 0) / Math.max(1, items.filter((i) => i.price != null).length))
     : null;
@@ -34,25 +33,22 @@ export default function Home() {
     <>
       <section className="wrap hero">
         <div>
-          <p className="eyebrow">Amazon India · checked live</p>
+          <p className="eyebrow">Best Online Dealz · since 2021</p>
           <h1>
-            Pay the <span className="hl">real</span> price, not the <span className="strike">M.R.P.</span>
+            Elevate your <span className="hl">shopping</span>. Uncover exclusive deals.
           </h1>
           <p className="hero-lede">
-            BODZ hand-picks Amazon deals, checks the live price, and scores every one so you can tell a steal
-            from a fake sale in a second.
+            Handpicked online deals, chosen with care for elegance and savings. Every price is checked live and
+            given a simple value grade, so you know exactly what you're getting.
           </p>
           <SearchBox big />
           <div className="hero-hints">
-            <span>Try:</span>
-            {["air fryer", "earbuds", "smart tv", "trimmer"].map((h) => (
-              <button key={h} className="hint-chip" onClick={() => navigate(`/search?q=${encodeURIComponent(h)}`)}>
-                {h}
-              </button>
+            <span>Popular shelves:</span>
+            {CATEGORIES.slice(0, 4).map((c) => (
+              <Link key={c.slug} to={`/category/${c.slug}`} className="hint-chip">
+                {c.name}
+              </Link>
             ))}
-            <Link to="/lookup" className="hint-chip">
-              or paste a link →
-            </Link>
           </div>
         </div>
         <div className="hero-stack" aria-hidden={heroTags.length === 0}>
@@ -77,9 +73,9 @@ export default function Home() {
             <span>average off, latest drops</span>
           </div>
           <div className="stat">
-            <b>0–100</b>
+            <b>A+ to C</b>
             <span>
-              <Link to="/how-we-pick" className="link-arrow">BODZ Score</Link> on every deal
+              <Link to="/how-we-pick" className="link-arrow">Value grade</Link> on every deal
             </span>
           </div>
         </div>
@@ -107,14 +103,14 @@ export default function Home() {
       <section className="wrap section">
         <div className="section-head">
           <div>
-            <p className="eyebrow">Highest BODZ Score right now</p>
-            <h2 className="h2">Steals of the moment</h2>
+            <p className="eyebrow">Highest value grade right now</p>
+            <h2 className="h2">Best value right now</h2>
           </div>
           <Link to="/top" className="link-arrow">
-            See all Top Picks →
+            See all Best Value →
           </Link>
         </div>
-        {steals.length ? <DealGrid items={steals} skeletons={done ? 0 : 4 - steals.length} /> : <GridSkeleton n={4} />}
+        {bestValue.length ? <DealGrid items={bestValue} skeletons={done ? 0 : 4 - bestValue.length} /> : <GridSkeleton n={4} />}
       </section>
 
       <section className="wrap section">
@@ -157,17 +153,17 @@ export default function Home() {
         <div className="steps">
           <div className="step">
             <h3>Picked by a person</h3>
-            <p>Every product is chosen by hand from Amazon India sales. No scraped junk, no endless feed.</p>
+            <p>Every product is chosen by hand from online sales. A short, tidy list instead of an endless feed.</p>
           </div>
           <div className="step">
             <h3>Price checked live</h3>
-            <p>When you open a deal we pull the current price from Amazon, so what you see is what's on sale now.</p>
+            <p>When you open a deal we fetch today's price, so what you see is what's on sale now.</p>
           </div>
           <div className="step">
-            <h3>Scored out of 100</h3>
+            <h3>Graded for value</h3>
             <p>
-              The BODZ Score weighs the discount and the rupees saved.{" "}
-              <Link to="/how-we-pick" className="link-arrow">See the formula</Link>
+              Each deal gets a grade from A+ to C based on the discount and the rupees saved.{" "}
+              <Link to="/how-we-pick" className="link-arrow">How grading works</Link>
             </p>
           </div>
         </div>
@@ -176,8 +172,8 @@ export default function Home() {
       <section className="wrap section">
         <div className="cta-band">
           <div>
-            <h2>Found a product on Amazon?</h2>
-            <p>Paste the link and we'll tell you if the price is a real deal before you buy.</p>
+            <h2>Eyeing something online?</h2>
+            <p>Paste its link and we'll grade today's price before you buy.</p>
           </div>
           <Link to="/lookup" className="btn btn-lime btn-lg">
             Check a price <Icon name="arrow" />

@@ -19,29 +19,29 @@ export function HowWePick() {
     <div className="wrap">
       <PageHead
         eyebrow="Method"
-        title="How we pick and score deals"
+        title="How we pick and grade deals"
         lede="No magic, no hidden rules. Here's exactly what goes into every deal you see on BODZ."
       />
       <div className="prose">
         <h2>1. A person picks the product</h2>
         <p>
-          Every product on BODZ is added by hand from Amazon India sales. We skip listings with inflated M.R.P.s,
+          Every product on BODZ is added by hand from online sales. We skip listings with doubtful M.R.P.s,
           unknown sellers or poor reviews, and focus on things people actually buy.
         </p>
 
         <h2>2. The price is checked live</h2>
         <p>
-          Prices are not typed in by us. When a deal loads, BODZ asks Amazon's official Product API for the
-          current price, the M.R.P. and the saving. If Amazon has no live listing, the deal is hidden.
+          Prices are not typed in by us. When a deal loads, BODZ asks the store's official product API for the
+          current price, the M.R.P. and the saving. If there's no live listing, the deal is hidden.
         </p>
 
-        <h2>3. Every deal gets a BODZ Score</h2>
-        <p>The score runs from 0 to 100 and has two parts:</p>
+        <h2>3. Every deal gets a value grade</h2>
+        <p>Behind each grade is a 0–100 value score with two parts:</p>
         <pre className="formula">
           {`discount points = min(% off, 80) ÷ 80 × 70
 savings points  = min(log10(₹ saved + 1) ÷ 4, 1) × 30
 
-BODZ Score      = discount points + savings points`}
+value score     = discount points + savings points`}
         </pre>
         <p>
           The discount part rewards a big percentage off. The savings part rewards real rupees: saving ₹4,000 on
@@ -51,6 +51,7 @@ BODZ Score      = discount points + savings points`}
         <table className="tier-table">
           <thead>
             <tr>
+              <th>Grade</th>
               <th>Score</th>
               <th>Label</th>
               <th>What it means</th>
@@ -59,6 +60,9 @@ BODZ Score      = discount points + savings points`}
           <tbody>
             {TIERS.map((t, i) => (
               <tr key={t.key}>
+                <td className="mono">
+                  <b>{t.grade}</b>
+                </td>
                 <td className="mono">
                   {t.min}
                   {i === 0 ? "+" : `–${TIERS[i - 1].min - 1}`}
@@ -69,10 +73,10 @@ BODZ Score      = discount points + savings points`}
                 <td>
                   {
                     {
-                      steal: "Rare. Buy now if you need it.",
-                      great: "A strong discount. Good time to buy.",
+                      top: "Excellent value. A great time to buy.",
+                      great: "A strong discount. A good time to buy.",
                       good: "A fair saving.",
-                      fair: "Small or no discount. Wait for a sale if you can.",
+                      fair: "A small saving. A sale may bring it lower.",
                     }[t.key]
                   }
                 </td>
@@ -81,23 +85,22 @@ BODZ Score      = discount points + savings points`}
           </tbody>
         </table>
 
-        <h2>Too good to be true?</h2>
+        <h2>Very large discounts</h2>
         <p>
-          Discounts of 80% or more usually mean the M.R.P. was inflated. Those deals get a warning on their page
-          and their score is capped at 80.
+          Discounts of 80% or more are unusual, so those deals get a gentle note on their page and stay at
+          grade A at most.
         </p>
 
-        <h2>What the score doesn't know</h2>
+        <h2>What the grade doesn't know</h2>
         <p>
-          The score compares the price to the M.R.P. on Amazon. It doesn't track price history yet, so a seller
-          who inflates the M.R.P. a little can still look good. That's why step 1 matters: we leave those
-          listings out.
+          The grade compares today's price to the listed M.R.P. It doesn't track price history yet, so step 1
+          matters: a person checks each listing before it goes up.
         </p>
 
         <h2>How we make money</h2>
         <p>
-          Links to Amazon are affiliate links. If you buy, Amazon pays us a small commission. You pay the same
-          price. The score never depends on the commission. See the <Link to="/disclaimer">disclaimer</Link>.
+          Links to stores are affiliate links. If you buy, the store pays us a small commission. You pay the same
+          price. The grade never depends on the commission. See the <Link to="/disclaimer">disclaimer</Link>.
         </p>
       </div>
     </div>
@@ -110,14 +113,14 @@ export function About() {
     <div className="wrap">
       <PageHead
         eyebrow="About"
-        title="Deals worth your money"
-        lede="BODZ (Best Online Dealz) started in 2021 as a small deals channel. Today it's a hand-picked list of Amazon India deals with live prices."
+        title="Deals chosen with care"
+        lede="BODZ (Best Online Dealz) started in 2021 as a small deals channel. Today it's a handpicked list of online deals with live prices."
       />
       <div className="prose">
         <p>
           Online sales are noisy. Every product claims to be 70% off, and most of those discounts are against an
           M.R.P. nobody pays. BODZ is our answer: a short list of products we would buy ourselves, with the live
-          price and a plain score that says how good the deal really is.
+          price and a simple grade that shows the value at a glance.
         </p>
         <h2>What you can do here</h2>
         <ul>
@@ -125,7 +128,7 @@ export function About() {
             <Link to="/deals">Latest</Link>: every deal, newest first.
           </li>
           <li>
-            <Link to="/top">Top Picks</Link>: recent deals ranked by BODZ Score.
+            <Link to="/top">Best Value</Link>: recent deals sorted by value grade.
           </li>
           <li>
             <Link to="/budget">Budget Buys</Link>: the best deals under ₹499, ₹999, ₹1,999 and ₹4,999.
@@ -134,7 +137,7 @@ export function About() {
             <Link to="/categories">Categories</Link>: browse by shelf.
           </li>
           <li>
-            <Link to="/lookup">Price Check</Link>: paste any Amazon link to score its price.
+            <Link to="/lookup">Price Check</Link>: paste a product link to grade its price.
           </li>
         </ul>
         <h2>Get in touch</h2>
@@ -194,7 +197,7 @@ export function Disclaimer() {
 
         <h2>Prices and accuracy</h2>
         <p>
-          Prices, discounts and stock come from Amazon and can change at any time, including between when you see
+          Prices, discounts and stock come from the store and can change at any time, including between when you see
           a deal and when you check out. The price shown by the seller at checkout is the final price.
         </p>
         <p>

@@ -46,7 +46,7 @@ export default function Search() {
             <h3>No deals match “{q}”</h3>
             <p>
               Try fewer words, browse <Link to="/categories" className="link-arrow">categories</Link>, or{" "}
-              <Link to="/lookup" className="link-arrow">paste an Amazon link</Link> to check any product.
+              <Link to="/lookup" className="link-arrow">paste a product link</Link> to check any product.
             </p>
           </div>
         )

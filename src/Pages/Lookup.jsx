@@ -8,10 +8,10 @@ import DealCard from "../Components/DealCard";
 import Icon from "../Components/Icon";
 
 const VERDICT = {
-  steal: "Buy it. This is a strong deal.",
-  great: "Good time to buy.",
-  good: "Decent discount. Fine if you need it now.",
-  fair: "Not much of a deal. Wait if you can.",
+  top: "Excellent value. A great time to buy.",
+  great: "Very good value. A good time to buy.",
+  good: "A fair saving if you need it now.",
+  fair: "A small saving. It may be worth waiting for a sale.",
 };
 
 export default function Lookup() {
@@ -63,8 +63,8 @@ export default function Lookup() {
         <p className="eyebrow">Price Check</p>
         <h1>Is it really a deal?</h1>
         <p>
-          Paste any Amazon India product link (or its 10-character ASIN). We pull the live price and give it a
-          BODZ Score.
+          Paste a product link (or its 10-character product code). We fetch today's price and give it a value
+          grade.
         </p>
       </div>
 
@@ -72,7 +72,7 @@ export default function Lookup() {
         <form className="searchbox big" onSubmit={submit}>
           <Icon name="link" />
           <label htmlFor="lookup" className="sr-only">
-            Amazon link or ASIN
+            Product link or code
           </label>
           <input
             id="lookup"
@@ -94,18 +94,18 @@ export default function Lookup() {
 
       {state.status === "loading" ? (
         <div className="row" style={{ marginTop: 28 }}>
-          <div className="spinner" /> <span className="muted">Checking {state.asin} on Amazon…</span>
+          <div className="spinner" /> <span className="muted">Checking {state.asin}…</span>
         </div>
       ) : null}
 
       {state.status === "short" ? (
         <div className="error-box" style={{ marginTop: 24 }}>
-          <b>That's a short link.</b> Open it in your browser, then paste the full amazon.in address here.
+          <b>That's a short link.</b> Open it in your browser, then paste the full address here.
         </div>
       ) : null}
       {state.status === "bad" ? (
         <div className="error-box" style={{ marginTop: 24 }}>
-          <b>We couldn't find a product ID in that.</b> Paste a full Amazon product link, or search our deals
+          <b>We couldn't find a product ID in that.</b> Paste a full product link, or search our deals
           instead.{" "}
           <button className="btn btn-ghost" onClick={() => navigate(`/search?q=${encodeURIComponent(initial)}`)}>
             Search “{initial.slice(0, 30)}”
@@ -114,7 +114,7 @@ export default function Lookup() {
       ) : null}
       {state.status === "missing" ? (
         <div className="error-box" style={{ marginTop: 24 }}>
-          <b>No live listing for {state.asin}.</b> It may be out of stock or not sold on Amazon India.
+          <b>No live listing for {state.asin}.</b> It may be out of stock right now.
         </div>
       ) : null}
       {state.status === "error" ? (
@@ -132,7 +132,7 @@ export default function Lookup() {
                 <p className="eyebrow mt-0">Verdict</p>
                 <h3>{VERDICT[tier.key]}</h3>
                 <p className="muted">
-                  BODZ Score <b className="mono">{state.item.score}</b>/100 · {tier.label}
+                  Value grade <b className="mono">{tier.grade}</b> · {tier.label}
                 </p>
                 <div className="receipt" style={{ marginTop: 16 }}>
                   <div className="receipt-row">
@@ -154,7 +154,7 @@ export default function Lookup() {
             ) : (
               <>
                 <h3>No price shown</h3>
-                <p className="muted">Amazon didn't return a price for this listing right now.</p>
+                <p className="muted">The store isn't showing a price for this listing right now.</p>
               </>
             )}
             <div className="detail-actions">
@@ -162,7 +162,7 @@ export default function Lookup() {
                 Full details
               </Link>
               <a href={state.item.url} target="_blank" rel="noreferrer sponsored" className="btn btn-hot">
-                View on Amazon <Icon name="external" size={16} />
+                Go to store <Icon name="external" size={16} />
               </a>
             </div>
             {state.listed ? (

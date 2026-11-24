@@ -16,7 +16,7 @@ export const API_BASE =
   import.meta.env.BODZ_PUBLIC_API_BASE || "https://bodz-server.vercel.app/api";
 
 const CATALOG_KEY = "bodz:catalog:v2";
-const ITEM_KEY = "bodz:item:v3:";
+const ITEM_KEY = "bodz:item:v4:";
 const CATALOG_TTL = 30 * 60 * 1000; // 30 min
 const ITEM_TTL = 20 * 60 * 1000; // 20 min: prices move
 

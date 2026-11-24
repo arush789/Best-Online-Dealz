@@ -7,7 +7,7 @@ import { rupees, shortTitle } from "../lib/format";
 
 const NAV = [
   { to: "/deals", label: "Latest" },
-  { to: "/top", label: "Top Picks" },
+  { to: "/top", label: "Best Value" },
   { to: "/budget", label: "Budget Buys" },
   { to: "/categories", label: "Categories" },
   { to: "/lookup", label: "Price Check" },

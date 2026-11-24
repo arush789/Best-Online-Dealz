@@ -1,7 +1,7 @@
 /* =========================================================================
    BODZ · design system
    Concept: "the price tag". Warm receipt-paper ground, ink-black type,
-   vermillion for money saved, acid-lime for the BODZ Score.
+   vermillion for money saved, acid-lime for the value grade.
    ========================================================================= */
 
 :root {
@@ -820,7 +820,7 @@ a.tag:hover {
   background: var(--paper-2);
   color: var(--ink);
 }
-.score.steal i {
+.score.top i {
   background: var(--lime);
   color: var(--lime-ink);
 }

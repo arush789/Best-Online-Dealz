@@ -7,9 +7,9 @@ export function ScoreBadge({ score, withLabel = true }) {
   const tier = tierFor(score);
   if (!tier) return null;
   return (
-    <span className={`score ${tier.key}`} title="BODZ Score: how strong this deal is (0–100)">
-      <i>{score}</i>
-      {withLabel ? tier.label : "score"}
+    <span className={`score ${tier.key}`} title={`Value grade ${tier.grade}: ${tier.label}`}>
+      <i>{tier.grade}</i>
+      {withLabel ? tier.label : "grade"}
     </span>
   );
 }
@@ -47,7 +47,7 @@ export default function DealCard({ item, style }) {
               {item.mrp > item.price ? <div className="mrp">{rupees(item.mrp)}</div> : null}
             </div>
           ) : (
-            <div className="no-price">Price on Amazon</div>
+            <div className="no-price">See price</div>
           )}
           <ScoreBadge score={item.score} withLabel={false} />
         </div>

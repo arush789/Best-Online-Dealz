@@ -67,41 +67,36 @@ function ScoreMeter({ item }) {
     <div className="meter">
       <div className="meter-head">
         <div>
-          <p className="eyebrow mt-0">BODZ Score</p>
-          <b>
-            {parts.total}
-            <span className="muted" style={{ fontSize: 16 }}>
-              /100
-            </span>
-          </b>
+          <p className="eyebrow mt-0">Value grade</p>
+          <b>{tier?.grade}</b>
         </div>
         <ScoreBadge score={parts.total} />
       </div>
-      <div className="meter-bar" role="img" aria-label={`Score ${parts.total} out of 100`}>
+      <div className="meter-bar" role="img" aria-label={`Value grade ${tier?.grade}`}>
         <span style={{ width: `${parts.discount}%` }} />
         <span style={{ width: `${parts.savings}%` }} />
       </div>
       <div className="meter-legend">
         <span>
           <i style={{ background: "var(--hot)" }} />
-          Discount {parts.discount}/70
+          Discount
         </span>
         <span>
           <i style={{ background: "var(--lime)" }} />
-          Rupees saved {parts.savings}/30
+          Rupees saved
         </span>
         <Link to="/how-we-pick" className="link-arrow">
-          How it's scored
+          How grading works
         </Link>
       </div>
       {parts.suspect ? (
         <p className="fine">
-          ⚠ {item.pct}% off is unusually high. The M.R.P. may be inflated, so we cap this score at 80. Compare
-          with similar products before you buy.
+          {item.pct}% off is an unusually large discount, so we keep the grade at A. It's worth comparing with
+          similar products before you buy.
         </p>
       ) : null}
       {tier?.key === "fair" ? (
-        <p className="fine">Small discount. Worth waiting for a sale unless you need it now.</p>
+        <p className="fine">A modest saving. If you can wait, a sale may bring the price lower.</p>
       ) : null}
     </div>
   );
@@ -161,13 +156,13 @@ export default function OfferDetail() {
           <h1>{state.status === "missing" ? "Deal not available" : "Couldn't load this deal"}</h1>
           <p>
             {state.status === "missing"
-              ? "Amazon has no live listing for this product right now. It may be sold out."
+              ? "This product isn't listed right now. It may be sold out."
               : state.message}
           </p>
         </div>
         <div className="row">
           <a href={`https://www.amazon.in/dp/${asin}?tag=catchkaps0e-21`} target="_blank" rel="noreferrer sponsored" className="btn">
-            Try on Amazon <Icon name="external" size={16} />
+            Check the store <Icon name="external" size={16} />
           </a>
           <Link to="/deals" className="btn btn-hot">
             See latest deals
@@ -227,13 +222,13 @@ export default function OfferDetail() {
             </div>
           ) : (
             <div className="receipt">
-              <div className="receipt-row">Amazon isn't showing a price right now. Check the listing.</div>
+              <div className="receipt-row">The store isn't showing a price right now. Check the listing.</div>
             </div>
           )}
 
           <div className="detail-actions">
             <a href={item.url} target="_blank" rel="noreferrer sponsored" className="btn btn-hot btn-lg">
-              Buy on Amazon <Icon name="external" size={18} />
+              Get this deal <Icon name="external" size={18} />
             </a>
           </div>
           <ShareButtons item={item} />
@@ -252,7 +247,7 @@ export default function OfferDetail() {
           ) : null}
 
           <p className="fine">
-            Price checked live from Amazon when you opened this page. Prices can change with sellers and sale
+            Price checked live when you opened this page. Prices can change with sellers and sale
             timing; the price at checkout is the final one. We may earn a commission if you buy.
           </p>
         </div>

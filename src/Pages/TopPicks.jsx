@@ -8,7 +8,7 @@ import { GridSkeleton, LoadError } from "../Components/States";
 export const POOL = 60;
 
 export default function TopPicks() {
-  useTitle("Top Picks");
+  useTitle("Best Value");
   const { rows, error } = useCatalog();
   const asins = useMemo(() => (rows ? rows.slice(0, POOL).map((r) => r.asin) : null), [rows]);
   const { items, done, loaded, total } = useItems(asins);
@@ -22,19 +22,19 @@ export default function TopPicks() {
   return (
     <div className="wrap">
       <div className="page-head">
-        <p className="eyebrow">Ranked by BODZ Score</p>
-        <h1>Top Picks</h1>
+        <p className="eyebrow">Graded for value</p>
+        <h1>Best Value</h1>
         <p>
-          The {POOL} most recent deals, ranked by how much they really save you. Higher score, better deal.{" "}
-          <Link to="/how-we-pick" className="link-arrow">How the score works</Link>
+          The {POOL} most recent deals, sorted so the best value comes first.{" "}
+          <Link to="/how-we-pick" className="link-arrow">How grading works</Link>
         </p>
       </div>
 
       <div className="toolbar">
-        <div className="chips" role="group" aria-label="Minimum score">
+        <div className="chips" role="group" aria-label="Minimum grade">
           {TIERS.slice(0, 3).map((t) => (
             <button key={t.key} className="chip" aria-pressed={minScore === t.min} onClick={() => setMinScore(t.min)}>
-              {t.label} <span className="count">{t.min}+</span>
+              {t.label} <span className="count">{t.grade}</span>
             </button>
           ))}
           <button className="chip" aria-pressed={minScore === 0} onClick={() => setMinScore(0)}>
@@ -53,8 +53,8 @@ export default function TopPicks() {
           <DealGrid items={ranked} skeletons={done ? 0 : Math.min(8, Math.max(0, 8 - ranked.length))} />
           {done && ranked.length === 0 ? (
             <div className="empty">
-              <h3>No deals above {minScore} right now</h3>
-              <p>Try a lower score filter.</p>
+              <h3>Nothing at this grade right now</h3>
+              <p>Try a lower grade.</p>
             </div>
           ) : null}
         </>

@@ -4,7 +4,7 @@ import Icon from "./Icon";
 import { parseAsin } from "../lib/api";
 
 /**
- * One box for both jobs: type words to search the catalog, or paste an Amazon
+ * One box for both jobs: type words to search the catalog, or paste a product
  * link / ASIN to jump straight to the price check.
  */
 export default function SearchBox({ big = false, autoFocus = false, initial = "", onDone }) {
@@ -28,13 +28,13 @@ export default function SearchBox({ big = false, autoFocus = false, initial = ""
     <form className={`searchbox${big ? " big" : ""}`} onSubmit={submit} role="search">
       <Icon name="search" />
       <label className="sr-only" htmlFor={big ? "q-big" : "q-nav"}>
-        Search deals or paste an Amazon link
+        Search deals or paste a product link
       </label>
       <input
         id={big ? "q-big" : "q-nav"}
         value={q}
         onChange={(e) => setQ(e.target.value)}
-        placeholder={big ? "Search deals, or paste an Amazon link…" : "Search deals…"}
+        placeholder={big ? "Search deals or paste a product link…" : "Search deals…"}
         autoFocus={autoFocus}
         autoComplete="off"
         enterKeyHint="search"

@@ -21,7 +21,7 @@ export default function Deals() {
       <div className="page-head">
         <p className="eyebrow">Newest first</p>
         <h1>Latest drops</h1>
-        <p>Every deal we've posted, newest at the top. Prices load live from Amazon as you scroll.</p>
+        <p>Every deal we've posted, newest at the top. Prices load live as you scroll.</p>
       </div>
 
       <div className="chips" role="group" aria-label="Category" style={{ marginBottom: 14 }}>
