@@ -40,14 +40,54 @@ function writeCache(key, v) {
   }
 }
 
-async function getJSON(url, signal) {
-  const res = await fetch(url, { signal });
+async function getJSON(url, signal, init = {}) {
+  const res = await fetch(url, { signal, ...init });
   if (!res.ok) throw new Error(`Request failed (${res.status})`);
   return res.json();
 }
 
 // ---------- catalog ----------
+// Stale-while-revalidate: a saved copy (if any) renders instantly, and every
+// page load also fetches the live list once. When the live list differs,
+// subscribers re-render, so a deal added in the admin shows up on refresh.
 let catalogPromise = null;
+const catalogListeners = new Set();
+
+function sameCatalog(a, b) {
+  return a && b && a.length === b.length && a[0]?.id === b[0]?.id && a[a.length - 1]?.id === b[b.length - 1]?.id;
+}
+
+function loadFreshCatalog() {
+  return getJSON(`${API_BASE}/getTable?itemsPerPage=10000&page=1`, undefined, { cache: "no-store" }).then((data) => {
+    const seen = new Set();
+    const rows = [];
+    for (const r of data.items || []) {
+      const asin = (r.asin || "").trim().toUpperCase();
+      if (!/^[A-Z0-9]{10}$/.test(asin) || seen.has(asin)) continue;
+      seen.add(asin);
+      const name = cleanName(r.name || "");
+      rows.push({ id: r.id, asin, name, cat: classify(name, r.category) });
+    }
+    writeCache(CATALOG_KEY, rows);
+    return rows;
+  });
+}
+
+/** Re-render callback for when the live catalog replaces a saved copy. */
+export function subscribeCatalog(fn) {
+  catalogListeners.add(fn);
+  return () => catalogListeners.delete(fn);
+}
+
+/** Forget the saved catalog, e.g. after the admin adds or deletes a deal. */
+export function clearCatalogCache() {
+  catalogPromise = null;
+  try {
+    sessionStorage.removeItem(CATALOG_KEY);
+  } catch {
+    /* ignore */
+  }
+}
 
 /**
  * Every product in the catalog, newest first, one row per ASIN.
@@ -56,28 +96,26 @@ let catalogPromise = null;
 export function fetchCatalog() {
   if (catalogPromise) return catalogPromise;
   const cached = readCache(CATALOG_KEY, CATALOG_TTL);
+  const fresh = loadFreshCatalog();
+
   if (cached) {
     catalogPromise = Promise.resolve(cached);
+    fresh
+      .then((rows) => {
+        if (sameCatalog(rows, cached)) return;
+        catalogPromise = Promise.resolve(rows);
+        catalogListeners.forEach((fn) => fn(rows));
+      })
+      .catch(() => {
+        /* keep showing the saved copy */
+      });
     return catalogPromise;
   }
-  catalogPromise = getJSON(`${API_BASE}/getTable?itemsPerPage=10000&page=1`)
-    .then((data) => {
-      const seen = new Set();
-      const rows = [];
-      for (const r of data.items || []) {
-        const asin = (r.asin || "").trim().toUpperCase();
-        if (!/^[A-Z0-9]{10}$/.test(asin) || seen.has(asin)) continue;
-        seen.add(asin);
-        const name = cleanName(r.name || "");
-        rows.push({ id: r.id, asin, name, cat: classify(name, r.category) });
-      }
-      writeCache(CATALOG_KEY, rows);
-      return rows;
-    })
-    .catch((err) => {
-      catalogPromise = null; // allow retry
-      throw err;
-    });
+
+  catalogPromise = fresh.catch((err) => {
+    catalogPromise = null; // allow retry
+    throw err;
+  });
   return catalogPromise;
 }
 

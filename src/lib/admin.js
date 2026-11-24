@@ -2,7 +2,7 @@
 // the database, Telegram and Cutt.ly credentials. The browser only ever holds
 // a short-lived signed token.
 
-import { API_BASE } from "./api";
+import { API_BASE, clearCatalogCache } from "./api";
 
 const TOKEN_KEY = "bodz:admin";
 
@@ -62,6 +62,13 @@ export const listProducts = (page = 1, itemsPerPage = 50) =>
   call(`/getTable?page=${page}&itemsPerPage=${itemsPerPage}`, { auth: false });
 
 export const addProduct = ({ name, asin, note, notify }) =>
-  call("/admin/items", { method: "POST", body: { name, asin, note, notify } });
+  call("/admin/items", { method: "POST", body: { name, asin, note, notify } }).then((r) => {
+    clearCatalogCache(); // so the public pages show the new deal right away
+    return r;
+  });
 
-export const deleteProducts = (ids) => call("/admin/items", { method: "DELETE", body: { ids } });
+export const deleteProducts = (ids) =>
+  call("/admin/items", { method: "DELETE", body: { ids } }).then((r) => {
+    clearCatalogCache();
+    return r;
+  });

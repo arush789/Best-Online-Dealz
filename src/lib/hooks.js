@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { cachedItem, fetchCatalog, fetchItems } from "./api";
+import { cachedItem, fetchCatalog, fetchItems, subscribeCatalog } from "./api";
 
 /** The full catalog (newest first). */
 export function useCatalog() {
@@ -9,8 +9,11 @@ export function useCatalog() {
     fetchCatalog()
       .then((rows) => alive && setState({ rows, error: null }))
       .catch((e) => alive && setState({ rows: null, error: e.message }));
+    // A saved copy shows first; swap in the live list when it arrives.
+    const unsubscribe = subscribeCatalog((rows) => alive && setState({ rows, error: null }));
     return () => {
       alive = false;
+      unsubscribe();
     };
   }, []);
   return state;
