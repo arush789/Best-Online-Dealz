@@ -1,177 +1,189 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import { useMediaQuery } from 'react-responsive';
-import OfferItems from "../Components/OfferItems";
+import React, { useMemo } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useCatalog, useItems, useTitle } from "../lib/hooks";
+import { CATEGORIES } from "../lib/categories";
+import { compact } from "../lib/format";
+import DealCard, { DealGrid } from "../Components/DealCard";
+import SearchBox from "../Components/SearchBox";
+import CategoryTiles from "../Components/CategoryTiles";
+import { GridSkeleton, LoadError } from "../Components/States";
+import Icon from "../Components/Icon";
 
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import Button from '@mui/material/Button';
-import { CircularProgress, Typography, Pagination } from "@mui/material";
-import Carousel from 'react-bootstrap/Carousel';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
-// import myImage from "/assets/images/home-img/home-img-3.png"
-import myImage from "/assets/video/BODZ-Home.mp4"
-
-
-import phoneImage from "/assets/video/BODZ-Home-phone.mp4"
-
-
-
-const catagories = [
-    "Smartphones",
-    "Laptops",
-    "In-Ear Headphones",
-    "Ceiling Fans",
-    "Smart Watches"
-]
-
-const carouselPcImages = [myImage];
-const carouselPhoneImages = [phoneImage];
-
-
-
+const HOME_POOL = 24;
+export const BANDS = [499, 999, 1999, 4999];
 
 export default function Home() {
-    const [carouselImage, setCarouselImage] = useState([])
-    const screen = useMediaQuery({ query: `(max-width:768px)` })
+  useTitle(null);
+  const navigate = useNavigate();
+  const { rows, error } = useCatalog();
+  const asins = useMemo(() => (rows ? rows.slice(0, HOME_POOL).map((r) => r.asin) : null), [rows]);
+  const { items, slots, done } = useItems(asins);
 
-    const [searchParams, setSearchParams] = useSearchParams();
-    const [offer, setOffer] = useState([]);
-    const [catagory, setCatagory] = React.useState('');
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1)
-    const [totalPages, setTotalPages] = useState(1)
+  const fresh = slots.slice(0, 8);
+  const steals = useMemo(
+    () => items.filter((i) => i.score != null).sort((a, b) => b.score - a.score).slice(0, 4),
+    [items]
+  );
+  const heroTags = steals.length >= 3 ? steals.slice(0, 3) : [];
+  const avgOff = items.length
+    ? Math.round(items.filter((i) => i.price != null).reduce((s, i) => s + (i.pct || 0), 0) / Math.max(1, items.filter((i) => i.price != null).length))
+    : null;
+  const catCount = rows ? new Set(rows.map((r) => r.cat)).size : null;
 
-    const catagoryFilter = searchParams.get("catagory");
-
-    const handleChange = (event) => {
-        setCatagory(event.target.value);
-    };
-
-    const handleClearFilter = () => {
-        setSearchParams({});
-        setCatagory('');
-    };
-
-    const handlePageChange = (event, page) => {
-        setCurrentPage(page);
-    };
-
-    useEffect(() => {
-
-        if (screen) {
-            setCarouselImage(carouselPhoneImages);
-        } else {
-            setCarouselImage(carouselPcImages);
-        }
-        setLoading(true);
-        const apiUrl = catagoryFilter
-            ? `https://bodz-server.vercel.app/api/getItems?page=${currentPage}&category=${catagoryFilter}`
-            : `https://bodz-server.vercel.app/api/getItems?page=${currentPage}`;
-
-        axios.get(apiUrl)
-            .then(res => {
-                const receivedItems = res?.data?.items?.ItemsResult?.Items;
-                setOffer(receivedItems);
-
-                const receivedTotalPages = res?.data?.totalPages;
-                setTotalPages(receivedTotalPages);
-            })
-            .catch(err => {
-                console.error(err);
-                setError("Error loading offers. Please refresh the page.");
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    }, [currentPage, catagoryFilter, screen]);
-
-
-
-    return (
-        <div style={{ position: "relative", minHeight: "100vh" }}>
-            <div>
-                {/* <Carousel interval={3000}>
-                    {carouselImage && carouselImage.map((image, i) => (
-                        <Carousel.Item key={i}>
-                            <video
-                                autoPlay
-                                controls={false}  // Optional: Controls attribute set to false
-                                muted
-                                playsInline
-                                src={image}
-                                alt={`Slide ${i + 1}`}
-                                className="home-images"
-                            />
-                        </Carousel.Item>
-                    ))}
-                </Carousel> */}
-                {carouselImage && carouselImage.map((image, i) => (
-                <video
-                    autoPlay
-                    controls={false}  // Optional: Controls attribute set to false
-                    muted
-                    playsInline
-                    src={image}
-                    alt={`Slide ${i + 1}`}
-                    className="home-images"
-                />
-                ))}
-            </div>
-            <div className="home-page-offer">
-                <h1>Offers</h1>
-                <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
-                    <InputLabel id="demo-select-small-label">Categories</InputLabel>
-                    <Select
-                        labelId="demo-select-small-label"
-                        id="demo-select-small"
-                        autoWidth
-                        value={catagoryFilter ? catagoryFilter : ""}
-                        label="category"
-                        onChange={handleChange}
-                    >
-                        {catagories.map((item, index) => (
-                            <MenuItem onClick={() => setSearchParams({ catagory: item })} key={index} value={item}>{item}</MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-                {catagoryFilter && (
-                    <Button variant="contained" color="secondary" onClick={handleClearFilter} style={{ margin: '10px' }}>
-                        Clear Filter
-                    </Button>
-                )}
-            </div>
-            {loading ? (
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '70vh' }}>
-                    <CircularProgress />
-                </div>
-            ) : (
-                <>
-                    {error ? (
-                        <Typography variant="body1" color="error" style={{ textAlign: 'center', margin: '20px' }}>
-                            {error}
-                        </Typography>
-                    ) : (
-                        <>
-                            <OfferItems data={offer} />
-                            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', marginBottom: '40px' }}>
-                                <Pagination
-                                    count={totalPages}
-                                    page={currentPage}
-                                    onChange={handlePageChange}
-                                    color="primary"
-                                />
-                            </div>
-                        </>
-                    )}
-                </>
-
-            )}
+  return (
+    <>
+      <section className="wrap hero">
+        <div>
+          <p className="eyebrow">Amazon India · checked live</p>
+          <h1>
+            Pay the <span className="hl">real</span> price, not the <span className="strike">M.R.P.</span>
+          </h1>
+          <p className="hero-lede">
+            BODZ hand-picks Amazon deals, checks the live price, and scores every one so you can tell a steal
+            from a fake sale in a second.
+          </p>
+          <SearchBox big />
+          <div className="hero-hints">
+            <span>Try:</span>
+            {["air fryer", "earbuds", "smart tv", "trimmer"].map((h) => (
+              <button key={h} className="hint-chip" onClick={() => navigate(`/search?q=${encodeURIComponent(h)}`)}>
+                {h}
+              </button>
+            ))}
+            <Link to="/lookup" className="hint-chip">
+              or paste a link →
+            </Link>
+          </div>
         </div>
-    );
+        <div className="hero-stack" aria-hidden={heroTags.length === 0}>
+          {heroTags.map((it) => (
+            <DealCard key={it.asin} item={it} />
+          ))}
+        </div>
+      </section>
+
+      <section className="wrap">
+        <div className="stats">
+          <div className="stat">
+            <b>{rows ? compact(rows.length) : "—"}</b>
+            <span>deals hand-picked</span>
+          </div>
+          <div className="stat">
+            <b>{catCount ?? "—"}</b>
+            <span>categories</span>
+          </div>
+          <div className="stat">
+            <b>{avgOff != null && done ? `${avgOff}%` : "—"}</b>
+            <span>average off, latest drops</span>
+          </div>
+          <div className="stat">
+            <b>0–100</b>
+            <span>
+              <Link to="/how-we-pick" className="link-arrow">BODZ Score</Link> on every deal
+            </span>
+          </div>
+        </div>
+      </section>
+
+      {error ? (
+        <section className="wrap section">
+          <LoadError message={error} />
+        </section>
+      ) : null}
+
+      <section className="wrap section">
+        <div className="section-head">
+          <div>
+            <p className="eyebrow">Just dropped</p>
+            <h2 className="h2">Fresh price drops</h2>
+          </div>
+          <Link to="/deals" className="link-arrow">
+            All latest deals →
+          </Link>
+        </div>
+        {rows ? <DealGrid slots={fresh} /> : <GridSkeleton n={8} />}
+      </section>
+
+      <section className="wrap section">
+        <div className="section-head">
+          <div>
+            <p className="eyebrow">Highest BODZ Score right now</p>
+            <h2 className="h2">Steals of the moment</h2>
+          </div>
+          <Link to="/top" className="link-arrow">
+            See all Top Picks →
+          </Link>
+        </div>
+        {steals.length ? <DealGrid items={steals} skeletons={done ? 0 : 4 - steals.length} /> : <GridSkeleton n={4} />}
+      </section>
+
+      <section className="wrap section">
+        <div className="section-head">
+          <div>
+            <p className="eyebrow">Shop by budget</p>
+            <h2 className="h2">Great deals under…</h2>
+          </div>
+        </div>
+        <div className="bands">
+          {BANDS.map((b) => (
+            <Link key={b} to={`/budget?under=${b}`} className="band">
+              <small>Under</small>
+              <b>₹{compact(b)}</b>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="wrap section">
+        <div className="section-head">
+          <div>
+            <p className="eyebrow">{CATEGORIES.length + 1} shelves</p>
+            <h2 className="h2">Browse by category</h2>
+          </div>
+          <Link to="/categories" className="link-arrow">
+            All categories →
+          </Link>
+        </div>
+        {rows ? <CategoryTiles rows={rows} limit={12} /> : null}
+      </section>
+
+      <section className="wrap section">
+        <div className="section-head">
+          <div>
+            <p className="eyebrow">How BODZ works</p>
+            <h2 className="h2">Three checks before a deal goes up</h2>
+          </div>
+        </div>
+        <div className="steps">
+          <div className="step">
+            <h3>Picked by a person</h3>
+            <p>Every product is chosen by hand from Amazon India sales. No scraped junk, no endless feed.</p>
+          </div>
+          <div className="step">
+            <h3>Price checked live</h3>
+            <p>When you open a deal we pull the current price from Amazon, so what you see is what's on sale now.</p>
+          </div>
+          <div className="step">
+            <h3>Scored out of 100</h3>
+            <p>
+              The BODZ Score weighs the discount and the rupees saved.{" "}
+              <Link to="/how-we-pick" className="link-arrow">See the formula</Link>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="wrap section">
+        <div className="cta-band">
+          <div>
+            <h2>Found a product on Amazon?</h2>
+            <p>Paste the link and we'll tell you if the price is a real deal before you buy.</p>
+          </div>
+          <Link to="/lookup" className="btn btn-lime btn-lg">
+            Check a price <Icon name="arrow" />
+          </Link>
+        </div>
+      </section>
+    </>
+  );
 }
